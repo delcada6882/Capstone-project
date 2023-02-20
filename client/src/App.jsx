@@ -1,12 +1,23 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './App.css';
+import test, { Test } from './components/test';
+import Load from './Load';
 
 function App() {
-    return (
-	<div className="App">
+    const [isLoadingControllers, setIsLoadingControllers] = useState(true)
+    useEffect(() => {
+        if(test.instance)
+            setIsLoadingControllers(false)
+    },[test.instance])
 
-    </div>
-	);
+    return (
+        <div className="App" >
+            <Test/>
+            {/* {isLoadingControllers || <Load/>} */}
+            <Load/>
+            {test.instance}
+        </div>
+    );
 }
 
 export default App;

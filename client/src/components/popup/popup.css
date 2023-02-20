@@ -1,0 +1,7 @@
+.popup{
+    width: 100px;
+    height: 100px;
+    outline: black 4px solid;
+    border-radius: 1em;
+    background-color: aliceblue;
+}
