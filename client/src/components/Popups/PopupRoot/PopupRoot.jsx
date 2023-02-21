@@ -1,11 +1,10 @@
-import React, { cloneElement, Component, createRef, useEffect, useMemo, useRef, useState } from 'react';
-import PopupBase from '../PopupBase/PopupBase';
+import React, { Component, createRef, useMemo, useState } from 'react';
 import './PopupRoot.scss';
 
 function PopupRoot(props, ref) {
     const [toBeRendered, setToBeRendered] = useState([]);
     let me = createRef();
-    
+
     useMemo(() => {
         setToBeRendered(currentPopups);
     }, [currentPopups]);
@@ -14,36 +13,30 @@ function PopupRoot(props, ref) {
 
     return (
         <div className={`PopupRoot ${props.className}`} ref={me}>
-        {toBeRendered.map((currentArray, i) => {
-            let Comp = currentArray.component;
-            let props = currentArray.props;
-            return <Comp
-            key={i}
-            {...props}
-            />
-        })}
+            {toBeRendered.map((currentArray, i) => {
+                let Comp = currentArray.component;
+                let props = currentArray.props;
+                return <Comp key={i} {...props} />;
+            })}
         </div>
     );
 }
 
-export class Classtroller extends Component{
+export class Classtroller extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            current: []
-        }
+            current: [],
+        };
     }
 
     render() {
         return (
-            <div className={`PopupRoot ${this.props.className}`}>
+            <div className={`PopupRoot ${this.props.className ?? ''}`}>
                 {currentPopups.map((currentArray, i) => {
                     let Comp = currentArray.component;
                     let props = currentArray.props;
-                    return <Comp
-                    key={i}
-                    {...props}
-                    />
+                    return <Comp key={i} {...props} />;
                 })}
             </div>
         );
@@ -54,14 +47,16 @@ export let externalRef = undefined;
 export let currentPopups = [];
 export let PopupControl = {
     add: (comp, props) => {
-        if(currentPopups.every(elem => elem.component != comp)){
-            currentPopups.push({component: comp, props: props});
+        if (currentPopups.every((elem) => elem.component != comp)) {
+            currentPopups.push({ component: comp, props: props });
             externalRef.forceUpdate();
         }
     },
     remove: (comp) => {
         let temp = currentPopups.length;
-        currentPopups.filter(elem => {elem.component != comp});
+        currentPopups.filter((elem) => {
+            elem.component != comp;
+        });
         externalRef.forceUpdate();
         return temp !== currentPopups.length;
     },
@@ -90,7 +85,13 @@ export let PopupControl = {
     //     return popupFoundByID.comp;
     // },
     // run: <PopupRoot forwardRef={(ref)=> {console.log(ref); externalRef = ref}}/>
-    run: <Classtroller ref={(ref) => {externalRef = ref}}/>
+    run: (
+        <Classtroller
+            ref={(ref) => {
+                externalRef = ref;
+            }}
+        />
+    ),
 };
 
 export default PopupRoot;

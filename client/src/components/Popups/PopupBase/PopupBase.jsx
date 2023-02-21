@@ -1,5 +1,5 @@
-import React from "react";
-import { PopupControl } from "../PopupRoot/PopupRoot";
+import React from 'react';
+import { PopupControl } from '../PopupRoot/PopupRoot';
 import './PopupBase.scss';
 
 /*
@@ -11,8 +11,8 @@ import './PopupBase.scss';
 */
 
 function PopupBase(props) {
-    return(
-        <div className={`PopupBase ${props.className}`}>
+    return (
+        <div className={`PopupBase ${props.className ?? ''}`}>
             {props.children}
         </div>
     );
