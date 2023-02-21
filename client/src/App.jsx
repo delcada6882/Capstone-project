@@ -1,14 +1,14 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
 import LoadingPopup from './components/Popups/LoadingPopup/LoadingPopup';
+import { PopupControl } from './components/Popups/PopupRoot/PopupRoot';
 
+// const retun = <LoadingPopup className={'david'}></LoadingPopup>;
 
 function App() {
-    return (
-	<div className="App">
-        <LoadingPopup></LoadingPopup>
-    </div>
-	);
+    PopupControl.add(LoadingPopup, {className:"david"});
+
+    return <div className="App"></div>;
 }
 
 export default App;
