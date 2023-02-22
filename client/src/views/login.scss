@@ -1,0 +1,102 @@
+@import '../variables.scss';
+
+* {
+    margin: 0;
+    padding: 0;
+    color: $black;
+    font-family: 'Lato', 'sans-serif';
+}
+
+#root {
+    background-color: $white;
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+}
+.login {
+    background-color: $red;
+    padding: 3vw 3vw;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+    form {
+        display: flex;
+        flex-flow: column;
+    }
+    button {
+        background-color: $blue;
+        color: $white;
+        margin-top: 1.5vw;
+        margin-bottom: 20px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+        border: none;
+    }
+    button:hover {
+        cursor: pointer;
+        background-color: adjust-color($blue, $hue: 0, $saturation: -30%, $lightness: 10%, $alpha: 1.0);
+        box-shadow: none;
+    }
+    h1 {
+        font-family: 'Karla';
+        color: $white;
+        margin-bottom: 1.5vw;
+        font-size: 2.5vw;
+        font-weight: 600;
+    }
+    p {
+        font-family: 'Karla';
+        color: $white;
+        margin-top: 1vw;
+        a {
+            color: adjust-color($red, $hue: 0, $saturation: -30%, $lightness: 40%, $alpha: 1.0);
+        }
+        a:hover {
+            color: adjust-color($red, $hue: 0, $saturation: -40%, $lightness: 50%, $alpha: 1.0);
+        }
+    }
+}
+.inputSection {
+    margin: 1vw 0;
+    display: flex;
+    flex-flow: column;
+    input {
+        background-color: $white;
+        border: none;
+        border-radius: 5px;
+        font-size: 17px;
+        height: calc(1.5vw);
+        margin-top: 1vw;
+        padding: 5px;
+        width: 22vw;
+        height: 1.8vw;
+    }
+    label {
+        color: $white;
+        font-weight: 400;
+        font-size: 20px;
+    }
+}
+.inputSectionCheck {
+    display: flex;
+    flex-flow: row;
+    margin: 0.5vw 0;
+    label {
+        margin-left: 5px;
+        color: $white;
+    }
+}
+// Header {
+//     display: flex;
+
+//     position: absolute;
+//     top: 0;
+//     left: 0;
+//     width: 100%;
+//     height: 10%;
+//     background-color: $white;
+// }
+
