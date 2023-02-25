@@ -1,0 +1,74 @@
+@import '../variables.scss';
+
+.class {
+    background-color: $red;
+    // background-color: adjust-color($red, $hue: 0%, $saturation: -40%, $lightness: 50%, $alpha: 1.0);
+    height: 90%;
+    width: 70%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+.searchBar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $white;
+    width: 70%;
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    input {
+        font-size: 20px;
+        width: 97.5%;
+        margin-left: 1.5%;
+        background-color: $white;
+        border: none;
+    }
+    input:focus {
+        outline: none;
+        border: none;
+    }
+}
+.searchSVG {
+    transform: scale(1.2);
+}
+.classes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.subClasses {
+    transition: $trans-time;
+    padding: 15px;
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    background-color: adjust-color($red, $hue: 0, $saturation: -20%, $lightness: 80%, $alpha: 1.0);
+    border-radius: 10px;
+    flex-flow: column;
+    .topPart {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .middlePart {
+        button {
+            background-color: $blue;
+        }
+    }
+    .bottomPart {
+        display: flex;
+        justify-content: space-between;
+    }
+}
+.subClasses:hover{
+    cursor: pointer;
+    transition: $trans-time;
+    transform: translateX(1.5vw);
+}
+
