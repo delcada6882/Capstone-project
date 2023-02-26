@@ -27,19 +27,19 @@
         display: flex;
         flex-flow: column;
     }
-    button {
-        background-color: $blue;
-        color: $white;
-        margin-top: 1.5vw;
-        margin-bottom: 20px;
-        box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-        border: none;
-    }
-    button:hover {
-        cursor: pointer;
-        background-color: adjust-color($blue, $hue: 0, $saturation: -30%, $lightness: 10%, $alpha: 1.0);
-        box-shadow: none;
-    }
+    // button {
+    //     background-color: $blue;
+    //     color: $white;
+    //     margin-top: 1.5vw;
+    //     margin-bottom: 20px;
+    //     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    //     border: none;
+    // }
+    // button:hover {
+    //     cursor: pointer;
+    //     background-color: adjust-color($blue, $hue: 0, $saturation: -30%, $lightness: 10%, $alpha: 1.0);
+    //     box-shadow: none;
+    // }
     h1 {
         font-family: 'Karla';
         color: $white;
@@ -47,7 +47,7 @@
         font-size: 2.5vw;
         font-weight: 600;
     }
-    p {
+    .tooltip {
         font-family: 'Karla';
         color: $white;
         margin-top: 1vw;

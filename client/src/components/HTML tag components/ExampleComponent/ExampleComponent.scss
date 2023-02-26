@@ -1,0 +1,7 @@
+.Exampler{                    
+    background-color: red;
+    border-radius: 1em;
+    &:hover{
+        cursor: pointer;
+    }
+}
