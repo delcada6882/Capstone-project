@@ -10,7 +10,6 @@ function RouterPath() {
         <Route path="/" element={<View2 />} />
         <Route default path="/login" element={<Login />} />
         <Route default path="/register" element={<Register />} />
-
       </Routes>
     );
 };

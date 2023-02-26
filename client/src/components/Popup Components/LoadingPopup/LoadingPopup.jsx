@@ -1,6 +1,6 @@
 import React from 'react';
 import PopupBase from '../PopupBase/PopupBase';
-import Loadgo from '../../../../public/Loading.svg';
+import Loadgo from '../../../../public/Loading.svg'
 import './LoadingPopup.scss';
 
 function LoadingPopup(props) {

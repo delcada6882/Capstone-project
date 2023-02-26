@@ -1,32 +1,51 @@
-import Header from "../components/Header";
-import './login.scss'
+import './login.scss';
 // import { ReactComponentElement as Logo } from "../svg/PLACEHOLDERLOGO.svg"
+import Label from '../components/HTML tag components/Label/Label';
+import Divider from '../components/HTML tag components/Divider/Divider';
+import LabelCheckbox from '../components/Utillity components/LabelCheckbox/LabelCheckbox';
+import FormWrapper from '../components/Utillity components/FormWrapper/FormWrapper';
+import Button from '../components/HTML tag components/Button/Button';
+import TextInput from '../components/HTML tag components/Inputs/TextInput/TextInput';
 
 function Login() {
     return (
-        <div className="login">
+        <Divider className="login">
             {/* <Logo /> */}
-            <h1>Login</h1>
-            <form>
-                <div className="inputSection">
-                    <label>Email: </label>
-                    <input required type={'email'} name="email"></input>
-                </div>
-                <div className="inputSection">
-                    <label>Password: </label>
-                    <input required type={'password'} name="password"></input>
-                </div>
+            <Label type={'h1'}>Login</Label>
+            <FormWrapper onSubmit={null}>
+                <Divider className="inputSection">
+                    <Label>Email: </Label>
+                    <TextInput
+                        requireMessage={'Please enter a valid email'}
+                        required={true}
+                        type={'email'}
+                        name="email"
+                    ></TextInput>
+                </Divider>
+                <Divider className="inputSection">
+                    <Label>Password: </Label>
+                    <TextInput
+                        required={true}
+                        type={'password'}
+                        name="password"
+                    ></TextInput>
+                </Divider>
 
-                <div className="inputSectionCheck">
-                    <input type={'checkbox'} id='staySignedIn'></input>
-                    <label htmlFor ='staySignedIn'>Remember me?</label>
-                </div>
-                
-                <button>Login</button>
-            </form>
-            <p>Don't have an account? <a href="/register">Make one</a></p>
-        </div>
+                <Divider className="inputSectionCheck">
+                    <LabelCheckbox checkboxId={'staySignedIn'}>
+                        Remember me?
+                    </LabelCheckbox>
+                </Divider>
+
+                <Button type={'submit'} look={'standardBlue'}>
+                    Login
+                </Button>
+            </FormWrapper>
+            <Label className={'tooltip'}>
+                Don't have an account? <a href="/register">Make one</a>
+            </Label>
+        </Divider>
     );
-};
+}
 
-export default Login
+export default Login;
