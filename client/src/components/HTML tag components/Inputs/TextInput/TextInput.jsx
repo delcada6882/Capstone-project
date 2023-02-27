@@ -3,7 +3,18 @@ import './TextInput.scss';
 import { computeProps } from '../../../../utils/componentUtils/propComputer';
 
 function TextInput(props) {
-    const { className, type, look, required, requireMessage, onClick, placeholder, name, ...etc } = props;
+    const {
+        className,
+        type,
+        look,
+        required,
+        requireMessage,
+        formKey,
+        onClick,
+        placeholder,
+        name,
+        ...etc
+    } = props;
     const [validity, setValidity] = useState(false);
 
     const computedClassName = useMemo(() => {
@@ -15,7 +26,7 @@ function TextInput(props) {
 
     const handleInvalid = () => {
         setValidity(true);
-    }
+    };
 
     return (
         <>
@@ -25,13 +36,18 @@ function TextInput(props) {
                 type={type}
                 className={computedClassName}
                 name={name}
-                required={required}
+                isrequired={required ? '' : null}
                 onInvalid={handleInvalid}
                 placeholder={placeholder}
+                formkey={formKey ?? -1}
             >
                 {props.children}
             </input>
-            {validity ? <div className='invalidMessage'>✷{requireMessage ?? 'Please fill out this field'}</div> : null}
+            {validity ? (
+                <div className="invalidMessage">
+                    ✷{requireMessage ?? 'Please fill out this field'}
+                </div>
+            ) : null}
         </>
     );
 }
