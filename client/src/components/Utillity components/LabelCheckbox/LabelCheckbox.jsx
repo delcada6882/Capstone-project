@@ -13,6 +13,8 @@ function LabelCheckbox(props) {
                 childrenWhenChecked={props.childrenWhenChecked}
                 childrenWhenUnchecked={props.childrenWhenChecked}
                 defaultBackground={props.defaultBackground}
+                required={props.required}
+                formKey={props.formKey}
             />
             <Label id={props.LabelId}>{props.children}</Label>
         </>

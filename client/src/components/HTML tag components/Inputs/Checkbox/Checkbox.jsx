@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import './Checkbox.scss';
 import { computeProps } from '../../../../utils/componentUtils/propComputer';
 import CheckmarkSVG from '../../../../../public/icons/checkmark.svg';
@@ -10,8 +10,11 @@ function Checkbox(props) {
         childrenWhenChecked,
         childrenWhenUnchecked,
         onChange,
+        name,
         ref,
+        formKey,
         defaultBackground,
+        required,
         ...etc
     } = props;
     const [currentlyChecked, setCurrentlyChecked] = useState(false);
@@ -27,14 +30,23 @@ function Checkbox(props) {
         if (isChecked != undefined) setCurrentlyChecked(isChecked);
     }, [isChecked]);
 
-    const computedClassname =
-        defaultBackground ?? true
-            ? className
-                ? `Checkbox ${className}`
-                : 'Checkbox'
-            : className
-            ? `Checkbox exempt ${className}`
-            : 'Checkbox exempt';
+    const computedClassname = useMemo(() => {
+        let temp = 'Checkbox';
+        if (!(defaultBackground ?? true)) temp += ' exempt';
+        if (className) temp += ` ${className}`;
+        return temp;
+    }, [className, defaultBackground]);
+
+    const renderInnerCheckbox = () => {
+        if (defaultBackground ?? true)
+            if (childrenWhenChecked && childrenWhenUnchecked) {
+                if (currentlyChecked) return childrenWhenChecked;
+                childrenWhenUnchecked;
+            } else if (currentlyChecked)
+                return <img src={CheckmarkSVG} alt="✓" />;
+        return null;
+    };
+
     return (
         <div
             {...computeProps(etc)}
@@ -44,22 +56,18 @@ function Checkbox(props) {
                     : `${computedClassname} unchecked`
             }
             onClick={handleClick}
+            isrequired={required ? '' : null}
         >
-            {defaultBackground ?? true ? (
-                <div className="checkboxInner">
-                    {childrenWhenChecked && childrenWhenUnchecked ? (
-                        currentlyChecked ? (
-                            childrenWhenChecked
-                        ) : (
-                            childrenWhenUnchecked
-                        )
-                    ) : currentlyChecked ? (
-                        <img src={CheckmarkSVG} alt="✓" />
-                    ) : (
-                        ''
-                    )}
-                </div>
-            ) : null}
+            <input
+                type="checkbox"
+                name={name}
+                className={computedClassname}
+                checked={currentlyChecked}
+                style={{ display: 'none', visibility: 'hidden' }}
+                readOnly
+                formkey={formKey ?? null}
+            />
+            <div className="checkboxInner">{renderInnerCheckbox()}</div>
         </div>
     );
 }

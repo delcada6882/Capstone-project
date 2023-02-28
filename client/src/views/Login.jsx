@@ -25,6 +25,16 @@ function Login() {
                 <Divider className="inputSection">
                     <Label>Password: </Label>
                     <TextInput
+                        minLength="3"
+                        required={true}
+                        type={'password'}
+                        name="password"
+                    ></TextInput>
+                </Divider>
+                <Divider className="inputSection">
+                    <Label>Confirm Password: </Label>
+                    <TextInput
+                        minLength="3"
                         required={true}
                         type={'password'}
                         name="password"
