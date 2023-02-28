@@ -1,0 +1,88 @@
+@import '../variables.scss';
+
+#root {
+    background: rgb(254,254,254);
+    background: linear-gradient(275deg, $white 41%, rgba(206,201,201,1) 100%);
+    background-size: cover;
+}
+
+.class {
+    background-color: $red;
+    height: 100%;
+    width: 70%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+.searchBar {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $white;
+    width: 80%;
+    padding: 10px 15px;
+    border-radius: 10px;
+    position: relative;
+    input {
+        font-size: 20px;
+        width: 97.5%;
+        margin-left: 1.5%;
+        background-color: $white;
+        border: none;
+    }
+    input:focus {
+        outline: none;
+        border: none;
+    }
+}
+.searchSVG {
+    transform: scale(1.2);
+}
+.classes {
+    background-color: gray;
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    width: 80%;
+}
+.subClasses {
+    margin-top: 10px;
+    transition: $trans-time;
+    padding: 15px;
+    width: 90%;
+    height: 10vw;
+    display: flex;
+    justify-content: center;
+    background-color: adjust-color($red, $hue: 0, $saturation: -20%, $lightness: 80%, $alpha: 1.0);
+    border-radius: 10px;
+    flex-flow: column;
+    .topPart {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 15px;
+    }
+    .middlePart {
+        transition: $trans-time;
+        button {
+            background-color: $blue;
+        }
+    }
+    .bottomPart {
+        width: 90%;
+        display: flex;
+        justify-content: space-between;
+    }
+}
+.subClasses:hover{
+    cursor: pointer;
+    transition: $trans-time;
+    .middlePart {
+        opacity: 0;
+        transition: $trans-time;
+    }
+}
+
