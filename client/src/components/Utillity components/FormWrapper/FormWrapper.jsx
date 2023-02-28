@@ -3,11 +3,9 @@ import React, { useEffect, useRef } from 'react';
 function FormWrapper(props) {
     const submitHandler = (event) => {
         event.preventDefault();
-        console.log(event.target.elements);
-        if (!formElems) hookupformElemsments(event.target);
+        if (!formElems) hookupformElements(event.target);
         let retun = checkIfFormIsValid(event);
         if (retun) retun.focus();
-        if (retun) retun.reportValidity();
         else if (props.onSubmit) props.onSubmit();
     };
     const formRef = useRef();
@@ -24,7 +22,7 @@ function FormWrapper(props) {
         }
     };
 
-    const hookupformElemsments = (parent) => {
+    const hookupformElements = (parent) => {
         checkFormKeys(parent);
         let temp = [];
         for (const iter of parent) {
@@ -36,14 +34,30 @@ function FormWrapper(props) {
 
     useEffect(() => {
         if (!formRef.current) return;
-        hookupformElemsments(formRef.current);
+        hookupformElements(formRef.current);
     }, [formRef.current]);
 
     const checkIfFormIsValid = () => {
-        let isSelected = Math.max(formElems.indexOf(document.activeElement), 0);
+        let isSelected = formElems.indexOf(document.activeElement);
+
+        if (isSelected < 0) {
+            for (let i = 0; i < formElems.length; i++) {
+                let elemer = formElems[i];
+                if (elemer.hasAttribute('isrequired'))
+                    if (elemer.value == '' || !elemer.checkValidity()) {
+                        elemer.classList.add('invalid');
+                        return elemer;
+                    }
+            }
+            return false;
+        }
 
         let elem = formElems[isSelected];
-        if (elem.hasAttribute('isrequired')) if (elem.value == '') return elem;
+        if (elem.hasAttribute('isrequired'))
+            if (elem.value == '') {
+                elem.classList.add('invalid');
+                return elem;
+            }
 
         elem = formElems[isSelected + 1];
         if (elem) if (elem.value == '') return elem;
@@ -51,18 +65,33 @@ function FormWrapper(props) {
         for (let i = isSelected + 2; i < formElems.length; i++) {
             elem = formElems[i];
             if (elem.hasAttribute('isrequired'))
-                if (elem.value == '') return elem;
+                if (elem.value == '' || !elem.checkValidity()) {
+                    elem.classList.add('invalid');
+                    return elem;
+                }
         }
         for (let i = 0; i < isSelected; i++) {
             elem = formElems[i];
             if (elem.hasAttribute('isrequired'))
-                if (elem.value == '') return elem;
+                if (elem.value == '' || !elem.checkValidity()) {
+                    elem.classList.add('invalid');
+                    return elem;
+                }
         }
         return false;
     };
 
+    const blurHandle = (e) => {
+        e.target.classList.remove('invalid');
+    };
+
     return (
-        <form action="#" onSubmit={submitHandler} ref={formRef}>
+        <form
+            action="#"
+            onSubmit={submitHandler}
+            ref={formRef}
+            onBlur={blurHandle}
+        >
             {props.children}
         </form>
     );
