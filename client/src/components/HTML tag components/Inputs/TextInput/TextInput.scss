@@ -1,0 +1,36 @@
+@import '../../../../variables.scss';
+
+.TextInputInner {
+    margin: 0 !important;
+}
+.toggleEye {
+    display: flex;
+    width: 0;
+    justify-content: center;
+    align-items: center;
+    justify-self: center;
+    align-self: center;
+    .eyeImg {
+        transform: translateX(-100%);
+        position: absolute;
+        &:hover{
+            cursor: pointer;
+        }
+    }
+}
+
+.TextInput {
+    padding: 0;
+    max-height: fit-content;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    &:has(.TextInputInner.invalid) + .invalidMessage{
+        display: block;
+    }
+}
+.invalidMessage {
+    display: none;
+    color: $white;
+}

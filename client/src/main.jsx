@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import { PopupControl } from './components/Popups/PopupRoot/PopupRoot';
+import { PopupControl } from './components/Popup Components/PopupRoot/PopupRoot';
 import './index.scss';
 import RouterPath from './RouterPath';
 import { BrowserRouter } from 'react-router-dom';
