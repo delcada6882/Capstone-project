@@ -1,5 +1,6 @@
 @import '../variables.scss';
 
+
 * {
     margin: 0;
     padding: 0;
@@ -23,9 +24,11 @@
     justify-content: center;
     align-items: center;
     flex-flow: column;
+    width: 23%;
     form {
         display: flex;
         flex-flow: column;
+        width: 100%;
     }
     button {
         background-color: $blue;
@@ -34,7 +37,7 @@
         margin-bottom: 20px;
         box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
         border: none;
-        height: 2vw;
+        font-size: 1vw;
     }
     button:hover {
         cursor: pointer;
@@ -45,13 +48,13 @@
         font-family: 'Karla';
         color: $white;
         margin-bottom: 1.5vw;
-        font-size: 2.5vw;
         font-weight: 600;
     }
     p {
         font-family: 'Karla';
         color: $white;
         margin-top: 1vw;
+        font-size: 1vw;
         a {
             color: adjust-color($red, $hue: 0, $saturation: -30%, $lightness: 40%, $alpha: 1.0);
         }
@@ -68,17 +71,15 @@
         background-color: $white;
         border: none;
         border-radius: 5px;
-        font-size: 17px;
-        height: calc(1.5vw);
+        font-size: 1vw;
         margin-top: 1vw;
         padding: 5px;
-        width: 22vw;
         height: 1.8vw;
     }
     label {
         color: $white;
         font-weight: 400;
-        font-size: 20px;
+        font-size: 1.25vw;
     }
 }
 .inputSectionCheck {
@@ -86,18 +87,108 @@
     flex-flow: row;
     margin: 0.5vw 0;
     label {
+        font-size: 1vw;
         margin-left: 5px;
         color: $white;
     }
 }
-// Header {
-//     display: flex;
-
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-//     width: 100%;
-//     height: 10%;
-//     background-color: $white;
-// }
-
+@media (max-width: 1200px) {
+    .login {
+        width: 40%;
+        button {
+            font-size: 1.8vw;
+        }
+        p {
+            font-size: 1.5vw;
+        }
+    }
+    .inputSection {
+        label {
+            font-size: 1.8vw;
+        }
+    }
+    .inputSectionCheck {
+        label {
+            font-size: 1.4vw;
+        }
+    }
+    
+}
+@media (max-width: 768px) {
+    .login {
+        border-radius: 0;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        p {
+            position: absolute;
+            bottom: 10px;
+            font-size: 3vw;
+        }
+        button {
+            margin-top: 7vw;
+            height: 6.9vh;
+            font-size: 3vw;
+        }
+        form {
+            width: 70%;
+        }
+    }
+    .inputSection {
+        width: 100%;
+        input {
+            font-size: 2.5vw;
+            height: 4vh;
+            padding: 30px;
+        }
+        label {
+            font-size: 2.5vw;
+        }
+    }
+    .inputSectionCheck {
+        label {
+            font-size: 2.5vw;
+        }
+    }
+}
+@media (max-width: 425px) {
+    .login {
+        align-items: flex-end;
+        border-radius: 0;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        h1 {
+            font-size: 15vw;
+        }
+        p {
+            position: absolute;
+            bottom: 10px;
+            font-size: 5vw;
+        }
+        button {
+            margin-top: 7vw;
+            height: 6.5vh;
+            font-size: 5vw;
+        }
+        form {
+            width: 95%;
+        }
+    }
+    .inputSection {
+        width: 100%;
+        input {
+            font-size: 2.5vw;
+            height: 4vh;
+            padding: 30px;
+        }
+        label {
+            font-size: 4.5vw;
+        }
+    }
+    .inputSectionCheck {
+        label {
+            font-size: 4.5vw;
+        }
+    }
+}

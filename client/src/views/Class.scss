@@ -1,25 +1,29 @@
 @import '../variables.scss';
 
+#root {
+    background: rgb(254,254,254);
+    background: linear-gradient(275deg, $white 41%, rgba(206,201,201,1) 100%);
+    background-size: cover;
+}
+
 .class {
     background-color: $red;
-    // background-color: adjust-color($red, $hue: 0%, $saturation: -40%, $lightness: 50%, $alpha: 1.0);
-    height: 90%;
+    height: 100%;
     width: 70%;
     display: flex;
     flex-flow: column;
-    justify-content: center;
     align-items: center;
-    border-radius: 10px;
 }
 .searchBar {
+    margin-top: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: $white;
-    width: 70%;
+    width: 80%;
     padding: 10px 15px;
     border-radius: 10px;
-    margin-bottom: 20px;
+    position: relative;
     input {
         font-size: 20px;
         width: 97.5%;
@@ -36,15 +40,19 @@
     transform: scale(1.2);
 }
 .classes {
+    background-color: gray;
+    height: 100%;
     display: flex;
-    justify-content: center;
+    flex-flow: column;
     align-items: center;
-    width: 100%;
+    width: 80%;
 }
 .subClasses {
+    margin-top: 10px;
     transition: $trans-time;
     padding: 15px;
-    width: 70%;
+    width: 90%;
+    height: 10vw;
     display: flex;
     justify-content: center;
     background-color: adjust-color($red, $hue: 0, $saturation: -20%, $lightness: 80%, $alpha: 1.0);
@@ -55,13 +63,16 @@
         width: 100%;
         justify-content: space-between;
         align-items: center;
+        font-size: 15px;
     }
     .middlePart {
+        transition: $trans-time;
         button {
             background-color: $blue;
         }
     }
     .bottomPart {
+        width: 90%;
         display: flex;
         justify-content: space-between;
     }
@@ -69,6 +80,9 @@
 .subClasses:hover{
     cursor: pointer;
     transition: $trans-time;
-    transform: translateX(1.5vw);
+    .middlePart {
+        opacity: 0;
+        transition: $trans-time;
+    }
 }
 

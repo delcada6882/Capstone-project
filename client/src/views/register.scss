@@ -17,8 +17,6 @@
 }
 .login {
     background-color: $red;
-    padding: 3vw 3vw;
-    border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -44,7 +42,6 @@
         font-family: 'Karla';
         color: $white;
         margin-bottom: 1.5vw;
-        font-size: 2.5vw;
         font-weight: 600;
     }
     p {
@@ -67,17 +64,14 @@
         background-color: $white;
         border: none;
         border-radius: 5px;
-        font-size: 17px;
-        height: calc(1.5vw);
+        // font-size: 17px;
         margin-top: 1vw;
         padding: 5px;
-        width: 22vw;
-        height: 1.8vw;
     }
     label {
         color: $white;
         font-weight: 400;
-        font-size: 20px;
+        // font-size: 20px;
     }
 }
 .inputSectionCheck {
