@@ -1,16 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
-import { PopupControl } from './components/Popup Components/PopupRoot/PopupRoot';
 import './index.scss';
 import RouterPath from './RouterPath';
 import { BrowserRouter } from 'react-router-dom';
+import {
+    SuperModalRoot,
+    buildModal,
+} from './components/Popup Components/TestPopup/SuperModal';
+
+await buildModal();
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-        {/* {PopupControl.run} */}
+        {SuperModalRoot}
         <BrowserRouter>
             <RouterPath />
         </BrowserRouter>
     </React.StrictMode>
 );
+
+// document.dispatchEvent(new Event('load'), {
+//     bubbles: true,
+// });
