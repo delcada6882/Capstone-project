@@ -1,24 +1,36 @@
 import Axios from 'axios';
 
-export function getAllStudents() {
-    Axios({
+export async function getAllStudents() {
+    return await Axios({
         method: 'GET',
         withCredentials: true,
         url: '/api/getAllStudents',
     }).then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
+        return res.data
     });
 };
 
-export function getSomeStudents(page, limit) {
+export async function getSomeStudents(page, limit) {
     page = page ?? 0;
     limit = limit ?? 30;
-    Axios({
+    return await Axios({
         method: 'GET',
         withCredentials: true,
         url: `/api/getSomeStudents/${page}/${limit}`,
     }).then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         return res.data;
+    });
+};
+
+export async function getAllClasses() {
+    return await Axios({
+        method: 'GET',
+        withCredentials: true,
+        url: '/api/getAllClasses',
+    }).then((res) => {
+        // console.log(res.data);
+        return res.data
     });
 };
