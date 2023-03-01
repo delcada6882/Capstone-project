@@ -1,0 +1,27 @@
+@import '../../../variables.scss';
+
+@mixin hover-and-click {
+    cursor: pointer;
+    background-color: adjust-color($blue, $hue: 0, $saturation: -30%, $lightness: 10%, $alpha: 1.0);
+    box-shadow: none;
+}
+  
+
+.Divider{
+    &.standardBlue{
+        .Label {
+            color: white;
+        }
+        background-color: $blue;
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid adjust-color($blue, $hue: 0, $saturation: -10%, $lightness: 20%, $alpha: 1.0);
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+        &:hover{
+            @include hover-and-click();
+        }
+    }
+    &.click {
+        @include hover-and-click();
+    }
+}

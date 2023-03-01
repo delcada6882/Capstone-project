@@ -1,11 +1,11 @@
 const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
-const { getAllStudents, getSomeStudents } = require('./db/dbIndex');
+const { getAllStudents, getSomeStudents, getAllClasses } = require('./db/dbIndex');
 
 const app = express();
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3002;
 
 app.use(express.static('../client/dist'));
 app.use(express.json());
@@ -31,7 +31,7 @@ app.get('/get', (req, res) => {
 
 app.get('/getAllStudents', getAllStudents);
 app.get('/getSomeStudents/:page/:limit', getSomeStudents)
-app.get('getAllClasses', )
+app.get('/getAllClasses', getAllClasses)
 
 app.listen(port, () => {
     console.log(`connected on port ${port}`);

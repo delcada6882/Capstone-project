@@ -1,7 +1,11 @@
 @import '../../../../variables.scss';
 
 .TextInputInner {
+    width: 100%;
     margin: 0 !important;
+    background-color: $white;
+    outline: none;
+    border: none;
 }
 .toggleEye {
     display: flex;
@@ -20,6 +24,7 @@
 }
 
 .TextInput {
+    width: 100%;
     padding: 0;
     max-height: fit-content;
     position: relative;

@@ -10,28 +10,33 @@
 #root {
     background-color: $white;
     display: flex;
-    height: 100vh;
     width: 100vw;
+    height: 100%;
     justify-content: center;
     align-items: center;
 }
-.login {
+.register {
     background-color: $red;
+    padding: 3vw 3vw;
+    border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-flow: column;
+    width: 23%;
     form {
         display: flex;
         flex-flow: column;
+        width: 100%;
     }
     button {
         background-color: $blue;
         color: $white;
-        margin-top: 2vw;
+        margin-top: 1.5vw;
         margin-bottom: 20px;
         box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
         border: none;
+        font-size: 1vw;
     }
     button:hover {
         cursor: pointer;
@@ -48,6 +53,7 @@
         font-family: 'Karla';
         color: $white;
         margin-top: 1vw;
+        font-size: 1vw;
         a {
             color: adjust-color($red, $hue: 0, $saturation: -30%, $lightness: 40%, $alpha: 1.0);
         }
@@ -56,22 +62,23 @@
         }
     }
 }
-.inputSection {
+.registerInputSection {
     margin: 1vw 0;
     display: flex;
     flex-flow: column;
-    input {
+    .TextInputInner {
         background-color: $white;
         border: none;
         border-radius: 5px;
-        // font-size: 17px;
+        font-size: 1vw;
         margin-top: 1vw;
         padding: 5px;
+        height: 1.8vw;
     }
     label {
-        color: $white;
+        color: white;
         font-weight: 400;
-        // font-size: 20px;
+        font-size: 1.25vw;
     }
 }
 .inputSectionCheck {
