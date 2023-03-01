@@ -14,7 +14,10 @@ const queryCallback = (err, results) => {
 
 pool.connect();
 exports.getAllStudents = (req, res) => {
-    pool.query(`SELECT * from students`, queryCallback);
+    pool.query(`SELECT * from students`, (err, results) => {
+        if (err) throw err;
+        return res.status(200).json(results.rows);
+    });
 };
 exports.getSomeStudents = async (req, res) => {
     const limit = req.params.limit;
