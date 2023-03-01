@@ -4,22 +4,22 @@ import Divider from '../components/HTML tag components/Divider/Divider.jsx';
 import TextInput from '../components/HTML tag components/Inputs/TextInput/TextInput.jsx';
 import Label from '../components/HTML tag components/Label/Label.jsx';
 import SearchSVG from '../svg/SearchSVG.jsx';
-import ArrowDown from '../svg/ArrowDown.jsx'
-import {getAllClasses} from '/Users/adamdelcastillo-call/Documents/mtechaug22 HOMEWORK/Mtech 2/capstone-project/Capstone-project/client/src/data/getStudents.js';
+import ArrowDown from '../svg/ArrowDown.jsx';
+import { getAllClasses } from '../data/getStudents.js';
 import '../views/class.scss';
 
 function Class() {
     const [data, setData] = useState(null);
-    const [classes, setClasses] = useState(null);
+    const [classes, setClasses] = useState([]);
     const [classHTML, setClassHTML] = useState(null);
 
-    const [searchData, setSearchData] = useState(null);
+    const [searchData, setSearchData] = useState('');
 
     const dateNow = new Date();
     const yearNow = dateNow.getFullYear();
 
-    const notClass = {
-        1: {
+    const notClass = [
+        {
             name: 'Computer Science',
             subject: 'Science',
             teacher: 'Cole Nelson',
@@ -32,7 +32,7 @@ function Class() {
             max_students: 20,
             current_am_students: 5,
         },
-        2: {
+        {
             name: 'Advanced Research',
             subject: 'Writing',
             teacher: 'Susan Lastnamington',
@@ -45,7 +45,7 @@ function Class() {
             max_students: 22,
             current_am_students: 10,
         },
-        3: {
+        {
             name: 'Not a class',
             subject: 'Nothing',
             teacher: 'Nobody',
@@ -57,7 +57,7 @@ function Class() {
             max_students: 0,
             current_am_students: 0,
         },
-        4: {
+        {
             name: 'Not a class',
             subject: 'Nothing',
             teacher: 'Nobody',
@@ -69,7 +69,7 @@ function Class() {
             max_students: 0,
             current_am_students: 0,
         },
-        5: {
+        {
             name: 'Not a class',
             subject: 'Nothing',
             teacher: 'Nobody',
@@ -81,7 +81,7 @@ function Class() {
             max_students: 0,
             current_am_students: 0,
         },
-        6: {
+        {
             name: 'Not a class',
             subject: 'Nothing',
             teacher: 'Nobody',
@@ -93,84 +93,52 @@ function Class() {
             max_students: 0,
             current_am_students: 0,
         },
-    };
-
+    ];
     useEffect(() => {
         async function redoClasses() {
-            await getAllClasses().then((item) => {console.log('setting classes');setClasses(item)})
+            await getAllClasses().then((item) => {
+                setClasses([...notClass, ...item]);
+            });
         }
-        const searchRegex = new RegExp(searchData, 'gmi');
-        console.log(searchData);
+        redoClasses();
+    }, []);
 
-        // setClassHTML(null);
+    useEffect(() => {
+        const searchRegex = new RegExp(searchData, 'gmi');
 
         let dataArr = [];
-
-        if(classes !== null) {
-            for (let x = 0; x < Object.keys(classes).length; x++) {
-                if (classes[x].name.match(searchRegex)) {
-                    console.log(classes[x].name);
-                    // dataArr.push(classes[x].name)
-                    dataArr.push(
+        if (classes !== null) {
+            dataArr = classes.map((elem, idx) => {
+                if (elem.name.match(searchRegex)) {
+                    return (
                         <a
                             href="/"
                             style={{ width: '100%', textDecoration: 'none' }}
-                            key={`anchor-for-${classes[x].name}${x}`}
+                            key={`anchor-for-${elem.name}${idx}`}
                         >
                             <ClassTemplate
-                                key={classes[x].name + x}
-                                name={classes[x].name}
-                                teacher={classes[x].teacher}
-                                description={classes[x].description}
-                                credits={classes[x].credits}
-                                students={classes[x].current_am_students}
-                                maxStudents={classes[x].max_students}
-                                semester={classes[x].semester}
+                                key={elem.name + idx}
+                                name={elem.name}
+                                teacher={elem.teacher}
+                                description={elem.description}
+                                credits={elem.credits}
+                                students={elem.current_am_students}
+                                maxStudents={elem.max_students}
+                                semester={elem.semester}
                             />
                         </a>
                     );
                 }
-            }
-        }
-        else {
-            redoClasses();
+                return null;
+            });
         }
         setClassHTML(dataArr);
-        console.log(dataArr);
         if (dataArr.length === 0) {
             setClassHTML(
                 <p>There are no classes that match your search &gt;:&#40;</p>
             );
         }
-    }, [searchData]);
-
-    useEffect(() => {
-        if(!classes) return;
-        let dataArr = [];
-        for (let x = 0; x < Object.keys(classes).length; x++) {
-            console.log(classes[x].name);
-            // dataArr.push(classes[x].name)
-            dataArr.push(
-                <a
-                    href="/"
-                    style={{ width: '100%', textDecoration: 'none' }}
-                    key={`anchor-for-${classes[x].name}${x}`}
-                >
-                    <ClassTemplate
-                        key={classes[x].name + x}
-                        name={classes[x].name}
-                        teacher={classes[x].teacher}
-                        description={classes[x].description}
-                        credits={classes[x].credits}
-                        students={classes[x].current_am_students}
-                        maxStudents={classes[x].max_students}
-                        semester={classes[x].semester}
-                    />
-                </a>
-            );
-        }
-        setClassHTML(dataArr)
-    },[classes])
+    }, [classes, searchData]);
 
     return (
         <Divider className="class">
@@ -185,8 +153,14 @@ function Class() {
                         }}
                     />
                 </Divider>
-                <Divider className={'advancedSearch'} look={'standardBlue'} onClick={(e) => {e.currentTarget.classList.toggle('click')}}>
-                    <Label type='p'>Advanced Search</Label>
+                <Divider
+                    className={'advancedSearch'}
+                    look={'standardBlue'}
+                    onClick={(e) => {
+                        e.currentTarget.classList.toggle('click');
+                    }}
+                >
+                    <Label type="p">Advanced Search</Label>
                     <ArrowDown />
                 </Divider>
             </Divider>
