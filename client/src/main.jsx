@@ -12,7 +12,7 @@ await buildModal();
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-        {SuperModalRoot}
+        {/* {SuperModalRoot} */}
         <BrowserRouter>
             <RouterPath />
         </BrowserRouter>
