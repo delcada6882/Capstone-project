@@ -1,5 +1,9 @@
 @import '../variables.scss';
 
+body {
+    height: 100vh;
+}
+
 #root {
     background: rgb(254,254,254);
     background: linear-gradient(275deg, $white 41%, rgba(206,201,201,1) 100%);
@@ -7,54 +11,53 @@
 }
 
 .class {
-    background-color: $red;
     height: 100%;
-    width: 70%;
+    width: 100%;
     display: flex;
     flex-flow: column;
     align-items: center;
 }
+.standardTextInput {
+    background-color: $white;
+    width: 100%;
+}
 .searchBar {
-    margin-top: 20px;
     display: flex;
-    justify-content: center;
     align-items: center;
     background-color: $white;
     width: 80%;
     padding: 10px 15px;
     border-radius: 10px;
     position: relative;
-    input {
-        font-size: 20px;
-        width: 97.5%;
+    .TextInput{
         margin-left: 1.5%;
-        background-color: $white;
         border: none;
     }
-    input:focus {
-        outline: none;
-        border: none;
+    .TextInput input {
+        font-size: 20px;
     }
 }
 .searchSVG {
     transform: scale(1.2);
 }
 .classes {
-    background-color: gray;
-    height: 100%;
+    overflow: scroll;
     display: flex;
     flex-flow: column;
     align-items: center;
     width: 80%;
+    margin-top: 100px;
+    padding-bottom: 10px;
 }
 .subClasses {
+    margin: 0 auto;
     margin-top: 10px;
     transition: $trans-time;
     padding: 15px;
     width: 90%;
-    height: 10vw;
+    height: 7vw;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     background-color: adjust-color($red, $hue: 0, $saturation: -20%, $lightness: 80%, $alpha: 1.0);
     border-radius: 10px;
     flex-flow: column;
@@ -67,6 +70,7 @@
     }
     .middlePart {
         transition: $trans-time;
+        width: 100%;
         button {
             background-color: $blue;
         }
@@ -85,4 +89,30 @@
         transition: $trans-time;
     }
 }
-
+.searchArea {
+    position: absolute;
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    background-color: $red;
+}
+.advancedSearch {
+    display: flex;
+    align-items: center;
+    user-select: none;
+    svg {
+        transition: $trans-time;
+        margin-top: 3px;
+        margin-left: 10px;
+        color: white;
+    }
+    &.click {
+        svg {
+            transition: $trans-time;
+            margin-top: 1px;
+            transform: rotate(90deg);
+        }
+    }
+}

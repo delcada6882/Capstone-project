@@ -1,26 +1,30 @@
-import Header from "../components/Header";
+import Button from "../components/HTML tag components/Button/Button";
+import Divider from "../components/HTML tag components/Divider/Divider";
+import TextInput from "../components/HTML tag components/Inputs/TextInput/TextInput";
+import Label from "../components/HTML tag components/Label/Label";
+import FormWrapper from "../components/Utillity components/FormWrapper/FormWrapper";
 import './register.scss'
 // import { ReactComponentElement as Logo } from "../svg/PLACEHOLDERLOGO.svg"
 
 function Register() {
     return (
-        <div className="login">
+        <Divider className="register">
             {/* <Logo /> */}
-            <h1>Register</h1>
-            <form>
-                <div className="inputSection">
-                    <label>Email: </label>
-                    <input required type={'email'} name="email"></input>
-                </div>
-                <div className="inputSection">
-                    <label>Password: </label>
-                    <input required type={'password'} name="password"></input>
-                </div>
+            <Label type={'h1'}>Register</Label>
+            <FormWrapper>
+                <Divider className="registerInputSection">
+                    <Label>Email: </Label>
+                    <TextInput required type={'email'} name="email"></TextInput>
+                </Divider>
+                <Divider className="registerInputSection">
+                    <Label>Password: </Label>
+                    <TextInput required type={'password'} name="password"></TextInput>
+                </Divider>
                 
-                <button>Register</button>
-            </form>
-            <p>Have an account? <a href="/login">Login</a></p>
-        </div>
+                <Button>Register</Button>
+            </FormWrapper>
+            <Label type={'p'}>Have an account? <a href="/login">Login</a></Label>
+        </Divider>
     );
 };
 

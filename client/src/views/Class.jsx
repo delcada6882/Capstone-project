@@ -1,20 +1,25 @@
 import { useEffect, useMemo, useState } from 'react';
 import ClassTemplate from '../components/ClassTemplate.jsx';
+import Divider from '../components/HTML tag components/Divider/Divider.jsx';
+import TextInput from '../components/HTML tag components/Inputs/TextInput/TextInput.jsx';
+import Label from '../components/HTML tag components/Label/Label.jsx';
 import SearchSVG from '../svg/SearchSVG.jsx';
+import ArrowDown from '../svg/ArrowDown.jsx';
+import { getAllClasses } from '../data/getStudents.js';
 import '../views/class.scss';
 
 function Class() {
     const [data, setData] = useState(null);
-    const [classes, setClasses] = useState(null);
+    const [classes, setClasses] = useState([]);
     const [classHTML, setClassHTML] = useState(null);
 
-    const [searchData, setSearchData] = useState(null);
+    const [searchData, setSearchData] = useState('');
 
     const dateNow = new Date();
     const yearNow = dateNow.getFullYear();
 
-    const notClass = {
-        1: {
+    const notClass = [
+        {
             name: 'Computer Science',
             subject: 'Science',
             teacher: 'Cole Nelson',
@@ -27,7 +32,7 @@ function Class() {
             max_students: 20,
             current_am_students: 5,
         },
-        2: {
+        {
             name: 'Advanced Research',
             subject: 'Writing',
             teacher: 'Susan Lastnamington',
@@ -40,7 +45,7 @@ function Class() {
             max_students: 22,
             current_am_students: 10,
         },
-        3: {
+        {
             name: 'Not a class',
             subject: 'Nothing',
             teacher: 'Nobody',
@@ -52,59 +57,115 @@ function Class() {
             max_students: 0,
             current_am_students: 0,
         },
-    };
+        {
+            name: 'Not a class',
+            subject: 'Nothing',
+            teacher: 'Nobody',
+            description: "It's a class about nothing, this ISN'T A CLASS",
+            credits: 0,
+            semester: `never ${yearNow}`,
+            start_time: 0,
+            end_time: 0,
+            max_students: 0,
+            current_am_students: 0,
+        },
+        {
+            name: 'Not a class',
+            subject: 'Nothing',
+            teacher: 'Nobody',
+            description: "It's a class about nothing, this ISN'T A CLASS",
+            credits: 0,
+            semester: `never ${yearNow}`,
+            start_time: 0,
+            end_time: 0,
+            max_students: 0,
+            current_am_students: 0,
+        },
+        {
+            name: 'Not a class',
+            subject: 'Nothing',
+            teacher: 'Nobody',
+            description: "It's a class about nothing, this ISN'T A CLASS",
+            credits: 0,
+            semester: `never ${yearNow}`,
+            start_time: 0,
+            end_time: 0,
+            max_students: 0,
+            current_am_students: 0,
+        },
+    ];
+    useEffect(() => {
+        async function redoClasses() {
+            await getAllClasses().then((item) => {
+                setClasses([...notClass, ...item]);
+            });
+        }
+        redoClasses();
+    }, []);
 
     useEffect(() => {
         const searchRegex = new RegExp(searchData, 'gmi');
-        setClasses(notClass);
-        if (searchData === null) {
-            setSearchData('');
-        }
-        console.log(searchData);
-        setClassHTML(null);
 
         let dataArr = [];
-
         if (classes !== null) {
-            for (let x = 1; x < Object.keys(classes).length + 1; x++) {
-                if (classes[x].name.match(searchRegex)) {
-                    console.log(classes[x].name);
-                    // dataArr.push(classes[x].name)
-                    dataArr.push(
-                        <ClassTemplate
-                            name={classes[x].name}
-                            teacher={classes[x].name}
-                            description={classes[x].description}
-                            credits={classes[x].credits}
-                            students={classes[x].current_am_students}
-                            maxStudents={classes[x].max_students}
-                            semester={classes[x].semester}
-                        />
+            dataArr = classes.map((elem, idx) => {
+                if (elem.name.match(searchRegex)) {
+                    return (
+                        <a
+                            href="/"
+                            style={{ width: '100%', textDecoration: 'none' }}
+                            key={`anchor-for-${elem.name}${idx}`}
+                        >
+                            <ClassTemplate
+                                key={elem.name + idx}
+                                name={elem.name}
+                                teacher={elem.teacher}
+                                description={elem.description}
+                                credits={elem.credits}
+                                students={elem.current_am_students}
+                                maxStudents={elem.max_students}
+                                semester={elem.semester}
+                            />
+                        </a>
                     );
                 }
-            }
+                return null;
+            });
         }
         setClassHTML(dataArr);
-        console.log(classHTML)
         if (dataArr.length === 0) {
-            setClassHTML(<p>There are no classes that match your search &gt;:&#40;</p>)
+            setClassHTML(
+                <p>There are no classes that match your search &gt;:&#40;</p>
+            );
         }
-    }, [searchData]);
+    }, [classes, searchData]);
 
     return (
-        <div className="class">
-            <div className="searchBar">
-                <SearchSVG className={'searchSVG'} />
-                <input
-                    type={'text'}
-                    placeholder="Search classes here"
-                    onChange={(e) => {
-                        setSearchData(e.currentTarget.value);
+        <Divider className="class">
+            <Divider className="searchArea">
+                <Divider className="searchBar">
+                    <SearchSVG className={'searchSVG'} />
+                    <TextInput
+                        type={'text'}
+                        placeholder="Search classes here"
+                        onChange={(e) => {
+                            setSearchData(e.currentTarget.value);
+                        }}
+                    />
+                </Divider>
+                <Divider
+                    className={'advancedSearch'}
+                    look={'standardBlue'}
+                    onClick={(e) => {
+                        e.currentTarget.classList.toggle('click');
                     }}
-                />
-            </div>
-            <div className="classes">{classHTML}</div>
-        </div>
+                >
+                    <Label type="p">Advanced Search</Label>
+                    <ArrowDown />
+                </Divider>
+            </Divider>
+            <Divider className="classes">{classHTML}</Divider>
+        </Divider>
     );
 }
 

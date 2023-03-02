@@ -63,7 +63,7 @@
         }
     }
 }
-.inputSection {
+.loginInputSection {
     margin: 1vw 0;
     display: flex;
     flex-flow: column;
@@ -77,12 +77,12 @@
         height: 1.8vw;
     }
     label {
-        color: $white;
+        color: white;
         font-weight: 400;
         font-size: 1.25vw;
     }
 }
-.inputSectionCheck {
+.loginInputSectionCheck {
     display: flex;
     flex-flow: row;
     margin: 0.5vw 0;

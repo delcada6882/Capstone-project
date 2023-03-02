@@ -13,7 +13,7 @@ function Login() {
             {/* <Logo /> */}
             <Label type={'h1'}>Login</Label>
             <FormWrapper onSubmit={null}>
-                <Divider className="inputSection">
+                <Divider className="loginInputSection">
                     <Label>Email: </Label>
                     <TextInput
                         requireMessage={'Please enter a valid email'}
@@ -22,7 +22,7 @@ function Login() {
                         name="email"
                     ></TextInput>
                 </Divider>
-                <Divider className="inputSection">
+                <Divider className="loginInputSection">
                     <Label>Password: </Label>
                     <TextInput
                         minLength="3"
@@ -31,7 +31,7 @@ function Login() {
                         name="password"
                     ></TextInput>
                 </Divider>
-                <Divider className="inputSection">
+                <Divider className="loginInputSection">
                     <Label>Confirm Password: </Label>
                     <TextInput
                         minLength="3"
@@ -41,7 +41,7 @@ function Login() {
                     ></TextInput>
                 </Divider>
 
-                <Divider className="inputSectionCheck">
+                <Divider className="loginInputSectionCheck">
                     <LabelCheckbox checkboxId={'staySignedIn'}>
                         Remember me?
                     </LabelCheckbox>

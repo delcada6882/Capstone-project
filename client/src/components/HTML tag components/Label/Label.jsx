@@ -8,6 +8,8 @@ function Label(props) {
     computedProperties.className = className ? `Label ${className}` : 'Label';
 
     switch (type) {
+        case 'p':
+            return <p {...computedProperties}>{props.children}</p>;
         case 'h1':
             return <h1 {...computedProperties}>{props.children}</h1>;
         case 'h2':
