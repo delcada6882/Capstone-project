@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from 'react';
-// import { getAllStudents } from '/Users/adamdelcastillo-call/Documents/mtechaug22 HOMEWORK/Mtech 2/capstone-project/Capstone-project/client/src/data/getStudents.js';
+import { useEffect } from 'react';
+import { SuperModalController } from '../components/Popup Components/TestPopup/SuperModal';
+import Login from './Login';
 
 function View2() {
-    const [data, setData] = useState(null);
-
-    // useEffect(() => {
-    //     getAllStudents()
-    //         .then((item) => {
-    //             setData(item)
-    //         })
-    // }, []);
+    useEffect(() => {
+        const login = SuperModalController.Display(Login);
+    }, []);
 
     return (
         <div>

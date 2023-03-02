@@ -10,9 +10,25 @@
     display: flex;
     padding: 0;
     align-items: center;
+    visibility: hidden;
     justify-content: center;
-    color: white;
     background-color: hsla(0, 0%, 0%, 0.367);
+    .ModalChild{
+        
+    }
+    img.ModalChild{
+        animation: infinite 100s spin linear;
+        @keyframes spin {
+            from{transform: rotate(0deg);}
+            to{transform: rotate(360deg);}
+        }
+    }
+    *{
+        visibility: visible;
+    }
+    &:has(.overlay){
+        visibility: visible;
+    }
     .notification{
         align-self: flex-end;
         justify-content: start;
