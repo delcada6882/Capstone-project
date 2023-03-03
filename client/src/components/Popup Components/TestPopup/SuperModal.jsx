@@ -165,7 +165,6 @@ class SuperModal extends React.Component {
                             className={`ModalChild ${
                                 Obj.attributes.props.className ?? ''
                             } ${Obj.attributes.overlay ? 'overlay' : ''}`}
-                            style={{ zIndex: idx }}
                             key={Obj.Id}
                         ></Elem>
                     );
