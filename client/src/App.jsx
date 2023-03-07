@@ -3,12 +3,14 @@ import RouterPath from './RouterPath';
 import { BrowserRouter } from 'react-router-dom';
 import SuperModal, {
     buildModal,
-} from './components/Popup Components/TestPopup/SuperModal';
+} from './components/Modal Components/SuperModal/SuperModal';
 import './App.scss';
+export let backupRef = undefined;
 
 function App() {
     const [superModalStatus, setSuperModalStatus] = useState(false);
     const handleBuild = (newRef) => {
+        backupRef = newRef;
         buildModal(newRef);
         setSuperModalStatus(true);
         return newRef;
