@@ -35,10 +35,18 @@ exports.getSomeStudents = async (req, res) => {
     return results.rows;
 };
 
-exports.authUserByName = async (username) => {
+exports.getStudentByEmail = async (email) => {
     const results = await pool.query(
-        'select * from users where username = $1',
-        [username]
+        'select * from students where email = $1',
+        [email]
+    );
+    return results.rows[0];
+};
+
+exports.getStudentById = async (student_id) => {
+    const results = await pool.query(
+        'select * from students where student_id = $1',
+        [student_id]
     );
     return results.rows[0];
 };
