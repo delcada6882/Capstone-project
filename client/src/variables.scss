@@ -1,11 +1,13 @@
 $red: #6C0120;
-// $light-red: adjust-color($red, )
+$light-red: adjust-color($red, $hue: 0, $saturation: 40%, $lightness: 25%, $alpha: 1.0);
+$test: #FF2E00;
 $blue: #058ED9;
 $dark-blue: #03012C;
 $green: #14B885;
 $white: #f3f8f8;
 $black: #010114;
 $error: #ff2121;
+$grey: rgba(206, 201, 201, 1);
 
 $trans-time: 0.2s;
 

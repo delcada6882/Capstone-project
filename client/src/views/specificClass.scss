@@ -1,0 +1,93 @@
+@import '../variables.scss';
+
+.specificClass {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    flex-flow: column;
+    align-items: center;
+}
+
+.nameAndTeach {
+    margin-top: 5vh;
+    display: flex;
+    width: 80%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.description {
+    text-align: start;
+    width: 80%;
+    margin: 1vh 0;
+    h2 {
+        font-weight: 400;
+    }
+}
+.headOfStudents {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 2vw;
+}
+.studentsBox {
+    overflow: hidden;
+    flex-flow: column;
+    border-radius: 10px;
+    border: 1px solid adjust-color($grey, $hue: 0, $saturation: 0%, $lightness: -10%, $alpha: 1.0);
+    width: 80%;
+    background-color: rgb(255, 255, 255);
+    height: 2vw;
+    display: flex;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    transition: $trans-time;
+    hr {
+        margin-top: 5px;
+    }
+    p {
+        font-size: 20px;
+        margin: 5px 10px;
+    }
+    svg {
+        transition: $trans-time;
+        margin-right: 10px;
+    }
+    &:hover {
+        cursor: pointer;
+        background-color: adjust-color(#ffffff, $hue: 0, $saturation: 0%, $lightness: -5%, $alpha: 1.0);
+    }
+    &.studentsClick {
+        transition: $trans-time;
+        height: 20vh;
+        svg {
+            transition: $trans-time;
+            transform: rotate(90deg);
+            margin-top: 1px;
+        }
+    }
+}
+.studentsData {
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+    align-items: center;
+    hr {
+        width: 100%;
+    }
+    p {
+        font-size: 17px;
+        margin-left: 5px;
+    }
+}
+.students {
+    margin-top: 1vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 99%;
+    .Button {
+        margin: 0 5px;
+    }
+}

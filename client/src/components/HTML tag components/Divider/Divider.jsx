@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
-import './Divider.scss'
+import './Divider.scss';
 import { computeProps } from '../../../utils/componentUtils/propComputer';
 
 function Divider(props) {
-    const { className, look, ...etc } = props;
+    const { className, look, innerRef, ...etc } = props;
 
     const computedClassName = useMemo(() => {
         let temp = ['Divider'];
@@ -16,6 +16,7 @@ function Divider(props) {
         <div
             {...computeProps(etc)}
             className={className ? `${computedClassName}` : 'Divider'}
+            ref={innerRef}
         >
             {props.children}
         </div>
