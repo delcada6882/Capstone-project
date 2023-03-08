@@ -6,7 +6,7 @@ function FormWrapper(props) {
         if (!formElems) hookupformElements(event.target);
         let retun = checkIfFormIsValid(event);
         if (retun) retun.focus();
-        else if (props.onSubmit) props.onSubmit();
+        else if (props.onSubmit) props.onSubmit(formElems);
     };
     const formRef = useRef();
     let formElems;
