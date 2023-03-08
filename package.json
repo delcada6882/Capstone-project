@@ -8,6 +8,8 @@
     },
     "proxy": "http://localhost:3001/",
     "scripts": {
+        "backend": "cd ./backend && npm run dev",
+        "client": "cd ./client && npm run dev",
         "dev": "cd ./backend && npm run dev && cd ../client && npm run dev-start",
         "start": "cd ./backend && npm run start",
         "build": "cd ./backend && npm i && cd ../client && npm i && npm run build",

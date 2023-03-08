@@ -5,8 +5,12 @@ body {
 }
 
 #root {
-    background: rgb(254,254,254);
-    background: linear-gradient(275deg, $white 41%, rgba(206,201,201,1) 100%);
+    background: rgb(254, 254, 254);
+    background: linear-gradient(
+        275deg,
+        $white 41%,
+        $grey 100%
+    );
     background-size: cover;
 }
 
@@ -17,10 +21,12 @@ body {
     flex-flow: column;
     align-items: center;
 }
+
 .standardTextInput {
     background-color: $white;
     width: 100%;
 }
+
 .searchBar {
     display: flex;
     align-items: center;
@@ -29,38 +35,56 @@ body {
     padding: 10px 15px;
     border-radius: 10px;
     position: relative;
-    .TextInput{
+
+    .TextInput {
         margin-left: 1.5%;
         border: none;
     }
+
     .TextInput input {
         font-size: 20px;
+
+        &:focus {
+            display: flex;
+        }
     }
 }
+
 .searchSVG {
     transform: scale(1.2);
 }
+
 .classes {
     overflow: scroll;
     display: flex;
     flex-flow: column;
     align-items: center;
-    width: 80%;
-    margin-top: 100px;
+    width: 100%;
+    padding-top: 67px;
     padding-bottom: 10px;
 }
+
 .subClasses {
+    position: relative;
     margin: 0 auto;
     margin-top: 10px;
-    transition: $trans-time;
     padding: 15px;
-    width: 90%;
-    height: 7vw;
+    width: 80%;
+    text-decoration: none;
+    max-height: 7vw;
     display: flex;
+    border: 2px solid rgb(187, 187, 187);
     justify-content: space-around;
-    background-color: adjust-color($red, $hue: 0, $saturation: -20%, $lightness: 80%, $alpha: 1.0);
+    background-color: adjust-color(
+        $red,
+        $hue: 0,
+        $saturation: -20%,
+        $lightness: 80%,
+        $alpha: 1
+    );
     border-radius: 10px;
     flex-flow: column;
+
     .topPart {
         display: flex;
         width: 100%;
@@ -68,46 +92,66 @@ body {
         align-items: center;
         font-size: 15px;
     }
+
     .middlePart {
         transition: $trans-time;
         width: 100%;
+
         button {
             background-color: $blue;
         }
     }
+
     .bottomPart {
-        width: 90%;
+        width: 100%;
         display: flex;
         justify-content: space-between;
     }
 }
-.subClasses:hover{
+
+.subClasses:hover {
+    border: 2px solid $blue;
     cursor: pointer;
-    transition: $trans-time;
-    .middlePart {
-        opacity: 0;
-        transition: $trans-time;
+
+    .buttonFilter {
+        transition: 0.1s;
+        opacity: 100%;
     }
 }
+
 .searchArea {
     position: absolute;
-    padding: 10px;
+    z-index: 3;
+    padding: 10px 0;
     display: flex;
     justify-content: space-around;
     align-items: center;
     width: 100%;
     background-color: $red;
 }
+
+.advancedSearchBoxSurround {
+    position: absolute;
+    display: none;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: transparent;
+    z-index: 1;
+}
+
 .advancedSearch {
     display: flex;
     align-items: center;
     user-select: none;
+
     svg {
         transition: $trans-time;
         margin-top: 3px;
         margin-left: 10px;
         color: white;
     }
+
     &.click {
         svg {
             transition: $trans-time;
@@ -115,4 +159,67 @@ body {
             transform: rotate(90deg);
         }
     }
+}
+
+.noClass {
+    margin-top: 40vh;
+    font-size: 30px;
+    color: rgb(147, 147, 147);
+}
+
+.buttonFilter {
+    opacity: 0;
+    transition: 0.1s;
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    left: 0;
+    border-radius: 10px;
+    width: 100%;
+    align-items: center;
+    height: 100%;
+
+    .Button {
+        margin-right: 0.7vw;
+    }
+}
+
+.advancedSearchBox {
+    display: none;
+    // display: flex;
+    flex-flow: column;
+    font-size: 20px;
+    justify-content: center;
+    width: 10vw;
+    background-color: $white;
+    border: 1px solid rgb(147, 147, 147);
+    position: absolute;
+    top: 5.5vh;
+    left: 86.5vw;
+    border-radius: 10px;
+    padding: 10px;
+    z-index: 2;
+
+    select {
+        font-size: 17px;
+        background-color: white;
+        width: 100%;
+    }
+
+    input {
+        background-color: white;
+        border: 1px solid grey;
+        padding: 1px;
+        font-size: 15px;
+        width: 98%;
+    }
+
+    .Button {
+        font-size: 15px;
+        width: 100%;
+        margin-top: 1.5vw;
+    }
+}
+.normal {
+    width: 80%;
 }

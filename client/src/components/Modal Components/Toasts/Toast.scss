@@ -1,0 +1,98 @@
+@import '../../../variables.scss';
+
+.Toast {
+    --time: 4000ms;
+    overflow: hidden;
+    visibility: visible;
+    margin-bottom: 1em;
+    padding: 4px 4px 8px 4px;
+    min-width: 11em;
+    min-height: 4em;
+    display: flex;
+    border-radius: 4px;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    animation: 2s easeInElastic;
+    position: relative;
+    transition: transform 0.6s cubic-bezier(0.36, 0, 0.66, -0.56);
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px,
+        rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+    &.reset {
+        animation: none;
+        transition: none;
+    }
+    &.ani-remove {
+        animation: none;
+        transform: translateX(120%);
+        .progressBar .progressInner {
+            animation-play-state: paused;
+            transform: scaleX(0);
+        }
+    }
+    &:hover .progressBar .progressInner {
+        animation-play-state: paused;
+    }
+    &.hasClick {
+        cursor: pointer;
+    }
+    .progressBar {
+        height: 4px;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        .progressInner {
+            background-color: $red;
+            height: 4px;
+            width: 100%;
+            border-radius: 0 8px 8px 0;
+            animation: var(--time) reduce linear forwards;
+            animation-play-state: running;
+            transform-origin: left;
+            transition: 0.4s transform cubic-bezier(0.36, 0, 0.66, -0.56);
+            @keyframes reduce {
+                from {
+                    width: 100%;
+                }
+                to {
+                    width: 0%;
+                }
+            }
+        }
+    }
+    .toastContainer {
+        width: 11em;
+        .toastHeading {
+            font-size: 16px;
+        }
+        .toastContent {
+            font-size: 12px;
+        }
+    }
+    @keyframes easeInElastic {
+        0% {
+            transform: translateX(calc(0% + 100%));
+        }
+        16% {
+            transform: translateX(calc(-132.27% + 100%));
+        }
+        28% {
+            transform: translateX(calc(-86.88% + 100%));
+        }
+        44% {
+            transform: translateX(calc(-104.63% + 100%));
+        }
+        59% {
+            transform: translateX(calc(-98.36% + 100%));
+        }
+        73% {
+            transform: translateX(calc(-100.58% + 100%));
+        }
+        88% {
+            transform: translateX(calc(-99.8% + 100%));
+        }
+        100% {
+            transform: translateX(calc(-100% + 100%));
+        }
+    }
+}

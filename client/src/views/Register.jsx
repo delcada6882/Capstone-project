@@ -20,6 +20,16 @@ function Register() {
                     <Label>Password: </Label>
                     <TextInput required type={'password'} name="password"></TextInput>
                 </Divider>
+
+                <Divider className="registerInputSection">
+                <Label>Confirm Password: </Label>
+                    <TextInput
+                        minLength="3"
+                        required={true}
+                        type={'password'}
+                        name="password"
+                    ></TextInput>
+                </Divider>
                 
                 <Button>Register</Button>
             </FormWrapper>

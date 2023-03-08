@@ -31,15 +31,6 @@ function Login() {
                         name="password"
                     ></TextInput>
                 </Divider>
-                <Divider className="loginInputSection">
-                    <Label>Confirm Password: </Label>
-                    <TextInput
-                        minLength="3"
-                        required={true}
-                        type={'password'}
-                        name="password"
-                    ></TextInput>
-                </Divider>
 
                 <Divider className="loginInputSectionCheck">
                     <LabelCheckbox checkboxId={'staySignedIn'}>

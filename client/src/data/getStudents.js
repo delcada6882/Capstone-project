@@ -39,11 +39,12 @@ export async function validateStudent(loginEmail, loginPassword) {
     });
 }
 
-export async function getAllClasses() {
+export async function getStudentsByClass(class_id) {
+    class_id = class_id ?? 0
     return await Axios({
         method: 'GET',
         withCredentials: true,
-        url: '/api/getAllClasses',
+        url: `/api/getStudentsByClass/${class_id}`,
     }).then((res) => {
         // console.log(res.data);
         return res.data;
