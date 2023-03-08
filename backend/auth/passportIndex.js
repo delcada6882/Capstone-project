@@ -2,9 +2,11 @@ const bcrypt = require('bcryptjs');
 const { getStudentByEmail, getStudentById } = require('../db/dbIndex');
 const localStrategy = require('passport-local').Strategy;
 
-const matchPassword = async (password, hashPassword) => {
-    const match = await bcrypt.compare(password, hashPassword);
-    return match;
+const matchPassword = async (password, studentPassword) => {
+    const salt = bcrypt.genSaltSync(11);
+    const hash = await bcrypt.hash(password, salt);
+    const result = await bcrypt.compare(studentPassword, hash);
+    return result;
 };
 
 module.exports = function (passport) {
@@ -20,11 +22,17 @@ module.exports = function (passport) {
                 try {
                     const student = await getStudentByEmail(email);
                     if (!student) return done(null, false);
+                    console.log(student.password, password);
+                    const pass = await matchPassword(
+                        password,
+                        student.password
+                    );
+                    if (!pass) return done(null, false);
                     return done(null, {
                         student_id: student.student_id,
                         email: student.email,
                     });
-                } catch (error) {
+                } catch (err) {
                     done(err);
                 }
             }

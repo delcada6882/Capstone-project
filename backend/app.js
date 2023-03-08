@@ -43,12 +43,12 @@ app.get('/getSomeStudents/:page/:limit', getSomeStudents);
 app.get('/getAllClasses', getAllClasses);
 
 app.post('/login', passport.authenticate('local-login', {
-        successRedirect: '/get',
         failureMessage: 'get a life sucker',
         failureRedirect: '/',
+    }, (req, res) => {
+        return res;
     })
 );
-// app.post('/login', (req, res) => {});
 
 app.listen(port, () => {
     console.log(`connected on port ${port}`);

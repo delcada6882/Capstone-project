@@ -7,9 +7,9 @@ export async function getAllStudents() {
         url: '/api/getAllStudents',
     }).then((res) => {
         // console.log(res.data);
-        return res.data
+        return res.data;
     });
-};
+}
 
 export async function getSomeStudents(page, limit) {
     page = page ?? 0;
@@ -22,7 +22,22 @@ export async function getSomeStudents(page, limit) {
         // console.log(res.data);
         return res.data;
     });
-};
+}
+
+export async function validateStudent(loginEmail, loginPassword) {
+    return await Axios({
+        method: 'POST',
+        data: {
+            email: loginEmail,
+            password: loginPassword,
+        },
+        withCredentials: true,
+        url: '/login',
+    }).then((res) => {
+        console.log(res);
+        return res;
+    });
+}
 
 export async function getAllClasses() {
     return await Axios({
@@ -31,6 +46,6 @@ export async function getAllClasses() {
         url: '/api/getAllClasses',
     }).then((res) => {
         // console.log(res.data);
-        return res.data
+        return res.data;
     });
-};
+}
