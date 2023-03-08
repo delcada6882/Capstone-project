@@ -5,9 +5,11 @@ import TextInput from '../components/HTML tag components/Inputs/TextInput/TextIn
 import Label from '../components/HTML tag components/Label/Label.jsx';
 import SearchSVG from '../svg/SearchSVG.jsx';
 import ArrowDown from '../svg/ArrowDown.jsx';
-import { getAllClasses } from '../data/getStudents.js';
+import { getAllClasses } from '../data/getClasses.js';
 import '../views/class.scss';
 import Button from '../components/HTML tag components/Button/Button.jsx';
+import NumberInput from '../components/HTML tag components/Inputs/NumberInput/NumberInput.jsx';
+import FormWrapper from '../components/Utillity components/FormWrapper/FormWrapper.jsx';
 
 function Class() {
     const [classes, setClasses] = useState([]);
@@ -16,6 +18,7 @@ function Class() {
     const searchButtonRef = useRef();
     const innerSearchBoxRef = useRef();
     const [searchData, setSearchData] = useState('');
+    const [isAuth, setIsAuth] = useState(false)
 
     const dateNow = new Date();
     const yearNow = dateNow.getFullYear();
@@ -106,44 +109,46 @@ function Class() {
     }, []);
 
     useEffect(() => {
-        const searchRegex = new RegExp(searchData, 'i');
-
-        let isOneFound = false;
-        let dataArr = [];
-        if (classes !== null) {
-            dataArr = classes.map((elem, idx) => {
-                if (searchRegex.test(elem.name) || searchRegex.test(elem.teacher)) {
-                    isOneFound = true;
-                    return (
-                        <a
-                            href="/"
-                            style={{ width: '80%', textDecoration: 'none' }}
-                            key={`anchor-for-${elem.name}${idx}`}
-                        >
+        if(searchData.includes('/') || searchData.includes('[')) {
+            console.log('ew')
+        }
+        else {
+            const searchRegex = new RegExp(searchData, 'i');
+            let isOneFound = false;
+            let dataArr = [];
+            if (classes !== null) {
+                dataArr = classes.map((elem, idx) => {
+                    if (searchRegex.test(elem.name) || searchRegex.test(elem.teacher)) {
+                        isOneFound = true;
+                        return (
                             <ClassTemplate
+                                idx={idx}
+                                anchor={isAuth ? `/${elem.name}` : null}
                                 key={elem.name.split(' ').join('-') + idx}
                                 name={elem.name}
                                 teacher={elem.teacher}
                                 description={elem.description}
                                 credits={elem.credits}
-                                students={elem.current_am_students}
+                                class_id={elem.class_id}
                                 maxStudents={elem.max_students}
                                 semester={elem.semester}
                             />
-                        </a>
-                    );
-                }
-                return null;
-            });
+                        );
+                    }
+                    return null;
+                });
+            }
+            setClassHTML(dataArr);
+            if (isOneFound === false) {
+                setClassHTML(
+                    <Label type={'p'} className="noClass">
+                        There are no classes that match your search &gt;:&#40;
+                    </Label>
+                );
+            }
         }
-        setClassHTML(dataArr);
-        if (isOneFound === false) {
-            setClassHTML(
-                <Label type={'p'} className="noClass">
-                    There are no classes that match your search &gt;:&#40;
-                </Label>
-            );
-        }
+
+        
     }, [classes, searchData]);
 
     function handleSetSearchBoxClass(operation) {
@@ -186,7 +191,7 @@ function Class() {
                     }}
                 >
                     <Label type="p">Advanced Search</Label>
-                    <ArrowDown />
+                    <ArrowDown color={'white'} />
                 </Divider>
             </Divider>
             <Divider className="classes">{classHTML}</Divider>
@@ -198,31 +203,34 @@ function Class() {
                 }}
             ></Divider>
             <Divider className="advancedSearchBox" innerRef={innerSearchBoxRef}>
+                <FormWrapper>
                 <Label type={'p'}>Subject</Label>
-                <select>
-                    <option></option>
-                    <option>English</option>
-                    <option>Science</option>
-                    <option>Math</option>
-                    <option>Art</option>
-                    <option>Social Studies</option>
-                </select>
-                <Label type={'p'}>Semester</Label>
-                <select>
-                    <option></option>
-                    <option>1</option>
-                    <option>2</option>
-                </select>
-                <Label type={'p'}>Credits</Label>
-                <input type={'number'} />
-                <Label type={'p'}>Status</Label>
-                <select>
-                    <option></option>
-                    <option>Less than Half Capacity</option>
-                    <option>Half Capacity</option>
-                    <option>Full</option>
-                </select>
-                <Button look={'standardBlue'}>Search</Button>
+                    <select>
+                        <option></option>
+                        <option>English</option>
+                        <option>Science</option>
+                        <option>Math</option>
+                        <option>Art</option>
+                        <option>Social Studies</option>
+                    </select>
+                    <Label type={'p'}>Semester</Label>
+                    <select>
+                        <option></option>
+                        <option>1</option>
+                        <option>2</option>
+                    </select>
+                    <Label type={'p'}>Credits</Label>
+                    <NumberInput />
+                    <Label type={'p'}>Status</Label>
+                    <select>
+                        <option></option>
+                        <option>Less than Half Capacity</option>
+                        <option>Half Capacity</option>
+                        <option>Full</option>
+                    </select>
+                    <Button look={'standardBlue'}>Search</Button>
+                </FormWrapper>
+
             </Divider>
         </Divider>
     );
