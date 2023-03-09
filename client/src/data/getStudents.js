@@ -29,12 +29,12 @@ export async function validateStudent(loginEmail, loginPassword) {
         method: 'POST',
         data: {
             email: loginEmail,
-            password: loginPassword,
+            password: loginPassword
         },
         withCredentials: true,
-        url: '/login',
-    }).then((res) => {
-        console.log(res);
+        url: '/api/login',
+    }).then((req,res) => {
+        console.log(res, req);
         return res;
     });
 }

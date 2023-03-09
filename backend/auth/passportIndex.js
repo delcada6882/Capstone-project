@@ -16,13 +16,11 @@ module.exports = function (passport) {
             {
                 usernameField: 'email',
                 passwordField: 'password',
-                passReqToCallback: true,
             },
-            async function (req, email, password, done) {
+            async function (email, password, done) {
                 try {
                     const student = await getStudentByEmail(email);
                     if (!student) return done(null, false);
-                    console.log(student.password, password);
                     const pass = await matchPassword(
                         password,
                         student.password
