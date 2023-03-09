@@ -6,11 +6,7 @@ body {
 
 #root {
     background: rgb(254, 254, 254);
-    background: linear-gradient(
-        275deg,
-        $white 41%,
-        $grey 100%
-    );
+    background: linear-gradient(275deg, $white 41%, $grey 100%);
     background-size: cover;
 }
 
@@ -191,8 +187,15 @@ body {
     font-size: 20px;
     justify-content: center;
     width: 10vw;
-    background-color: $white;
-    border: 1px solid rgb(147, 147, 147);
+    background-color: $red;
+    border: 1px solid
+        adjust-color(
+            $red,
+            $hue: 0,
+            $saturation: -40%,
+            $lightness: 10%,
+            $alpha: 1
+        );
     position: absolute;
     top: 5.5vh;
     left: 86.5vw;
@@ -213,6 +216,9 @@ body {
         font-size: 15px;
         width: 98%;
     }
+    p {
+        color: white;
+    }
 
     .Button {
         font-size: 15px;
@@ -221,5 +227,9 @@ body {
     }
 }
 .normal {
+    width: 100%;
+}
+.administrator {
+    text-decoration: none;
     width: 80%;
 }

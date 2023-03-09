@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import Button from '../components/HTML tag components/Button/Button.jsx';
 import Divider from '../components/HTML tag components/Divider/Divider.jsx';
@@ -9,6 +9,7 @@ import ArrowDown from '../svg/ArrowDown.jsx';
 import '../views/specificClass.scss';
 
 function SpecificClass() {
+    const studentBoxRef = useRef();
     const { specificClass } = useParams();
     const [searchParams] = useSearchParams();
     const index = searchParams.get('index');
@@ -20,6 +21,7 @@ function SpecificClass() {
         async function redoClasses() {
             await getSomeClasses(index, 1).then((item) => {
                 setData(item);
+                console.log(item)
             });
         }
         redoClasses();
@@ -44,21 +46,19 @@ function SpecificClass() {
 
     function studentsMap() {
         let returnVal;
-        if(students !== null && students !== undefined) {
+        if (students !== null && students !== undefined) {
             returnVal = students.map((elem, idx) => {
                 return (
                     <Divider className={'students'}>
-                        <p key={idx}>
-                            {elem.first_name +
-                                ' ' +
-                                elem.last_name}
-                        </p>
+                        <a key={idx} href={`/users/${elem.first_name}${elem.last_name}`}>
+                            {elem.first_name + ' ' + elem.last_name}
+                        </a>
                         <Button look={'standardRed'}>Remove</Button>
                     </Divider>
                 );
             });
         }
-        return returnVal
+        return returnVal;
     }
 
     return (
@@ -69,21 +69,37 @@ function SpecificClass() {
         // </div>
         <Divider className={'specificClass'}>
             <Divider className={'nameAndTeach'}>
-                <Label type={'h1'} contentEditable={true}>{data === null ? '' : data[0].name}</Label>
-                <Label type={'p'}>{data === null ? '' : data[0].teacher}</Label>
+                <Divider className={'name'}>
+                    <Label type={'h1'}>
+                        {data === null ? '' : data[0].name}
+                    </Label>
+                    <Label type={'p'}>
+                        {data === null ? '' : `Taught by ${data[0].teacher}`}
+                    </Label>
+                </Divider>
+                <Divider className={'editDataButton'}>
+                    <Button look={'standardRed'}><a href={data === null ? '/error' :`/class/edit/${data[0].name}?index=${index}`}>Edit Class Data</a></Button>
+                </Divider>
             </Divider>
             <Divider className={'description'}>
                 <Label type={'h2'}>
                     {data === null ? '' : data[0].description}
                 </Label>
             </Divider>
-            <Divider
-                className={'studentsBox'}
-                onClick={(e) => {
-                    e.currentTarget.classList.toggle('studentsClick');
-                }}
-            >
-                <Divider className={'headOfStudents'}>
+            <Divider className={'basicData'}>
+                <Label className={'subject'}>Subject: {data === null ? '' : data[0].subject}</Label>
+                <Label className={'subject'}>Time: {data === null ? '' : `${data[0].start_time} - ${data[0].end_time}`}</Label>
+                <Label className={'credits'}>Credits: {data === null ? '' : `${data[0].credits}`}</Label>
+                <Label className={'semester'}>Semester: {data === null ? '' : `${data[0].semester}`}</Label>
+
+            </Divider>
+            <Divider className={'studentsBox'} innerRef={studentBoxRef}>
+                <Divider
+                    className={'headOfStudents'}
+                    onClick={(e) => {
+                        studentBoxRef.current.classList.toggle('studentsClick');
+                    }}
+                >
                     <Label type={'p'}>Students</Label>
                     <ArrowDown />
                 </Divider>

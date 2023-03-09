@@ -16,13 +16,18 @@
     align-items: center;
     justify-content: space-between;
 }
+.name {
+    p {
+        margin-top: 5px;
+    }
+}
 
 .description {
     text-align: start;
     width: 80%;
     margin: 1vh 0;
     h2 {
-        font-weight: 400;
+        font-weight: 500;
     }
 }
 .headOfStudents {
@@ -31,6 +36,11 @@
     align-items: center;
     width: 100%;
     height: 2vw;
+    padding-bottom: 3px;
+    &:hover {
+        cursor: pointer;
+        background-color: adjust-color(#ffffff, $hue: 0, $saturation: 0%, $lightness: -5%, $alpha: 1.0);
+    }
 }
 .studentsBox {
     overflow: hidden;
@@ -44,7 +54,7 @@
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     transition: $trans-time;
     hr {
-        margin-top: 5px;
+        margin: 0;
     }
     p {
         font-size: 20px;
@@ -52,11 +62,8 @@
     }
     svg {
         transition: $trans-time;
-        margin-right: 10px;
-    }
-    &:hover {
-        cursor: pointer;
-        background-color: adjust-color(#ffffff, $hue: 0, $saturation: 0%, $lightness: -5%, $alpha: 1.0);
+        margin-top: 2px;
+        margin-right: 15px;
     }
     &.studentsClick {
         transition: $trans-time;
@@ -76,7 +83,7 @@
     hr {
         width: 100%;
     }
-    p {
+    a {
         font-size: 17px;
         margin-left: 5px;
     }
@@ -90,4 +97,22 @@
     .Button {
         margin: 0 5px;
     }
+}
+.editDataButton {
+    .Button {
+        padding: 15px 20px;
+        font-size: 17px;
+        margin: 0;
+        a {
+            color: $white;
+            text-decoration: none;
+        }
+    }
+}
+.basicData {
+    font-size: 18px;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
 }

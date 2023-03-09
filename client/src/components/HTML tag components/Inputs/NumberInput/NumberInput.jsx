@@ -15,10 +15,11 @@ function NumberInput(props) {
         onClick,
         placeholder,
         name,
+        innerRef,
         ...etc
     } = props;
     const [validity, setValidity] = useState(true);
-    const inputRef = useRef(null);
+    // const inputRef = useRef(null);
 
     const computedClassName = useMemo(() => {
         let temp = ['TextInputInner'];
@@ -29,10 +30,7 @@ function NumberInput(props) {
 
     const computedType = useMemo(() => {
         return 'number';
-    }, [
-        // eyeVis, 
-        // shouldRenderEyeVis
-    ]);
+    }, []);
 
     const handleInvalid = () => {
         setValidity(false);
@@ -53,7 +51,7 @@ function NumberInput(props) {
                     onInvalid={handleInvalid}
                     placeholder={placeholder}
                     formkey={formKey ?? -1}
-                    ref={inputRef}
+                    ref={innerRef}
                 />
             </div>
             <div className="invalidMessage">
