@@ -10,6 +10,7 @@ import '../views/class.scss';
 import Button from '../components/HTML tag components/Button/Button.jsx';
 import NumberInput from '../components/HTML tag components/Inputs/NumberInput/NumberInput.jsx';
 import FormWrapper from '../components/Utillity components/FormWrapper/FormWrapper.jsx';
+import { getStudentsByClass } from '../data/getStudents.js';
 
 function Class() {
     const [classes, setClasses] = useState([]);
@@ -18,87 +19,14 @@ function Class() {
     const searchButtonRef = useRef();
     const innerSearchBoxRef = useRef();
     const [searchData, setSearchData] = useState('');
-    const [isAuth, setIsAuth] = useState(false)
+    const [isAuth, setIsAuth] = useState(true);
+    const [studentData, setStudentData] = useState();
 
-    const dateNow = new Date();
-    const yearNow = dateNow.getFullYear();
+    const subjectRef = useRef();
+    const semesterRef = useRef();
+    const creditsRef = useRef();
+    const statusRef = useRef();
 
-    // const notClass = [
-    //     {
-    //         name: 'Computer Science',
-    //         subject: 'Science',
-    //         teacher: 'Cole Nelson',
-    //         description:
-    //             "It's a class about computer science, what else do you want from me?",
-    //         credits: 4,
-    //         semester: `Winter ${yearNow}`,
-    //         start_time: 1000,
-    //         end_time: 1200,
-    //         max_students: 20,
-    //         current_am_students: 5,
-    //     },
-    //     {
-    //         name: 'Advanced Research',
-    //         subject: 'Writing',
-    //         teacher: 'Susan Lastnamington',
-    //         description:
-    //             "It's a class about advanced research, what else do you want from me?",
-    //         credits: 2,
-    //         semester: `Spring ${yearNow}`,
-    //         start_time: 1200,
-    //         end_time: 1300,
-    //         max_students: 22,
-    //         current_am_students: 10,
-    //     },
-    //     {
-    //         name: 'Not a class',
-    //         subject: 'Nothing',
-    //         teacher: 'Nobody',
-    //         description: "It's a class about nothing, this ISN'T A CLASS",
-    //         credits: 0,
-    //         semester: `never ${yearNow}`,
-    //         start_time: 0,
-    //         end_time: 0,
-    //         max_students: 0,
-    //         current_am_students: 0,
-    //     },
-    //     {
-    //         name: 'Not a class',
-    //         subject: 'Nothing',
-    //         teacher: 'Nobody',
-    //         description: "It's a class about nothing, this ISN'T A CLASS",
-    //         credits: 0,
-    //         semester: `never ${yearNow}`,
-    //         start_time: 0,
-    //         end_time: 0,
-    //         max_students: 0,
-    //         current_am_students: 0,
-    //     },
-    //     {
-    //         name: 'Not a class',
-    //         subject: 'Nothing',
-    //         teacher: 'Nobody',
-    //         description: "It's a class about nothing, this ISN'T A CLASS",
-    //         credits: 0,
-    //         semester: `never ${yearNow}`,
-    //         start_time: 0,
-    //         end_time: 0,
-    //         max_students: 0,
-    //         current_am_students: 0,
-    //     },
-    //     {
-    //         name: 'Not a class',
-    //         subject: 'Nothing',
-    //         teacher: 'Nobody',
-    //         description: "It's a class about nothing, this ISN'T A CLASS",
-    //         credits: 0,
-    //         semester: `never ${yearNow}`,
-    //         start_time: 0,
-    //         end_time: 0,
-    //         max_students: 0,
-    //         current_am_students: 0,
-    //     },
-    // ];
     useEffect(() => {
         async function redoClasses() {
             await getAllClasses().then((item) => {
@@ -109,17 +37,22 @@ function Class() {
     }, []);
 
     useEffect(() => {
-        if(searchData.includes('/') || searchData.includes('[')) {
-            console.log('ew')
-        }
-        else {
+        if (searchData.includes('/') || searchData.includes('[')) {
+            console.log('ew');
+        } else {
             const searchRegex = new RegExp(searchData, 'i');
             let isOneFound = false;
             let dataArr = [];
             if (classes !== null) {
                 dataArr = classes.map((elem, idx) => {
-                    if (searchRegex.test(elem.name) || searchRegex.test(elem.teacher)) {
+                    if (
+                        searchRegex.test(elem.name) ||
+                        searchRegex.test(elem.teacher)
+                    ) {
                         isOneFound = true;
+                        // if(elem.subject === "Math") {
+                        //     console.log(elem.subject)
+                        // }
                         return (
                             <ClassTemplate
                                 idx={idx}
@@ -147,26 +80,67 @@ function Class() {
                 );
             }
         }
-
-        
     }, [classes, searchData]);
 
+    function advancedSearchFunction(sub, sem, cred, stat) {
+        let isOneFound = false;
+        let dataArr = [];
+
+        if (classes !== null) {
+            dataArr = classes.map((elem, idx) => {
+
+
+                if (
+                    elem.subject.match(sub) &&
+                    String(elem.semester).match(sem) &&
+                    String(elem.credits).match(cred)
+                ) {
+                    isOneFound = true;
+                    return (
+                        <ClassTemplate
+                            idx={idx}
+                            anchor={isAuth ? `/${elem.name}` : null}
+                            key={elem.name.split(' ').join('-') + idx}
+                            name={elem.name}
+                            teacher={elem.teacher}
+                            description={elem.description}
+                            credits={elem.credits}
+                            class_id={elem.class_id}
+                            maxStudents={elem.max_students}
+                            semester={elem.semester}
+                        />
+                    );
+                }
+                return null;
+            });
+        }
+        setClassHTML(dataArr);
+        console.log(dataArr)
+        if (isOneFound === false) {
+            setClassHTML(
+                <Label type={'p'} className="noClass">
+                    There are no classes that match your search &gt;:&#40;
+                </Label>
+            );
+        }
+    }
+
     function handleSetSearchBoxClass(operation) {
-        if(operation === 'toggle') {
-            console.log('tog')
+        if (operation === 'toggle') {
             searchButtonRef.current.classList.toggle('click');
             searchBoxRef.current.style.display =
                 searchBoxRef.current.style.display == 'flex' ? 'none' : 'flex';
             innerSearchBoxRef.current.style.display =
-                innerSearchBoxRef.current.style.display == 'flex' ? 'none' : 'flex';
+                innerSearchBoxRef.current.style.display == 'flex'
+                    ? 'none'
+                    : 'flex';
         }
-        if(operation === 'search') {
+        if (operation === 'search') {
             searchButtonRef.current.classList.remove('click');
-            searchBoxRef.current.style.display = 'none'
-            innerSearchBoxRef.current.style.display = 'none'
+            searchBoxRef.current.style.display = 'none';
+            innerSearchBoxRef.current.style.display = 'none';
         }
     }
-    
 
     return (
         <Divider className="class">
@@ -204,8 +178,8 @@ function Class() {
             ></Divider>
             <Divider className="advancedSearchBox" innerRef={innerSearchBoxRef}>
                 <FormWrapper>
-                <Label type={'p'}>Subject</Label>
-                    <select>
+                    <Label type={'p'}>Subject</Label>
+                    <select ref={subjectRef}>
                         <option></option>
                         <option>English</option>
                         <option>Science</option>
@@ -214,23 +188,33 @@ function Class() {
                         <option>Social Studies</option>
                     </select>
                     <Label type={'p'}>Semester</Label>
-                    <select>
+                    <select ref={semesterRef}>
                         <option></option>
                         <option>1</option>
                         <option>2</option>
                     </select>
                     <Label type={'p'}>Credits</Label>
-                    <NumberInput />
-                    <Label type={'p'}>Status</Label>
-                    <select>
-                        <option></option>
-                        <option>Less than Half Capacity</option>
-                        <option>Half Capacity</option>
-                        <option>Full</option>
-                    </select>
-                    <Button look={'standardBlue'}>Search</Button>
-                </FormWrapper>
+                    <NumberInput innerRef={creditsRef} />
+                    <Button
+                        look={'standardBlue'}
+                        onClick={(e) => {
+                            console.log(subjectRef.current.value);
+                            console.log(semesterRef.current.value);
+                            console.log(creditsRef.current.value);
+                            console.log(statusRef.current.value);
+                            handleSetSearchBoxClass('search');
 
+                            advancedSearchFunction(
+                                subjectRef.current.value,
+                                semesterRef.current.value,
+                                creditsRef.current.value,
+                                statusRef.current.value
+                            );
+                        }}
+                    >
+                        Search
+                    </Button>
+                </FormWrapper>
             </Divider>
         </Divider>
     );
