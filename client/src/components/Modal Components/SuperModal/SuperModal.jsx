@@ -19,7 +19,7 @@ const DevBuild_validateModalRef = () => {
         SuperModalRef = backupRef;
         if (backupRef === undefined)
             console.error(
-                `SuperModal_DevBuild:\n\tBackupRef was not found,\n\tPlease make sure app exports backup properly`
+                `SuperModal_DevBuild:\n\tBackupRef was not found,\Try reloading the page if that dosn't work then\n\tPlease make sure app exports backup properly`
             );
     }
 };
@@ -79,6 +79,7 @@ export const SuperModalController = {
 };
 
 let DisplayQueue = [];
+let displays = [];
 class SuperModal extends React.Component {
     constructor(props) {
         super(props);
@@ -108,9 +109,9 @@ class SuperModal extends React.Component {
     Display = (comp, attr) => {
         const timeStamp = Date.now();
         const InQueue = () => {
-            DisplayQueue.find(
-                ({ time, keys }) =>
-                    timeStamp - time < 10 && keys == Object.values(comp)
+            return DisplayQueue.find(
+                ({ time, stringified }) =>
+                    timeStamp - time < 10 || stringified == JSON.stringify(comp)
             );
         };
         if (InQueue()) return;
@@ -121,7 +122,7 @@ class SuperModal extends React.Component {
             if (timeStamp > this.state.DevBuild_session) return;
         /* <-- DEV BUILD ITEMS */
 
-        DisplayQueue.push({ keys: Object.values(comp), time: timeStamp });
+        DisplayQueue.push({ stringified: JSON.stringify(comp), time: timeStamp });
 
         const newId = crypto.randomUUID();
         attr = attr ?? {};
@@ -381,7 +382,11 @@ class SuperModal extends React.Component {
             });
         };
         const renderComponents = () => {
-            return this.state.components.map((Obj, idx) => {
+            // console.log(this.state.components);
+            // const unique = [...new Set(this.state.components.map(item => item.Component))]
+            // console.log(unique);
+            const unique = this.state.components;
+            return unique.map((Obj, idx) => {
                 if (!Obj.attributes.visible) return null;
                 const Elem = Obj.component;
                 return (
