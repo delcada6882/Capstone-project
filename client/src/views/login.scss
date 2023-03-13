@@ -37,7 +37,6 @@
         margin-bottom: 20px;
         box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
         border: none;
-        font-size: 1vw;
     }
     button:hover {
         cursor: pointer;
@@ -54,7 +53,6 @@
         font-family: 'Karla';
         color: $white;
         margin-top: 1vw;
-        font-size: 1vw;
         a {
             color: adjust-color($red, $hue: 0, $saturation: -30%, $lightness: 40%, $alpha: 1.0);
         }
@@ -71,15 +69,13 @@
         background-color: $white;
         border: none;
         border-radius: 5px;
-        font-size: 1vw;
         margin-top: 1vw;
-        padding: 5px;
-        height: 1.8vw;
+        padding: 10px 5px;
+        // height: 1.8vw;
     }
     label {
         color: white;
         font-weight: 400;
-        font-size: 1.25vw;
     }
 }
 .loginInputSectionCheck {
@@ -90,6 +86,27 @@
         font-size: 1vw;
         margin-left: 5px;
         color: $white;
+    }
+}
+@media (min-width: 1500px) {
+    .loginInputSection {
+        input {
+            font-size: 25px;
+        }
+    }
+    .login {
+        button {
+            font-size: 25px;
+        }
+        h1 {
+            font-size: 60px;
+        }
+        .tooltip {
+            font-size: 25px;
+        }
+    }
+    .loginInputSection {
+        font-size: 30px;
     }
 }
 @media (max-width: 1200px) {
@@ -115,6 +132,11 @@
     
 }
 @media (max-width: 768px) {
+    .loginInputSection {
+        input {
+            font-size: 20px;
+        }
+    }
     .login {
         border-radius: 0;
         width: 100%;
@@ -127,8 +149,8 @@
         }
         button {
             margin-top: 7vw;
-            height: 6.9vh;
-            font-size: 3vw;
+            padding: 15px;
+            font-size: 20px;
         }
         form {
             width: 70%;
@@ -145,15 +167,14 @@
             font-size: 2.5vw;
         }
     }
-    .inputSectionCheck {
+    .loginInputSectionCheck {
         label {
-            font-size: 2.5vw;
+            font-size: 15px;
         }
     }
 }
 @media (max-width: 425px) {
     .login {
-        align-items: flex-end;
         border-radius: 0;
         width: 100%;
         height: 100%;
