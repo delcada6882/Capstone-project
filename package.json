@@ -6,7 +6,7 @@
     "engines": {
         "node": "19.7.0"
     },
-    "proxy": "http://localhost:3001/",
+    "proxy": "http://localhost:3002/",
     "scripts": {
         "backend": "cd ./backend && npm run dev",
         "client": "cd ./client && npm run dev",

@@ -6,13 +6,22 @@ import LabelCheckbox from '../components/Utillity components/LabelCheckbox/Label
 import FormWrapper from '../components/Utillity components/FormWrapper/FormWrapper';
 import Button from '../components/HTML tag components/Button/Button';
 import TextInput from '../components/HTML tag components/Inputs/TextInput/TextInput';
+import { validateStudent } from '../data/getStudents';
 
 function Login() {
+    const handleLogin = (children) => {
+        try {
+            validateStudent(children[0].value, children[1].value);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return (
         <Divider className="login">
             {/* <Logo /> */}
             <Label type={'h1'}>Login</Label>
-            <FormWrapper onSubmit={null}>
+            <FormWrapper onSubmit={handleLogin}>
                 <Divider className="loginInputSection">
                     <Label>Email: </Label>
                     <TextInput
