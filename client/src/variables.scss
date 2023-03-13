@@ -1,9 +1,15 @@
-$red: #6C0120;
-$light-red: adjust-color($red, $hue: 0, $saturation: 40%, $lightness: 25%, $alpha: 1.0);
-$test: #FF2E00;
-$blue: #058ED9;
-$dark-blue: #03012C;
-$green: #14B885;
+$red: #6c0120;
+$light-red: adjust-color(
+    $red,
+    $hue: 0,
+    $saturation: 40%,
+    $lightness: 25%,
+    $alpha: 1
+);
+$test: #ff2e00;
+$blue: #058ed9;
+$dark-blue: #03012c;
+$green: #14b885;
 $white: #f3f8f8;
 $black: #010114;
 $error: #ff2121;
@@ -12,3 +18,7 @@ $grey: rgba(206, 201, 201, 1);
 $trans-time: 0.2s;
 
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@100;200;300;400;500;600;700&family=Karla:wght@200;300;400;500;600;700;800&family=Lato:wght@100;300;400;700;900&family=Mukta:wght@200;300;400;500;600;700;800&display=swap');
+
+a {
+    text-decoration: none;
+}

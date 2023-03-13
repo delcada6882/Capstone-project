@@ -3,9 +3,51 @@ import { getStudentsByClass } from '../data/getStudents';
 import Button from './HTML tag components/Button/Button';
 import Divider from './HTML tag components/Divider/Divider';
 import Label from './HTML tag components/Label/Label';
+import { SuperModalController } from '../components/Modal Components/SuperModal/SuperModal';
 
 function ClassTemplate(props) {
     const [students, setStudents] = useState(null);
+    const [overlayOn, setOverlayOn] = useState(true);
+
+    function ClassModal() {
+        return (
+            <Divider className={'classModal'}>
+                <Divider className={'topPart'}>
+                    <Divider className={'classAndTeach'}>
+                        <Label className={'modalClass'}>{props.name}</Label>
+                        <Label className={'modalTeach'}>
+                            Taught by {props.teacher}
+                        </Label>
+                    </Divider>
+                    <Label
+                        onClick={() => {
+                            SuperModalController.Hide('all');
+                        }}
+                        className={'close'}
+                    >
+                        X
+                    </Label>
+                </Divider>
+                <Divider>
+                    <Label>{props.description}</Label>
+                </Divider>
+                <Divider className={'bottomPart'}>
+                    <Label>
+                        Class time: {props.startTime} - {props.endTime}
+                    </Label>
+                    <Label>Credits: {props.credits}</Label>
+                    <Label>
+                        Students: {students.length} / {props.maxStudents}
+                    </Label>
+                    <Label>Semester: {props.semester}</Label>
+                    <Label>Subject: {props.subject}</Label>
+                </Divider>
+                <Divider className={'modalButton'}>
+                    <Button look={'standardBlue'}>Register</Button>
+                </Divider>
+            </Divider>
+        );
+    }
 
     useEffect(() => {
         async function getStudents() {
@@ -64,7 +106,12 @@ function ClassTemplate(props) {
         );
     } else {
         return (
-            <Divider className={'subClasses'}>
+            <Divider
+                className={'subClasses'}
+                onClick={() => {
+                    SuperModalController.Display(<ClassModal />);
+                }}
+            >
                 <HoldComponent />
             </Divider>
         );
