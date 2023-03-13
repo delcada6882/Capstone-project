@@ -1,5 +1,5 @@
 import { SuperModalController } from '../components/Modal Components/SuperModal/SuperModal';
-import { validateStudent, getAllStudents } from '../data/getStudents';
+import { validateStudent, addStudent } from '../data/getStudents';
 
 function View2() {
     const handleClick = () => SuperModalController.ClearToasts();
@@ -32,14 +32,34 @@ function View2() {
 
     const checkAuth = () => {
         async function run() {
-            const res = await validateStudent('donny@simp.son', 'abc');
+            try {
+                const res = await validateStudent('donny@simp.son', 'abc');
+            } catch (error) {
+                console.error(error)
+            }
         }
         run()
     };
+    const checkAdd = () => {
+        async function run() {
+            try {
+                const res = await addStudent({
+                    first_name: 'gabe',
+                    last_name: 'nutella',
+                    email: 'nuts@bolts.valve',
+                    password: 'abc',
+                });
+                console.log(res);
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        run();
+    }
 
     return (
         <div>
-            <h1 onClick={checkAuth}>I'm view 2... :&#40; </h1>
+            <h1 onClick={checkAdd}>I'm view 2... :&#40; </h1>
             <div onClick={handleClick}>Clear all toasts</div>
         </div>
     );
