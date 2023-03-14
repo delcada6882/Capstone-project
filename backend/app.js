@@ -18,7 +18,7 @@ const port = process.env.PORT || 3002;
 
 const memoryStore = new session.MemoryStore();
 
-app.use(express.static('../client/dist'));
+// app.use(express.static('../client/dist'));
 app.use(express.json());
 app.use(cookieParser('secretcode-pg'));
 app.use(express.urlencoded({ extended: true }));
@@ -26,23 +26,26 @@ app.use(
     session({
         secret: 'secretcode-pg',
         resave: false,
+        cookie: { maxAge: 10000 },
         saveUninitialized: true,
         store: memoryStore,
     })
 );
-// app.use((req, res, next) => {
-//     console.log(`${req.method}:${req.url}`);
-//     console.log(memoryStore);
-//     next();
-// });
+app.use((req, res, next) => {
+    // console.log(`${req.method}:${req.url}`);
+    // console.log(memoryStore);
+    console.log(req.session);
+    console.log(req.sessionID);
+    next();
+});
 app.use(passport.initialize());
 app.use(passport.session());
 
 require('./auth/passportIndex')(passport);
 
 app.get('/', (req, res) => {
-    res.send('Hello World');
-    // res.sendFile('experiments/form.html', { root: __dirname });
+    // res.send('Hello World');
+    res.sendFile('experiments/form.html', { root: __dirname });
 });
 
 app.get('/get', (req, res) => {
