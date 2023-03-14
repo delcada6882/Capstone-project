@@ -30,6 +30,7 @@ function Login() {
                 console.error(error);
                 SuperModalController.Toast({ Title: 'Something went wrong' });
             }
+
         }
         runAsyncOnValidate();
     };
@@ -57,13 +58,11 @@ function Login() {
                         name="password"
                     ></TextInput>
                 </Divider>
-
                 <Divider className="loginInputSectionCheck">
                     <LabelCheckbox checkboxId={'staySignedIn'}>
                         Remember me?
                     </LabelCheckbox>
                 </Divider>
-
                 <Button type={'submit'} look={'standardBlue'}>
                     Login
                 </Button>

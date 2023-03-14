@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
+// import { getClassById } from '../../../backend/db/dbIndex.js';
 import Button from '../components/HTML tag components/Button/Button.jsx';
 import Divider from '../components/HTML tag components/Divider/Divider.jsx';
 import Label from '../components/HTML tag components/Label/Label.jsx';
-import { getAllClasses, getSomeClasses } from '../data/getClasses.js';
+import { getClassById, getSomeClasses } from '../data/getClasses.js';
 import { getStudentsByClass } from '../data/getStudents.js';
 import ArrowDown from '../svg/ArrowDown.jsx';
 import '../views/specificClass.scss';
@@ -17,14 +18,22 @@ function SpecificClass() {
     const [data, setData] = useState(null);
 
     useEffect(() => {
-        console.log(index);
+        console.log(specificClass)
+
         async function redoClasses() {
+            // await getClassById(specificClass).then((item) => {
+            //     console.log('i am running')
+            //     console.log(item)
+            //     setData(item)
+            // })
             await getSomeClasses(index, 1).then((item) => {
                 setData(item);
                 console.log(item)
             });
         }
-        redoClasses();
+        if(specificClass !== 'exampling%20101') {
+            redoClasses();
+        }
     }, []);
 
     useEffect(() => {

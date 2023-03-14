@@ -12,7 +12,7 @@ import NumberInput from '../components/HTML tag components/Inputs/NumberInput/Nu
 import FormWrapper from '../components/Utillity components/FormWrapper/FormWrapper.jsx';
 import UserSVG from '../svg/UserSVG.jsx';
 
-function Class() {
+function Class(props) {
     const [classes, setClasses] = useState([]);
     const [classHTML, setClassHTML] = useState(null);
     const searchBoxRef = useRef();
@@ -22,7 +22,8 @@ function Class() {
     const userBackRef = useRef();
     const innerUserBackRef = useRef();
     const [searchData, setSearchData] = useState('');
-    const [isAuth, setIsAuth] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false)
+    // const [isAuth, setIsAuth] = useState(false);
     const [overlayOn, setOverlayOn] = useState(true);
     const [classFocus, setClassFocus] = useState();
 
@@ -60,7 +61,7 @@ function Class() {
                         return (
                             <ClassTemplate
                                 idx={idx}
-                                anchor={isAuth ? `/${elem.name}` : null}
+                                anchor={isAdmin ? `/${elem.class_id}` : null}
                                 key={elem.name.split(' ').join('-') + idx}
                                 name={elem.name}
                                 teacher={elem.teacher}
@@ -107,7 +108,7 @@ function Class() {
                                 SuperModalController.Show('all');
                             }}
                             idx={idx}
-                            anchor={isAuth ? `/${elem.name}` : null}
+                            anchor={isAdmin ? `/${elem.name}` : null}
                             key={elem.name.split(' ').join('-') + idx}
                             name={elem.name}
                             teacher={elem.teacher}
@@ -263,12 +264,12 @@ function Class() {
                 <Divider className={'userBox'} innerRef={innerUserBackRef}>
                     <UserSVG color={'white'} />
                     <a className={'user'} href={'/'}>
-                        User Name
+                        {props.userTest}
                     </a>
                     <Label type={'p'} className={'info'}>
                         Info??
                     </Label>
-                    <Button look={'standardBlue'}>Log out</Button>
+                    <Button look={'standardBlue'} onClick={() => {props.authSetTest(false)}}>Log out</Button>
                 </Divider>
             </Divider>
             <Divider className="classes">{classHTML}</Divider>
