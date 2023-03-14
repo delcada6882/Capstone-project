@@ -1,5 +1,6 @@
 import { SuperModalController } from '../components/Modal Components/SuperModal/SuperModal';
 import { validateStudent, addStudent } from '../data/getStudents';
+import Login from './Login';
 
 function View2() {
     const handleClick = () => SuperModalController.ClearToasts();
@@ -35,10 +36,10 @@ function View2() {
             try {
                 const res = await validateStudent('donny@simp.son', 'abc');
             } catch (error) {
-                console.error(error)
+                console.error(error);
             }
         }
-        run()
+        run();
     };
     const checkAdd = () => {
         async function run() {
@@ -51,16 +52,53 @@ function View2() {
                 });
                 console.log(res);
             } catch (error) {
-                console.error(error)
+                console.error(error);
             }
         }
         run();
-    }
+    };
+    const checkModal = () => {
+        SuperModalController.Display(
+            <div style={{ position: 'relative' }}>
+                <Login></Login>
+                <div
+                    style={{
+                        color: 'white',
+                        position: 'absolute',
+                        top: '0',
+                        right: '5px',
+                        cursor: 'pointer',
+                    }}
+                    onClick={() => {
+                        SuperModalController.Remove('last');
+                    }}
+                >
+                    X
+                </div>
+            </div>
+        );
+    };
 
     return (
         <div>
-            <h1 onClick={checkAdd}>I'm view 2... :&#40; </h1>
-            <div onClick={handleClick}>Clear all toasts</div>
+            {/* <h1 onClick={checkAdd}>I'm view 2... :&#40; </h1> */}
+            <div>
+                <h1 onClick={checkAdd}>CREATE TOAST</h1>
+                <div onClick={handleClick}>Clear all toasts</div>
+            </div>
+            <h1 onClick={checkModal}>Create modal</h1>
+
+            <h2
+                onClick={() => {
+                    SuperModalController.ShowLoading();
+                    setTimeout(() => {
+                    SuperModalController.HideLoading();
+                        
+                    }, 5000);
+                }}
+            >
+                Demo loading popup
+            </h2>
         </div>
     );
 }
