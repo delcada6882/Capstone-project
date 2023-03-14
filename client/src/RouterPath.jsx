@@ -14,12 +14,12 @@ function RouterPath() {
     const [user, setUser] = useState("smelly");
 
     useEffect(() => {
-        console.log(auth)
+        // console.log(auth)
         window.localStorage.setItem('auth', auth);
     }, [auth])
 
     useEffect(() => {
-        console.log(user)
+        // console.log(user)
         window.localStorage.setItem('user', user);
     }, [user])
 

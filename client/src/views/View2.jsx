@@ -82,22 +82,26 @@ function View2() {
     return (
         <div>
             {/* <h1 onClick={checkAdd}>I'm view 2... :&#40; </h1> */}
-            <div>
-                <h1 onClick={checkAdd}>CREATE TOAST</h1>
-                <div onClick={handleClick}>Clear all toasts</div>
-            </div>
+            <h1 onClick={createToast}>CREATE TOAST</h1>
+            <div onClick={handleClick}>Clear all toasts</div>
             <h1 onClick={checkModal}>Create modal</h1>
 
             <h2
                 onClick={() => {
                     SuperModalController.ShowLoading();
                     setTimeout(() => {
-                    SuperModalController.HideLoading();
-                        
+                        SuperModalController.HideLoading();
                     }, 5000);
                 }}
             >
                 Demo loading popup
+            </h2>
+            <h2
+                onClick={() => {
+                    SuperModalController.Toast(<Login></Login>);
+                }}
+            >
+                BIG TOAST
             </h2>
         </div>
     );
