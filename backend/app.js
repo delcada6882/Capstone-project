@@ -10,6 +10,9 @@ const {
     getAllClasses,
     getAllAdministrators,
     getAllContacts,
+    getStudentsByClass,
+    getClassById,
+    getSomeClasses
 } = require('./db/dbIndex');
 
 const app = express();
@@ -61,9 +64,11 @@ app.get('/getSomeStudents/:page/:limit', getSomeStudents);
 app.get('/getStudentById/:student_id', async (req, res) => {
     return await getStudentById(req.params.student_id);
 });
+app.get('/getStudentsByClass/:class_id', getStudentsByClass)
 
 // CLASSES
 app.get('/getAllClasses', getAllClasses);
+app.get('/getSomeClasses/:page/:limit', getSomeClasses);
 app.get('/getClassById/:class_id', async (req, res) => {
     return await getClassById(req.params.class_id);
 });
