@@ -55,6 +55,18 @@ exports.getAdministratorById = async (administrator_id) => {
     );
     return results.rows[0];
 };
+
+exports.getSomeClasses = async (req, res) => {
+    const limit = req.params.limit;
+    const page = req.params.page;
+    const results = await pool.query('SELECT * from classes LIMIT $1 OFFSET $2', [
+        limit,
+        page,
+    ]);
+    return res.status(200).json(results.rows);
+};
+
+
 exports.getClassById = async (class_id) => {
     const results = await pool.query(
         'select * from classes where class_id = $1',
@@ -69,6 +81,13 @@ exports.getStudentById = async (student_id) => {
     );
     return results.rows[0];
 };
+
+exports.getStudentsByClass = async (req, res) => {
+    const class_id = req.params.class_id
+    const results = await pool.query(`select * from students where student_id = (select student_id from assignments where class_id = $1)`, [class_id]);
+    return res.status(200).json(results.rows)
+};
+
 
 exports.getAllStudents = async (req, res) => {
     pool.query(`SELECT * from students`, (err, results) => {
