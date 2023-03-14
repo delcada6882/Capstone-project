@@ -8,6 +8,7 @@ import { createContext, useEffect, useState } from 'react';
 import EditClass from './views/EditClass';
 import UserView from './views/UserView';
 import ProtectedRoutes from './ProtectedRoutes';
+import Demo from './views/Demo';
 
 function RouterPath() {
     const [auth, setAuth] = useState(false);
@@ -26,6 +27,7 @@ function RouterPath() {
     return (
         <Routes>
             <Route path="/" element={<View2 />} />
+            <Route path="/form" element={<Demo />} />
             <Route path="/login" element={<Login authSetTest={setAuth} userTest={user} userSetTest={setUser}/>} />
             <Route path="/register" element={<Register />} />
             <Route element={<ProtectedRoutes authTest={JSON.parse(window.localStorage.getItem('auth'))} authSetTest={setAuth} userTest={user} userSetTest={setUser}/>}>
