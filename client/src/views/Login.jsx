@@ -11,7 +11,7 @@ import ViewWrapper from '../components/Utillity components/ViewWrapper/ViewWrapp
 import { SuperModalController } from '../components/Modal Components/SuperModal/SuperModal';
 import { useState } from 'react';
 
-function Login() {
+function Login(props) {
     const [errorFlash, setErrorFlash] = useState(false);
     const handleLogin = (children) => {
         async function runAsyncOnValidate() {
@@ -19,7 +19,11 @@ function Login() {
                 const isValid = await validateStudent(
                     children[0].value,
                     children[1].value
-                );
+                ).then((item) => {
+                    {item === undefined ? props.userSetTest(null) : props.userSetTest(children[0].value)}
+                    {item === undefined ? props.authSetTest(false) : props.authSetTest(true)}
+                    window.location = '/class'
+                });
                 if (isValid) {
                     setErrorFlash(false);
                     // ROUTE TO HOMEPAGE
