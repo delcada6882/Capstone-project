@@ -7,11 +7,20 @@ import FormWrapper from '../components/Utillity components/FormWrapper/FormWrapp
 import Button from '../components/HTML tag components/Button/Button';
 import TextInput from '../components/HTML tag components/Inputs/TextInput/TextInput';
 import { validateStudent } from '../data/getStudents';
+import { useEffect, useState } from 'react';
 
-function Login() {
+function Login(props) {
+    // const [auth, setAuth] = useState('heha');
+    const [user, setUser] = useState();
+
     const handleLogin = (children) => {
         try {
-            validateStudent(children[0].value, children[1].value);
+            validateStudent(children[0].value, children[1].value).then((item) => {
+                // console.log(item)
+                {item === undefined ? props.userSetTest(null) : props.userSetTest(children[0].value)}
+                {item === undefined ? props.authSetTest(false) : props.authSetTest(true)}
+                window.location = '/class'
+            });
         } catch (error) {
             console.error(error);
         }
@@ -40,13 +49,11 @@ function Login() {
                         name="password"
                     ></TextInput>
                 </Divider>
-
                 <Divider className="loginInputSectionCheck">
                     <LabelCheckbox checkboxId={'staySignedIn'}>
                         Remember me?
                     </LabelCheckbox>
                 </Divider>
-
                 <Button type={'submit'} look={'standardBlue'}>
                     Login
                 </Button>
