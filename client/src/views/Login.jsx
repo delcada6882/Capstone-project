@@ -7,27 +7,36 @@ import FormWrapper from '../components/Utillity components/FormWrapper/FormWrapp
 import Button from '../components/HTML tag components/Button/Button';
 import TextInput from '../components/HTML tag components/Inputs/TextInput/TextInput';
 import { validateStudent } from '../data/getStudents';
-import { useEffect, useState } from 'react';
+import ViewWrapper from '../components/Utillity components/ViewWrapper/ViewWrapper';
+import { SuperModalController } from '../components/Modal Components/SuperModal/SuperModal';
+import { useState } from 'react';
 
-function Login(props) {
-    // const [auth, setAuth] = useState('heha');
-    const [user, setUser] = useState();
-
+function Login() {
+    const [errorFlash, setErrorFlash] = useState(false);
     const handleLogin = (children) => {
-        try {
-            validateStudent(children[0].value, children[1].value).then((item) => {
-                // console.log(item)
-                {item === undefined ? props.userSetTest(null) : props.userSetTest(children[0].value)}
-                {item === undefined ? props.authSetTest(false) : props.authSetTest(true)}
-                window.location = '/class'
-            });
-        } catch (error) {
-            console.error(error);
+        async function runAsyncOnValidate() {
+            try {
+                const isValid = await validateStudent(
+                    children[0].value,
+                    children[1].value
+                );
+                if (isValid) {
+                    setErrorFlash(false);
+                    // ROUTE TO HOMEPAGE
+                } else {
+                    setErrorFlash(true);
+                }
+            } catch (error) {
+                console.error(error);
+                SuperModalController.Toast({ Title: 'Something went wrong' });
+            }
+
         }
+        runAsyncOnValidate();
     };
 
     return (
-        <Divider className="login">
+        <ViewWrapper className="login">
             {/* <Logo /> */}
             <Label type={'h1'}>Login</Label>
             <FormWrapper onSubmit={handleLogin}>
@@ -58,10 +67,11 @@ function Login(props) {
                     Login
                 </Button>
             </FormWrapper>
-            <Label className={'tooltip'}>
+            {(errorFlash) ? <Label style={{color: '#f32525'}}>✷Invaild Email or Password</Label> : null}
+             <Label className={'tooltip'}>
                 Don't have an account? <a href="/register">Make one</a>
             </Label>
-        </Divider>
+        </ViewWrapper>
     );
 }
 
