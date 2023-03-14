@@ -18,13 +18,12 @@
 }
 .login {
     background-color: $red;
-    padding: 3vw 3vw;
     border-radius: 10px;
+    width: 25%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-flow: column;
-    width: 23%;
     form {
         display: flex;
         flex-flow: column;
@@ -50,6 +49,7 @@
         font-weight: 600;
     }
     .tooltip {
+        white-space: nowrap;
         font-family: 'Karla';
         color: $white;
         margin-top: 1vw;
@@ -71,7 +71,6 @@
         border-radius: 5px;
         margin-top: 1vw;
         padding: 10px 5px;
-        // height: 1.8vw;
     }
     label {
         color: white;
@@ -83,134 +82,7 @@
     flex-flow: row;
     margin: 0.5vw 0;
     label {
-        font-size: 1vw;
         margin-left: 5px;
         color: $white;
-    }
-}
-
-@media (min-width: 1500px) {
-    .loginInputSection {
-        input {
-            font-size: 25px;
-        }
-    }
-    .login {
-        button {
-            font-size: 25px;
-        }
-        h1 {
-            font-size: 60px;
-        }
-        .tooltip {
-            font-size: 25px;
-        }
-    }
-    .loginInputSection {
-        font-size: 30px;
-    }
-}
-@media (max-width: 1200px) {
-    .login {
-        width: 40%;
-        button {
-            font-size: 1.8vw;
-        }
-        p {
-            font-size: 1.5vw;
-        }
-    }
-    .inputSection {
-        label {
-            font-size: 1.8vw;
-        }
-    }
-    .inputSectionCheck {
-        label {
-            font-size: 1.4vw;
-        }
-    }
-    
-}
-@media (max-width: 768px) {
-    .loginInputSection {
-        input {
-            font-size: 20px;
-        }
-    }
-    .login {
-        border-radius: 0;
-        width: 100%;
-        height: 100%;
-        padding: 0;
-        p {
-            position: absolute;
-            bottom: 10px;
-            font-size: 3vw;
-        }
-        button {
-            margin-top: 7vw;
-            padding: 15px;
-            font-size: 20px;
-        }
-        form {
-            width: 70%;
-        }
-    }
-    .inputSection {
-        width: 100%;
-        input {
-            font-size: 2.5vw;
-            height: 4vh;
-            padding: 30px;
-        }
-        label {
-            font-size: 2.5vw;
-        }
-    }
-    .loginInputSectionCheck {
-        label {
-            font-size: 15px;
-        }
-    }
-}
-@media (max-width: 425px) {
-    .login {
-        border-radius: 0;
-        width: 100%;
-        height: 100%;
-        padding: 0;
-        h1 {
-            font-size: 15vw;
-        }
-        p {
-            position: absolute;
-            bottom: 10px;
-            font-size: 5vw;
-        }
-        button {
-            margin-top: 7vw;
-            height: 6.5vh;
-            font-size: 5vw;
-        }
-        form {
-            width: 95%;
-        }
-    }
-    .inputSection {
-        width: 100%;
-        input {
-            font-size: 2.5vw;
-            height: 4vh;
-            padding: 30px;
-        }
-        label {
-            font-size: 4.5vw;
-        }
-    }
-    .inputSectionCheck {
-        label {
-            font-size: 4.5vw;
-        }
     }
 }

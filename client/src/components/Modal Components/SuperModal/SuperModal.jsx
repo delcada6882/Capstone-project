@@ -154,12 +154,12 @@ class SuperModal extends React.Component {
     };
     ShowLoading = () => {
         this.setState((prevState) => {
-            return (prevState.constants.loadingModal.visible = true);
+            return (prevState.constants.loadingModal.attributes.visible = true);
         });
     };
     HideLoading = () => {
         this.setState((prevState) => {
-            return (prevState.constants.loadingModal.visible = false);
+            return (prevState.constants.loadingModal.attributes.visible = false);
         });
     };
     Remove = (Id) => {
