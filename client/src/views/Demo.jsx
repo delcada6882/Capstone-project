@@ -13,7 +13,7 @@ function Demo(props) {
     return (
         <ViewWrapper className="Demo">
             {/* <Logo /> */}
-            <Label type={'h1'}>Demo</Label>
+            <Label type={'h1'}>Demo Form</Label>
             <FormWrapper onSubmit={() => {
                 SuperModalController.Toast(<h3>Form Submitted</h3>)
                 console.log('submitted')
