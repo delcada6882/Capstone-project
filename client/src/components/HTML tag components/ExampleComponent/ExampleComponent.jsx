@@ -2,8 +2,9 @@ import React from 'react';
 import './ExampleComponent.scss';
 import { computeProps } from '../../../utils/componentUtils/propComputer';
 
-function ExampleComponent(props) { // <-- This is an example component to help template components to replace regular basic html tags
-    const { className, ExampleCustomProperty, ...etc } = props;  // <-- this deconstructs the props, any custom properties or props you'll edit inside the component can go in here
+function ExampleComponent(props) {
+    // <-- This is an example component to help template components to replace regular basic html tags
+    const { className, ExampleCustomProperty, ...etc } = props; // <-- this deconstructs the props, any custom properties or props you'll edit inside the component can go in here
 
     return (
         <div
@@ -15,9 +16,7 @@ function ExampleComponent(props) { // <-- This is an example component to help t
             id={id}
         >
             {props.children}
-            <div>
-                This is only an example: {ExampleCustomProperty}
-            </div>
+            <div>This is only an example: {ExampleCustomProperty}</div>
         </div>
     );
 }

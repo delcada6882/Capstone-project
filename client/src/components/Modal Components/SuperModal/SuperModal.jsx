@@ -122,7 +122,10 @@ class SuperModal extends React.Component {
             if (timeStamp > this.state.DevBuild_session) return;
         /* <-- DEV BUILD ITEMS */
 
-        DisplayQueue.push({ stringified: JSON.stringify(comp), time: timeStamp });
+        DisplayQueue.push({
+            stringified: JSON.stringify(comp),
+            time: timeStamp,
+        });
 
         const newId = crypto.randomUUID();
         attr = attr ?? {};

@@ -45,7 +45,7 @@ function NumberInput(props) {
                     {...rest}
                     onClick={onClick}
                     type={computedType}
-                    className={computedClassName }
+                    className={computedClassName}
                     name={name}
                     isrequired={required ? '' : null}
                     onInvalid={handleInvalid}

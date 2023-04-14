@@ -7,9 +7,9 @@ export async function getAllClasses() {
         url: '/api/getAllClasses',
     }).then((res) => {
         // console.log(res.data);
-        return res.data
+        return res.data;
     });
-};
+}
 
 export async function getSomeClasses(page, limit) {
     page = page ?? 0;
@@ -22,4 +22,4 @@ export async function getSomeClasses(page, limit) {
         // console.log(res.data);
         return res.data;
     });
-};
+}

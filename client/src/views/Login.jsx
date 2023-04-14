@@ -68,8 +68,12 @@ function Login() {
                     Login
                 </Button>
             </FormWrapper>
-            {(errorFlash) ? <Label style={{color: '#f32525'}}>✷Invaild Email or Password</Label> : null}
-             <Label className={'tooltip'}>
+            {errorFlash ? (
+                <Label style={{ color: '#f32525' }}>
+                    ✷Invaild Email or Password
+                </Label>
+            ) : null}
+            <Label className={'tooltip'}>
                 Don't have an account? <a href="/register">Make one</a>
             </Label>
         </ViewWrapper>

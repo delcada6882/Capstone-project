@@ -2,13 +2,13 @@
     "name": "backend",
     "version": "1.0.0",
     "description": "Backend Capstone Server",
-    "main": "app.js",
+    "main": "./src/app.js",
     "engines": {
         "node": "19.7.0"
     },
     "scripts": {
-        "dev": "nodemon -r dotenv/config app.js",
-        "start": "node app.js",
+        "dev": "nodemon -r dotenv/config ./src/app.js",
+        "start": "node ./src/app.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [
@@ -30,6 +30,8 @@
         "pg": "^8.9.0"
     },
     "devDependencies": {
+        "@types/bcryptjs": "^2.4.2",
+        "@types/passport-local": "^1.0.35",
         "dotenv": "^16.0.3"
     }
 }

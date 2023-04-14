@@ -69,7 +69,11 @@ export function computeProps(props, ...others) {
 }
 
 export function filterObject(inputProps, ...values) {
-    const filterObjective = [...shorthandStylePropsToLowercase, ...values, 'children'];
+    const filterObjective = [
+        ...shorthandStylePropsToLowercase,
+        ...values,
+        'children',
+    ];
     return Object.keys(inputProps)
         .filter((key) => !filterObjective.includes(key.toLowerCase()))
         .reduce(

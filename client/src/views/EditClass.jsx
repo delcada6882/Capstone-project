@@ -30,22 +30,28 @@ function EditClass() {
             <TextInput placeholder={data === null ? '' : data[0].name} />
 
             <Label>Teacher</Label>
-            <TextInput placeholder={data === null ? '' : data[0].teacher}  />
+            <TextInput placeholder={data === null ? '' : data[0].teacher} />
 
             <Label>Description</Label>
             <TextInput placeholder={data === null ? '' : data[0].description} />
 
             <Label>Subject</Label>
-            <TextInput placeholder={data === null ? '' : data[0].subject}/>
+            <TextInput placeholder={data === null ? '' : data[0].subject} />
 
             <Label>Time</Label>
-            <TextInput placeholder={data === null ? '' : data[0].start_time + " - " + data[0].end_time} />
+            <TextInput
+                placeholder={
+                    data === null
+                        ? ''
+                        : data[0].start_time + ' - ' + data[0].end_time
+                }
+            />
 
             <Label>Credits</Label>
-            <NumberInput placeholder={data === null ? '' : data[0].credits}/>
+            <NumberInput placeholder={data === null ? '' : data[0].credits} />
 
             <Label>Semester</Label>
-            <NumberInput placeholder={data === null ? '' : data[0].semester}/>
+            <NumberInput placeholder={data === null ? '' : data[0].semester} />
         </FormWrapper>
     );
 }

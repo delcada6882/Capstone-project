@@ -1,6 +1,5 @@
 @import '../variables.scss';
 
-
 * {
     margin: 0;
     padding: 0;
@@ -34,12 +33,19 @@
         color: $white;
         margin-top: 1.5vw;
         margin-bottom: 20px;
-        box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+            rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
         border: none;
     }
     button:hover {
         cursor: pointer;
-        background-color: adjust-color($blue, $hue: 0, $saturation: -30%, $lightness: 10%, $alpha: 1.0);
+        background-color: adjust-color(
+            $blue,
+            $hue: 0,
+            $saturation: -30%,
+            $lightness: 10%,
+            $alpha: 1
+        );
         box-shadow: none;
     }
     h1 {
@@ -54,10 +60,22 @@
         color: $white;
         margin-top: 1vw;
         a {
-            color: adjust-color($red, $hue: 0, $saturation: -30%, $lightness: 40%, $alpha: 1.0);
+            color: adjust-color(
+                $red,
+                $hue: 0,
+                $saturation: -30%,
+                $lightness: 40%,
+                $alpha: 1
+            );
         }
         a:hover {
-            color: adjust-color($red, $hue: 0, $saturation: -40%, $lightness: 50%, $alpha: 1.0);
+            color: adjust-color(
+                $red,
+                $hue: 0,
+                $saturation: -40%,
+                $lightness: 50%,
+                $alpha: 1
+            );
         }
     }
 }

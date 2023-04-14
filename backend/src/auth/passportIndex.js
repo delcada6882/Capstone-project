@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const { getStudentByEmail, getStudentById } = require('../db/dbIndex');
+const { getStudentByEmail, getStudentById } = require('.././db/dbIndex');
 const localStrategy = require('passport-local').Strategy;
 
 const matchPassword = async (password, studentPassword) => {

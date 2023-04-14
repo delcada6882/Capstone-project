@@ -97,7 +97,7 @@ app.post('/addStudent', async (req, res) => {
         created: studentJSON?.created,
     };
     let response = await addStudent(computed);
-    return res.status(200).json(response)
+    return res.status(200).json(response);
 });
 
 app.listen(port, () => {

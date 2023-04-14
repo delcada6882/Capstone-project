@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import './Button.scss'
+import './Button.scss';
 import { computeProps } from '../../../utils/componentUtils/propComputer';
 
 function Button(props) {

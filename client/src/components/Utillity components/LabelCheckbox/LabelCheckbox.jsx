@@ -5,10 +5,10 @@ import Label from '../../HTML tag components/Label/Label';
 function LabelCheckbox(props) {
     const [checkState, setCheckState] = useState(props.isChecked ?? false);
     const handleToggleCheck = () => {
-        setCheckState(curState => {
-            return !curState
-        })
-    }
+        setCheckState((curState) => {
+            return !curState;
+        });
+    };
     return (
         <>
             <Checkbox
@@ -22,7 +22,9 @@ function LabelCheckbox(props) {
                 required={props.required}
                 formKey={props.formKey}
             />
-            <Label id={props.LabelId} onClick={handleToggleCheck}>{props.children}</Label>
+            <Label id={props.LabelId} onClick={handleToggleCheck}>
+                {props.children}
+            </Label>
         </>
     );
 }

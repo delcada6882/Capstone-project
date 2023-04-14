@@ -21,7 +21,7 @@ function SpecificClass() {
         async function redoClasses() {
             await getSomeClasses(index, 1).then((item) => {
                 setData(item);
-                console.log(item)
+                console.log(item);
             });
         }
         redoClasses();
@@ -50,7 +50,10 @@ function SpecificClass() {
             returnVal = students.map((elem, idx) => {
                 return (
                     <Divider className={'students'}>
-                        <a key={idx} href={`/users/${elem.first_name}${elem.last_name}`}>
+                        <a
+                            key={idx}
+                            href={`/users/${elem.first_name}${elem.last_name}`}
+                        >
                             {elem.first_name + ' ' + elem.last_name}
                         </a>
                         <Button look={'standardRed'}>Remove</Button>
@@ -78,7 +81,17 @@ function SpecificClass() {
                     </Label>
                 </Divider>
                 <Divider className={'editDataButton'}>
-                    <Button look={'standardRed'}><a href={data === null ? '/error' :`/class/edit/${data[0].name}?index=${index}`}>Edit Class Data</a></Button>
+                    <Button look={'standardRed'}>
+                        <a
+                            href={
+                                data === null
+                                    ? '/error'
+                                    : `/class/edit/${data[0].name}?index=${index}`
+                            }
+                        >
+                            Edit Class Data
+                        </a>
+                    </Button>
                 </Divider>
             </Divider>
             <Divider className={'description'}>
@@ -87,11 +100,21 @@ function SpecificClass() {
                 </Label>
             </Divider>
             <Divider className={'basicData'}>
-                <Label className={'subject'}>Subject: {data === null ? '' : data[0].subject}</Label>
-                <Label className={'subject'}>Time: {data === null ? '' : `${data[0].start_time} - ${data[0].end_time}`}</Label>
-                <Label className={'credits'}>Credits: {data === null ? '' : `${data[0].credits}`}</Label>
-                <Label className={'semester'}>Semester: {data === null ? '' : `${data[0].semester}`}</Label>
-
+                <Label className={'subject'}>
+                    Subject: {data === null ? '' : data[0].subject}
+                </Label>
+                <Label className={'subject'}>
+                    Time:{' '}
+                    {data === null
+                        ? ''
+                        : `${data[0].start_time} - ${data[0].end_time}`}
+                </Label>
+                <Label className={'credits'}>
+                    Credits: {data === null ? '' : `${data[0].credits}`}
+                </Label>
+                <Label className={'semester'}>
+                    Semester: {data === null ? '' : `${data[0].semester}`}
+                </Label>
             </Divider>
             <Divider className={'studentsBox'} innerRef={studentBoxRef}>
                 <Divider
