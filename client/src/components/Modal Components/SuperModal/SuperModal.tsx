@@ -3,26 +3,52 @@ import './SuperModal.scss';
 import LoadingPopup from '../LoadingModal/LoadingModal';
 import ToastContainer from '../Toasts/Toast';
 import { backupRef } from '../../../App';
+import { type } from 'os';
+import { UUID } from 'crypto';
 
 const ValidateUUID =
     /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
-export let SuperModalRef = undefined;
-export function buildModal(ref) {
+export let SuperModalRef: SuperModal | undefined = undefined;
+export function buildModal(ref: SuperModal) {
     SuperModalRef = ref;
 }
 
+export type ModalId = UUID | 'loadingModal';
+
+export interface ModalAttributes {
+    props?: {};
+    visible: boolean;
+    overlay: boolean;
+    /* DEV BUILD ITEM --> */
+    created?: number;
+    /* <-- DEV BUILD ITEM */
+}
+
 const DevBuild_validateModalRef = () => {
-    if (SuperModalRef === undefined) {
+    if (!SuperModalRef) {
         console.info(
             `SuperModal_DevBuild:\n\tNo Modal ref found,\n\timported backup`
         );
         SuperModalRef = backupRef;
-        if (backupRef === undefined)
+        if (!backupRef)
             console.error(
                 `SuperModal_DevBuild:\n\tBackupRef was not found,\Try reloading the page if that dosn't work then\n\tPlease make sure app exports backup properly`
             );
     }
 };
+export interface ToastComponent {
+    Id: UUID;
+    Active: boolean;
+    attributes: ToastAttributes;
+    component: () => JSX.Element;
+}
+
+export interface ToastAttributes {
+    onMount?: () => void;
+    onUnmount?: () => void;
+    onClick?: () => void;
+    duration?: number;
+}
 /*  
     this object below makes sure that the functions ALWAYS exist on the SuperModalController. 
         Before, when the SupermodalController was just the refference to the SuperModal class
@@ -32,60 +58,88 @@ const DevBuild_validateModalRef = () => {
         This also helps VS code know the functions prehand so it autofills for you :)
 */
 export const SuperModalController = {
-    Display: (component, attributes) => {
+    Display: (component: React.FC<any>, attributes: ModalAttributes) => {
         DevBuild_validateModalRef();
-        SuperModalRef.Display(component, attributes);
+        SuperModalRef?.Display(component, attributes);
     },
-    Remove: (ComponetId) => {
-        SuperModalRef.Remove(ComponetId);
-    },
-
-    EditAttributesOf: (ComponetId, changedAttributes) => {
-        DevBuild_validateModalRef();
-        SuperModalRef.EditAttributesOf(ComponetId, changedAttributes);
+    Remove: (ComponetId: ModalId) => {
+        SuperModalRef?.Remove(ComponetId);
     },
 
-    Hide: (ComponetId) => {
+    EditAttributesOf: (
+        ComponetId: ModalId,
+        changedAttributes: ModalAttributes
+    ) => {
         DevBuild_validateModalRef();
-        SuperModalRef.Hide(ComponetId);
+        SuperModalRef?.EditAttributesOf(ComponetId, changedAttributes);
     },
-    Show: (ComponetId) => {
+
+    Hide: (ComponetId: ModalId) => {
         DevBuild_validateModalRef();
-        SuperModalRef.Show(ComponetId);
+        SuperModalRef?.Hide(ComponetId);
+    },
+    Show: (ComponetId: ModalId) => {
+        DevBuild_validateModalRef();
+        SuperModalRef?.Show(ComponetId);
     },
 
     ShowLoading: () => {
         DevBuild_validateModalRef();
-        SuperModalRef.ShowLoading();
+        SuperModalRef?.ShowLoading();
     },
     HideLoading: () => {
         DevBuild_validateModalRef();
-        SuperModalRef.HideLoading();
+        SuperModalRef?.HideLoading();
     },
 
     ClearToasts: () => {
         DevBuild_validateModalRef();
-        SuperModalRef.ClearToasts();
+        SuperModalRef?.ClearToasts();
     },
-    Toast: (component, attributes) => {
+    Toast: (
+        component: JSX.Element | string | (() => JSX.Element),
+        attributes?: ToastAttributes
+    ) => {
         DevBuild_validateModalRef();
-        SuperModalRef.Toast(component, attributes);
+        SuperModalRef?.Toast(component, attributes);
     },
 
     RESET: () => {
         DevBuild_validateModalRef();
-        SuperModalRef.RESET();
+        SuperModalRef?.RESET();
     },
 };
 
-let DisplayQueue = [];
-let displays = [];
-class SuperModal extends React.Component {
-    constructor(props) {
+export type DisplayItem = {
+    time: number;
+    stringified?: string;
+};
+
+export interface ModalComponent {
+    component: React.FunctionComponent;
+    Id: ModalId;
+    attributes: ModalAttributes;
+}
+
+let DisplayQueue: DisplayItem[] = [];
+
+export interface SuperModalConstants {
+    loadingModal: ModalComponent;
+}
+
+export interface SuperModalState {
+    DevBuild_session: number;
+    components: ModalComponent[];
+    constants: SuperModalConstants;
+    currentToasts: ToastComponent[];
+}
+class SuperModal extends React.Component<{}, SuperModalState> {
+    constructor(props: {}) {
         super(props);
         this.state = {
-            /* DEV BUILD ITEM --> */ DevBuild_session:
-                Date.now() /* <-- DEV BUILD ITEM */,
+            /* DEV BUILD ITEM --> */
+            DevBuild_session: Date.now(),
+            /* <-- DEV BUILD ITEM */
             components: [],
             constants: {
                 loadingModal: {
@@ -103,10 +157,10 @@ class SuperModal extends React.Component {
     RESET = () => {
         // Clears all components and toasts inside the state
         // Take note that toasts will not animate out when this is called, they will just dissapear
-        this.state({ components: [], currentToasts: [] });
+        this.setState({ components: [], currentToasts: [] });
     };
 
-    Display = (comp, attr) => {
+    Display = (comp: React.FunctionComponent, attr: ModalAttributes) => {
         const timeStamp = Date.now();
         const InQueue = () => {
             return DisplayQueue.find(
@@ -116,9 +170,8 @@ class SuperModal extends React.Component {
         };
         if (InQueue()) return;
 
-        /* DEV BUILD ITEMS --> */ if (
-            this.state.components.find((compo) => compo.component == comp)
-        )
+        /* DEV BUILD ITEMS --> */
+        if (this.state.components.find((compo) => compo.component == comp))
             if (timeStamp > this.state.DevBuild_session) return;
         /* <-- DEV BUILD ITEMS */
 
@@ -156,27 +209,31 @@ class SuperModal extends React.Component {
         return newId;
     };
     ShowLoading = () => {
-        this.setState((prevState) => {
-            return (prevState.constants.loadingModal.attributes.visible = true);
-        });
+        if (this.state.constants?.loadingModal)
+            this.setState((prevState) => {
+                prevState.constants.loadingModal.attributes.visible = true;
+                return prevState;
+            });
     };
     HideLoading = () => {
         this.setState((prevState) => {
-            return (prevState.constants.loadingModal.attributes.visible = false);
+            prevState.constants.loadingModal.attributes.visible = false;
+            return prevState;
         });
     };
-    Remove = (Id) => {
+    Remove = (Id: ModalId) => {
         const IDX = this.GetModalIndexById(Id);
         if (IDX == null) return;
         if (IDX == 'all') this.setState({ components: [] });
 
         this.setState((prevState) => {
             const StateIDX = this.GetModalIndexById(Id, false);
-            if (StateIDX == null) return prevState;
-            return prevState.components.splice(StateIDX, 1);
+            if (typeof StateIDX != 'number') return prevState;
+            prevState.components.splice(StateIDX, 1);
+            return prevState;
         });
     };
-    Show = (Id) => {
+    Show = (Id: ModalId) => {
         const IDX = this.GetModalIndexById(Id);
         if (IDX == null) return;
         if (IDX == 'all') {
@@ -189,12 +246,12 @@ class SuperModal extends React.Component {
             return 'success';
         }
         this.setState((prevState) => {
-            return (prevState.components[IDX].attributes.visible = true);
+            prevState.components[IDX].attributes.visible = true;
+            return prevState;
         });
     };
-    Hide = (Id) => {
+    Hide = (Id: ModalId) => {
         const IDX = this.GetModalIndexById(Id);
-        console.log(IDX);
         if (IDX == null) return;
         if (IDX == 'all') {
             this.setState((prevState) => {
@@ -207,10 +264,11 @@ class SuperModal extends React.Component {
         }
         this.setState((prevState) => {
             DisplayQueue = [];
-            return (prevState.components[IDX].attributes.visible = false);
+            prevState.components[IDX].attributes.visible = false;
+            return prevState;
         });
     };
-    EditAttributesOf = (Id, changedAttributes) => {
+    EditAttributesOf = (Id: ModalId, changedAttributes: ModalAttributes) => {
         const IDX = this.GetModalIndexById(Id);
         if (IDX == null) return;
         if (IDX == 'all') {
@@ -226,16 +284,17 @@ class SuperModal extends React.Component {
             return 'success';
         }
         this.setState((prevState) => {
-            return (prevState.components[IDX].attributes = {
+            prevState.components[IDX].attributes = {
                 ...prevState.components[IDX].attributes,
                 ...changedAttributes,
-            });
+            };
+            return prevState;
         });
     };
 
-    GetModalIndexById = (Id, showErrorMessages) => {
+    GetModalIndexById = (Id?: ModalId, showErrorMessages?: boolean) => {
         showErrorMessages ??= true;
-        if (Id === undefined) {
+        if (!Id) {
             console.error(
                 `SuperModal:
     No Id was given
@@ -292,37 +351,49 @@ class SuperModal extends React.Component {
         return result;
     };
     ClearToasts = () => {
-        let evnt = new CustomEvent('clearToasts');
+        let event = new CustomEvent('clearToasts');
         for (let iter of document.getElementsByClassName('Toast')) {
             if (!Object.values(iter.classList).includes('ani-remove'))
-                iter.dispatchEvent(evnt);
+                iter.dispatchEvent(event);
         }
-        // this.setState({ currentToasts: [] });
     };
-    Toast = (Element, Options) => {
+    Toast = (
+        component: JSX.Element | string | (() => JSX.Element),
+        attributes?: ToastAttributes
+    ) => {
         const timeStamp = Date.now();
 
-        if (DisplayQueue.find((time) => timeStamp - time < 10)) return;
-        DisplayQueue.push(timeStamp);
+        if (DisplayQueue.find(({ time }) => timeStamp - time < 10)) return;
+        DisplayQueue.push({ time: timeStamp });
 
         const newId = crypto.randomUUID();
 
-        if (Element.hasOwnProperty('Title')) {
-            Element = (
-                <div className="toastContainer">
-                    <h3 className="toastHeading">{Element.Title}</h3>
-                    <p className="toastContent">{Element.Content ?? ''}</p>
-                </div>
-            );
-        }
+        let computedComponent = component;
+        if (
+            typeof component === 'function' &&
+            String(component).includes('return React.createElement')
+        )
+            computedComponent = component;
+        else if (React.isValidElement(component))
+            computedComponent = () => {
+                return component;
+            };
+        else
+            computedComponent = () => {
+                return (
+                    <div className="toastContainer">
+                        <h3 className="toastHeading">
+                            {typeof component == 'string' && component}
+                        </h3>
+                    </div>
+                );
+            };
 
-        const newToast = {
+        const newToast: ToastComponent = {
             Id: newId,
             Active: true,
-            Options: Options ?? {},
-            component: () => {
-                return Element;
-            },
+            attributes: attributes ?? {},
+            component: computedComponent,
         };
 
         this.setState({
@@ -335,7 +406,7 @@ class SuperModal extends React.Component {
             return this.state.currentToasts.map((Toast, idx) => {
                 const Elem = Toast.component;
 
-                const removeCallback = (toastRef) => {
+                const removeCallback = (toastRef: UUID) => {
                     let IDX;
                     this.state.currentToasts.find((item, idx) => {
                         if (item.Id === toastRef) {
@@ -360,7 +431,9 @@ class SuperModal extends React.Component {
                         removeCallback={(toastRef) => {
                             removeCallback(toastRef);
                         }}
-                        {...Toast.Options}
+                        onMount={Toast.attributes.onMount}
+                        onUnmount={Toast.attributes.onUnmount}
+                        onClick={Toast.attributes.onClick}
                     >
                         <Elem></Elem>
                     </ToastContainer>
@@ -385,9 +458,6 @@ class SuperModal extends React.Component {
             });
         };
         const renderComponents = () => {
-            // console.log(this.state.components);
-            // const unique = [...new Set(this.state.components.map(item => item.Component))]
-            // console.log(unique);
             const unique = this.state.components;
             return unique.map((Obj, idx) => {
                 if (!Obj.attributes.visible) return null;

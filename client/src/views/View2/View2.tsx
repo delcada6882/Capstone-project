@@ -5,10 +5,7 @@ function View2() {
     const handleClick = () => SuperModalController.ClearToasts();
     const createToast = () => {
         SuperModalController.Toast(
-            {
-                Title: 'This is a toast',
-                Content: `this is the description of the toast, it can be left blank`,
-            },
+            'This is a toast!',
             {
                 onMount: () =>
                     console.log('you can add functions for when it loads'),
