@@ -1,5 +1,5 @@
-import { SuperModalController } from '../components/Modal Components/SuperModal/SuperModal';
-import { validateStudent, addStudent } from '../data/getStudents';
+import { SuperModalController } from '../../components/Modal Components/SuperModal/SuperModal';
+import { validateStudent, addStudent } from '../../data/getStudents';
 
 function View2() {
     const handleClick = () => SuperModalController.ClearToasts();

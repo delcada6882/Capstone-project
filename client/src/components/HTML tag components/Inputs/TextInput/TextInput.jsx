@@ -1,8 +1,8 @@
 import React, { useMemo, useRef, useState } from 'react';
 import './TextInput.scss';
 import { computeProps } from '../../../../utils/componentUtils/propComputer';
-import eyeOpen from '../../../../../public/icons/eye-fill.svg';
-import eyeSlash from '../../../../../public/icons/eye-slash-fill.svg';
+import eyeOpen from '../../../../Images/icons/eye-fill.svg';
+import eyeSlash from '../../../../Images/icons/eye-slash-fill.svg';
 
 function TextInput(props) {
     const {

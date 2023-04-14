@@ -1,12 +1,12 @@
+import './specificClass.scss';
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
-import Button from '../components/HTML tag components/Button/Button.jsx';
-import Divider from '../components/HTML tag components/Divider/Divider.jsx';
-import Label from '../components/HTML tag components/Label/Label.jsx';
-import { getAllClasses, getSomeClasses } from '../data/getClasses.js';
-import { getStudentsByClass } from '../data/getStudents.js';
-import ArrowDown from '../svg/ArrowDown.jsx';
-import '../views/specificClass.scss';
+import Button from '../../components/HTML tag components/Button/Button.jsx';
+import Divider from '../../components/HTML tag components/Divider/Divider.jsx';
+import Label from '../../components/HTML tag components/Label/Label.jsx';
+import { getAllClasses, getSomeClasses } from '../../data/getClasses.js';
+import { getStudentsByClass } from '../../data/getStudents.js';
+import ArrowDown from '../../svg/ArrowDown.jsx';
 
 function SpecificClass() {
     const studentBoxRef = useRef();
@@ -17,19 +17,15 @@ function SpecificClass() {
     const [data, setData] = useState(null);
 
     useEffect(() => {
-        console.log(index);
         async function redoClasses() {
             await getSomeClasses(index, 1).then((item) => {
                 setData(item);
-                console.log(item);
-            });
+            }).catch(console.error);
         }
         redoClasses();
     }, []);
 
     useEffect(() => {
-        console.log(data);
-
         async function getStudents() {
             await getStudentsByClass(data[0]['class_id']).then((item) => {
                 setStudents(item);
@@ -39,10 +35,6 @@ function SpecificClass() {
             getStudents();
         }
     }, [data]);
-
-    useEffect(() => {
-        console.log(students);
-    }, [students]);
 
     function studentsMap() {
         let returnVal;
