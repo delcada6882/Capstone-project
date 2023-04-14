@@ -1,13 +1,23 @@
 import { useEffect, useState } from 'react';
-import { getStudentsByClass } from '../data/getStudents';
-import Button from './HTML tag components/Button/Button';
-import Divider from './HTML tag components/Divider/Divider';
-import Label from './HTML tag components/Label/Label';
-import { SuperModalController } from '../components/Modal Components/SuperModal/SuperModal';
+import { getStudentsByClass } from '../../data/getStudents';
+import Button from '../HTML tag components/Button/Button';
+import Divider from '../HTML tag components/Divider/Divider';
+import Label from '../HTML tag components/Label/Label';
+import { SuperModalController } from '../Modal Components/SuperModal/SuperModal';
 
 function ClassTemplate(props) {
     const [students, setStudents] = useState(null);
     const [overlayOn, setOverlayOn] = useState(true);
+
+    useEffect(() => {
+        async function getStudents() {
+            await getStudentsByClass(props.class_id).then((item) => {
+                if(!item) return;
+                setStudents(item);
+            }).catch(console.error);
+        }
+        getStudents();
+    }, [props.class_id]);
 
     function ClassModal() {
         return (
@@ -48,15 +58,6 @@ function ClassTemplate(props) {
             </Divider>
         );
     }
-
-    useEffect(() => {
-        async function getStudents() {
-            await getStudentsByClass(props.class_id).then((item) => {
-                setStudents(item);
-            });
-        }
-        getStudents();
-    }, [props.class_id]);
 
     function HoldComponent() {
         return (

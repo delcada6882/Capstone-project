@@ -2,7 +2,6 @@
     "name": "capstone-project",
     "version": "1.0.0",
     "description": "Capstone-Project",
-    "main": "app.js",
     "engines": {
         "node": "19.7.0"
     },
@@ -13,6 +12,9 @@
         "dev": "cd ./backend && npm run dev && cd ../client && npm run dev-start",
         "start": "cd ./backend && npm run start",
         "build": "cd ./backend && npm i && cd ../client && npm i && npm run build",
+        "prettier:fix-all": "prettier --write ./backend/src/**/*.{ts,tsx,js,jsx,html,scss,css,md,json} && prettier --write ./client/src/**/*.{ts,tsx,js,jsx,html,scss,css,md,json}",
+        "prettier:fix-all-backend": "prettier --write ./backend/src/**/*.{ts,tsx,js,jsx,html,scss,css,md,json}",
+        "prettier:fix-all-client": "prettier --write ./client/src/**/*.{ts,tsx,js,jsx,html,scss,css,md,json}",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
@@ -29,5 +31,8 @@
     "bugs": {
         "url": "https://github.com/delcada6882/Capstone-project/issues"
     },
-    "homepage": "https://github.com/delcada6882/Capstone-project#readme"
+    "homepage": "https://github.com/delcada6882/Capstone-project#readme",
+    "devDependencies": {
+        "prettier": "2.8.7"
+    }
 }

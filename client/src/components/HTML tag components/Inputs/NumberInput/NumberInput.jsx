@@ -1,8 +1,7 @@
-import React, { useMemo, useRef, useState } from 'react';
-// import './NumberInput.scss';
+import React, { useMemo, useState } from 'react';
 import { computeProps } from '../../../../utils/componentUtils/propComputer';
-import eyeOpen from '../../../../../public/icons/eye-fill.svg';
-import eyeSlash from '../../../../../public/icons/eye-slash-fill.svg';
+import eyeOpen from '../../../../Images/icons/eye-fill.svg';
+import eyeSlash from '../../../../Images/icons/eye-slash-fill.svg';
 
 function NumberInput(props) {
     const {
@@ -45,7 +44,7 @@ function NumberInput(props) {
                     {...rest}
                     onClick={onClick}
                     type={computedType}
-                    className={computedClassName }
+                    className={computedClassName}
                     name={name}
                     isrequired={required ? '' : null}
                     onInvalid={handleInvalid}

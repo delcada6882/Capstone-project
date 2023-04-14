@@ -1,9 +1,9 @@
-import Button from '../components/HTML tag components/Button/Button';
-import Divider from '../components/HTML tag components/Divider/Divider';
-import TextInput from '../components/HTML tag components/Inputs/TextInput/TextInput';
-import Label from '../components/HTML tag components/Label/Label';
-import FormWrapper from '../components/Utillity components/FormWrapper/FormWrapper';
-import ViewWrapper from '../components/Utillity components/ViewWrapper/ViewWrapper';
+import Button from '../../components/HTML tag components/Button/Button';
+import Divider from '../../components/HTML tag components/Divider/Divider';
+import TextInput from '../../components/HTML tag components/Inputs/TextInput/TextInput';
+import Label from '../../components/HTML tag components/Label/Label';
+import FormWrapper from '../../components/Utillity components/FormWrapper/FormWrapper';
+import ViewWrapper from '../../components/Utillity components/ViewWrapper/ViewWrapper';
 import './register.scss';
 // import { ReactComponentElement as Logo } from "../svg/PLACEHOLDERLOGO.svg"
 

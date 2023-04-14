@@ -1,14 +1,14 @@
 import './login.scss';
 // import { ReactComponentElement as Logo } from "../svg/PLACEHOLDERLOGO.svg"
-import Label from '../components/HTML tag components/Label/Label';
-import Divider from '../components/HTML tag components/Divider/Divider';
-import LabelCheckbox from '../components/Utillity components/LabelCheckbox/LabelCheckbox';
-import FormWrapper from '../components/Utillity components/FormWrapper/FormWrapper';
-import Button from '../components/HTML tag components/Button/Button';
-import TextInput from '../components/HTML tag components/Inputs/TextInput/TextInput';
-import { validateStudent } from '../data/getStudents';
-import ViewWrapper from '../components/Utillity components/ViewWrapper/ViewWrapper';
-import { SuperModalController } from '../components/Modal Components/SuperModal/SuperModal';
+import Label from '../../components/HTML tag components/Label/Label';
+import Divider from '../../components/HTML tag components/Divider/Divider';
+import LabelCheckbox from '../../components/Utillity components/LabelCheckbox/LabelCheckbox';
+import FormWrapper from '../../components/Utillity components/FormWrapper/FormWrapper';
+import Button from '../../components/HTML tag components/Button/Button';
+import TextInput from '../../components/HTML tag components/Inputs/TextInput/TextInput';
+import { validateStudent } from '../../data/getStudents';
+import ViewWrapper from '../../components/Utillity components/ViewWrapper/ViewWrapper';
+import { SuperModalController } from '../../components/Modal Components/SuperModal/SuperModal';
 import { useState } from 'react';
 
 function Login() {
@@ -68,8 +68,12 @@ function Login() {
                     Login
                 </Button>
             </FormWrapper>
-            {(errorFlash) ? <Label style={{color: '#f32525'}}>✷Invaild Email or Password</Label> : null}
-             <Label className={'tooltip'}>
+            {errorFlash ? (
+                <Label style={{ color: '#f32525' }}>
+                    ✷Invaild Email or Password
+                </Label>
+            ) : null}
+            <Label className={'tooltip'}>
                 Don't have an account? <a href="/register">Make one</a>
             </Label>
         </ViewWrapper>

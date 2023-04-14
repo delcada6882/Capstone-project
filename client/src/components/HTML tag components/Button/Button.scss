@@ -1,30 +1,44 @@
 @import '../../../variables.scss';
 
-.Button{
+.Button {
     // I think it would be nice if have a bunch of pre styled buttons and we just choose that. I made an example one
-    &.standardBlue{
+    &.standardBlue {
         background-color: $blue;
         color: $white;
         margin-top: 1.5vw;
         margin-bottom: 20px;
-        box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+            rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
         border: none;
-        &:hover{
+        &:hover {
             cursor: pointer;
-            background-color: adjust-color($blue, $hue: 0, $saturation: -30%, $lightness: 10%, $alpha: 1.0);
+            background-color: adjust-color(
+                $blue,
+                $hue: 0,
+                $saturation: -30%,
+                $lightness: 10%,
+                $alpha: 1
+            );
             box-shadow: none;
         }
     }
-    &.standardRed{
+    &.standardRed {
         background-color: $red;
         color: $white;
         margin-top: 1.5vw;
         margin-bottom: 20px;
-        box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+            rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
         border: none;
-        &:hover{
+        &:hover {
             cursor: pointer;
-            background-color: adjust-color($red, $hue: 0, $saturation: -30%, $lightness: 10%, $alpha: 1.0);
+            background-color: adjust-color(
+                $red,
+                $hue: 0,
+                $saturation: -30%,
+                $lightness: 10%,
+                $alpha: 1
+            );
             box-shadow: none;
         }
     }

@@ -17,7 +17,7 @@
     .eyeImg {
         transform: translateX(-100%);
         position: absolute;
-        &:hover{
+        &:hover {
             cursor: pointer;
         }
     }
@@ -31,7 +31,7 @@
     align-items: center;
     justify-content: center;
     display: flex;
-    &:has(.TextInputInner.invalid) + .invalidMessage{
+    &:has(.TextInputInner.invalid) + .invalidMessage {
         display: block;
     }
 }

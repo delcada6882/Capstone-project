@@ -9,10 +9,10 @@
     justify-self: center;
     user-select: none;
     overflow: hidden;
-    &:hover{
+    &:hover {
         cursor: pointer;
     }
-    &.checked{
+    &.checked {
         background-color: $blue;
     }
     .checkboxInner {
@@ -20,7 +20,7 @@
         height: 100%;
         * {
             position: absolute;
-            top: auto; 
+            top: auto;
             left: auto;
             padding: 0;
             margin: 0;
@@ -28,5 +28,4 @@
             justify-content: center;
         }
     }
-
 }

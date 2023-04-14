@@ -1,5 +1,5 @@
-import { SuperModalController } from '../components/Modal Components/SuperModal/SuperModal';
-import { validateStudent, addStudent } from '../data/getStudents';
+import { SuperModalController } from '../../components/Modal Components/SuperModal/SuperModal';
+import { validateStudent, addStudent } from '../../data/getStudents';
 
 function View2() {
     const handleClick = () => SuperModalController.ClearToasts();
@@ -35,10 +35,10 @@ function View2() {
             try {
                 const res = await validateStudent('donny@simp.son', 'abc');
             } catch (error) {
-                console.error(error)
+                console.error(error);
             }
         }
-        run()
+        run();
     };
     const checkAdd = () => {
         async function run() {
@@ -51,11 +51,11 @@ function View2() {
                 });
                 console.log(res);
             } catch (error) {
-                console.error(error)
+                console.error(error);
             }
         }
         run();
-    }
+    };
 
     return (
         <div>

@@ -1,18 +1,18 @@
+import './classList.scss';
 import { useEffect, useState, useRef } from 'react';
-import ClassTemplate from '../components/ClassTemplate.jsx';
-import Divider from '../components/HTML tag components/Divider/Divider.jsx';
-import TextInput from '../components/HTML tag components/Inputs/TextInput/TextInput.jsx';
-import Label from '../components/HTML tag components/Label/Label.jsx';
-import SearchSVG from '../svg/SearchSVG.jsx';
-import ArrowDown from '../svg/ArrowDown.jsx';
-import { getAllClasses } from '../data/getClasses.js';
-import '../views/class.scss';
-import Button from '../components/HTML tag components/Button/Button.jsx';
-import NumberInput from '../components/HTML tag components/Inputs/NumberInput/NumberInput.jsx';
-import FormWrapper from '../components/Utillity components/FormWrapper/FormWrapper.jsx';
-import UserSVG from '../svg/UserSVG.jsx';
+import ClassTemplate from '../../components/ClassTemplate/ClassTemplate.jsx';
+import Divider from '../../components/HTML tag components/Divider/Divider.jsx';
+import TextInput from '../../components/HTML tag components/Inputs/TextInput/TextInput.jsx';
+import Label from '../../components/HTML tag components/Label/Label.jsx';
+import SearchSVG from '../../svg/SearchSVG.jsx';
+import ArrowDown from '../../svg/ArrowDown.jsx';
+import { getAllClasses } from '../../data/getClasses.js';
+import Button from '../../components/HTML tag components/Button/Button.jsx';
+import NumberInput from '../../components/HTML tag components/Inputs/NumberInput/NumberInput.jsx';
+import FormWrapper from '../../components/Utillity components/FormWrapper/FormWrapper.jsx';
+import UserSVG from '../../svg/UserSVG.jsx';
 
-function Class() {
+function ClassList() {
     const [classes, setClasses] = useState([]);
     const [classHTML, setClassHTML] = useState(null);
     const searchBoxRef = useRef();
@@ -32,17 +32,17 @@ function Class() {
 
     useEffect(() => {
         async function redoClasses() {
-            await getAllClasses().then((item) => {
-                setClasses([...item]);
-                console.log(item);
-            });
+            await getAllClasses()
+                .then((item) => {
+                    setClasses([...item]);
+                })
+                .catch(console.error);
         }
         redoClasses();
     }, []);
 
     useEffect(() => {
         if (searchData.includes('/') || searchData.includes('[')) {
-            console.log('ew');
         } else {
             const searchRegex = new RegExp(searchData, 'i');
             let isOneFound = false;
@@ -54,9 +54,6 @@ function Class() {
                         searchRegex.test(elem.teacher)
                     ) {
                         isOneFound = true;
-                        // if(elem.subject === "Math") {
-                        //     console.log(elem.subject)
-                        // }
                         return (
                             <ClassTemplate
                                 idx={idx}
@@ -123,7 +120,6 @@ function Class() {
             });
         }
         setClassHTML(dataArr);
-        console.log(dataArr);
         if (isOneFound === false) {
             setClassHTML(
                 <Label type={'p'} className="noClass">
@@ -306,9 +302,6 @@ function Class() {
                     <Button
                         look={'standardBlue'}
                         onClick={(e) => {
-                            console.log(subjectRef.current.value);
-                            console.log(semesterRef.current.value);
-                            console.log(creditsRef.current.value);
                             handleSetSearchBoxClass('search');
 
                             advancedSearchFunction(
@@ -326,4 +319,4 @@ function Class() {
     );
 }
 
-export default Class;
+export default ClassList;

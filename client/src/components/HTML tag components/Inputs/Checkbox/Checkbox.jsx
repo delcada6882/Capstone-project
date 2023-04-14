@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import './Checkbox.scss';
 import { computeProps } from '../../../../utils/componentUtils/propComputer';
-import CheckmarkSVG from '../../../../../public/icons/checkmark.svg';
+import CheckmarkSVG from '../../../../Images/icons/checkmark.svg';
 
 function Checkbox(props) {
     const {

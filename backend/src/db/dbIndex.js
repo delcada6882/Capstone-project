@@ -100,7 +100,7 @@ exports.addStudent = async (studentJSON) => {
         if (await this.getStudentByEmail(studentJSON.email)) {
             return {
                 data: false,
-                statusText: 'student email already exists'
+                statusText: 'student email already exists',
             };
         }
         await pool.query(
@@ -118,13 +118,13 @@ exports.addStudent = async (studentJSON) => {
         const newlyAdded = await this.getStudentByEmail(studentJSON.email);
         return {
             data: newlyAdded,
-            statusText: 'Student successfully added'
+            statusText: 'Student successfully added',
         };
     } catch (error) {
         console.error(error);
         return {
             data: false,
-            statusText: 'Internal server error'
+            statusText: 'Internal server error',
         };
     }
 };

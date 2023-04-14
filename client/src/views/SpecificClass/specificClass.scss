@@ -1,4 +1,4 @@
-@import '../variables.scss';
+@import '../../variables.scss';
 
 .specificClass {
     width: 100%;
@@ -39,14 +39,27 @@
     padding-bottom: 3px;
     &:hover {
         cursor: pointer;
-        background-color: adjust-color(#ffffff, $hue: 0, $saturation: 0%, $lightness: -5%, $alpha: 1.0);
+        background-color: adjust-color(
+            #ffffff,
+            $hue: 0,
+            $saturation: 0%,
+            $lightness: -5%,
+            $alpha: 1
+        );
     }
 }
 .studentsBox {
     overflow: hidden;
     flex-flow: column;
     border-radius: 10px;
-    border: 1px solid adjust-color($grey, $hue: 0, $saturation: 0%, $lightness: -10%, $alpha: 1.0);
+    border: 1px solid
+        adjust-color(
+            $grey,
+            $hue: 0,
+            $saturation: 0%,
+            $lightness: -10%,
+            $alpha: 1
+        );
     width: 80%;
     background-color: rgb(255, 255, 255);
     height: 2vw;
