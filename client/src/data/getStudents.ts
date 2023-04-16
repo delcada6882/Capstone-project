@@ -1,4 +1,6 @@
 import Axios from 'axios';
+import { UUID } from 'crypto';
+import { Student } from './Interfaces/student';
 
 export async function getAllStudents() {
     return await Axios({
@@ -7,13 +9,12 @@ export async function getAllStudents() {
         url: '/api/getAllStudents',
     })
         .then((res) => {
-            // console.log(res.data);
             return res.data;
         })
         .catch(console.error);
 }
 
-export async function getSomeStudents(page, limit) {
+export async function getSomeStudents(page?: number, limit?: number) {
     page = page ?? 0;
     limit = limit ?? 30;
     return await Axios({
@@ -22,16 +23,15 @@ export async function getSomeStudents(page, limit) {
         url: `/api/getSomeStudents/${page}/${limit}`,
     })
         .then((res) => {
-            // console.log(res.data);
             return res.data;
         })
         .catch(console.error);
 }
 
 export async function validateStudent(
-    loginEmail,
-    loginPassword,
-    showErrorMessages
+    loginEmail: string,
+    loginPassword: string,
+    showErrorMessages: boolean = false
 ) {
     return await Axios({
         method: 'POST',
@@ -47,11 +47,11 @@ export async function validateStudent(
             return res;
         })
         .catch((error) => {
-            if (showErrorMessages ?? false) console.error(error);
+            if (showErrorMessages) console.error(error);
         });
 }
 
-export async function addStudent(studentJSON) {
+export async function addStudent(studentJSON: Student) {
     return await Axios({
         method: 'POST',
         data: {
@@ -73,7 +73,7 @@ export async function addStudent(studentJSON) {
         .catch(console.error);
 }
 
-export async function getStudentsByClass(class_id) {
+export async function getStudentsByClass(class_id: UUID) {
     class_id = class_id ?? 0;
     return await Axios({
         method: 'GET',
@@ -81,7 +81,6 @@ export async function getStudentsByClass(class_id) {
         url: `/api/getStudentsByClass/${class_id}`,
     })
         .then((res) => {
-            // console.log(res.data);
             return res.data;
         })
         .catch(console.error);

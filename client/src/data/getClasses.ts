@@ -11,7 +11,7 @@ export async function getAllClasses() {
     });
 }
 
-export async function getSomeClasses(page, limit) {
+export async function getSomeClasses(page?: number, limit?: number) {
     page = page ?? 0;
     limit = limit ?? 30;
     return await Axios({
