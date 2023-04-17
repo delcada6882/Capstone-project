@@ -17,6 +17,8 @@ export interface TextInputProps {
     toggleVis?: boolean;
     placeholder?: string;
     name?: string;
+    minLength?: number;
+    maxLength?: number;
 }
 
 function TextInput(props: React.PropsWithChildren<TextInputProps>) {
@@ -32,6 +34,8 @@ function TextInput(props: React.PropsWithChildren<TextInputProps>) {
         toggleVis,
         placeholder,
         name,
+        minLength,
+        maxLength,
         ...etc
     } = props;
     
@@ -94,12 +98,14 @@ function TextInput(props: React.PropsWithChildren<TextInputProps>) {
                     className={computedClassName}
                     name={name}
                     data-isrequired={required ? '' : null}
+                    data-formkey={formKey ?? -1}
+                    minLength={minLength}
+                    maxLength={maxLength}
                     placeholder={placeholder}
                     onInvalid={handleInvalid}
                     onClick={props.onClick}
                     onChange={props.onChange}
                     onFocus={props.onFocus}
-                    data-formkey={formKey ?? -1}
                     ref={inputRef}
                 />
                 {renderToggleVisablity()}
