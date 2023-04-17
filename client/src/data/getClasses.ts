@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import { Class } from './Interfaces/Class';
 
 export async function getAllClasses() {
     return await Axios({
@@ -6,8 +7,7 @@ export async function getAllClasses() {
         withCredentials: true,
         url: '/api/getAllClasses',
     }).then((res) => {
-        // console.log(res.data);
-        return res.data;
+        return res.data as Class[];
     });
 }
 
@@ -19,7 +19,6 @@ export async function getSomeClasses(page?: number, limit?: number) {
         withCredentials: true,
         url: `/api/getSomeClasses/${page}/${limit}`,
     }).then((res) => {
-        // console.log(res.data);
-        return res.data;
+        return res.data as Class[];
     });
 }

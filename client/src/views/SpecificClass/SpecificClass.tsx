@@ -7,27 +7,34 @@ import Label from '../../components/HTML tag components/Label/Label.jsx';
 import { getAllClasses, getSomeClasses } from '../../data/getClasses.js';
 import { getStudentsByClass } from '../../data/getStudents.js';
 import ArrowDown from '../../svg/ArrowDown.jsx';
+import { Student } from '../../data/Interfaces/Student';
+import { Class } from '../../data/Interfaces/Class';
 
 function SpecificClass() {
-    const studentBoxRef = useRef();
+    const studentBoxRef = useRef<HTMLDivElement | null>(null);
     const { specificClass } = useParams();
     const [searchParams] = useSearchParams();
     const index = searchParams.get('index');
-    const [students, setStudents] = useState();
-    const [data, setData] = useState(null);
+    const [students, setStudents] = useState<Student[] | null>(null);
+    const [data, setData] = useState<Class[] | null>(null);
 
     useEffect(() => {
         async function redoClasses() {
-            await getSomeClasses(index, 1).then((item) => {
-                setData(item);
-            }).catch(console.error);
+            if (!index) return;
+            await getSomeClasses(+index, 1)
+                .then((item) => {
+                    setData(item);
+                })
+                .catch(console.error);
         }
         redoClasses();
     }, []);
 
     useEffect(() => {
         async function getStudents() {
-            await getStudentsByClass(data[0]['class_id']).then((item) => {
+            if (!data || !data[0].class_id) return;
+            await getStudentsByClass(data[0]?.class_id).then((item) => {
+                if (!item) return;
                 setStudents(item);
             });
         }
@@ -57,11 +64,6 @@ function SpecificClass() {
     }
 
     return (
-        // <div>
-        //     <p>{JSON.stringify(data)}</p>
-        //     <p>{JSON.stringify(students)}</p>
-        //     <p>{!students ? null : students.length}</p>
-        // </div>
         <Divider className={'specificClass'}>
             <Divider className={'nameAndTeach'}>
                 <Divider className={'name'}>
@@ -108,10 +110,11 @@ function SpecificClass() {
                     Semester: {data === null ? '' : `${data[0].semester}`}
                 </Label>
             </Divider>
-            <Divider className={'studentsBox'} innerRef={studentBoxRef}>
+            <Divider className={'studentsBox'} ref={studentBoxRef}>
                 <Divider
                     className={'headOfStudents'}
-                    onClick={(e) => {
+                    onClick={() => {
+                        if (!studentBoxRef.current) return;
                         studentBoxRef.current.classList.toggle('studentsClick');
                     }}
                 >

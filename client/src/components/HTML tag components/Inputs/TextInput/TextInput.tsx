@@ -4,7 +4,22 @@ import { computeProps } from '../../../../utils/componentUtils/propComputer';
 import eyeOpen from '../../../../Images/icons/eye-fill.svg';
 import eyeSlash from '../../../../Images/icons/eye-slash-fill.svg';
 
-function TextInput(props) {
+export interface TextInputProps {
+    className?: string;
+    type?: 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
+    look?: 'primary' | 'secondary' | 'tertiary';
+    required?: boolean;
+    requireMessage?: string;
+    onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onClick?: (e: React.MouseEvent<HTMLInputElement>) => void;
+    formKey?: number;
+    toggleVis?: boolean;
+    placeholder?: string;
+    name?: string;
+}
+
+function TextInput(props: React.PropsWithChildren<TextInputProps>) {
     const {
         className,
         type,
@@ -13,6 +28,7 @@ function TextInput(props) {
         requireMessage,
         formKey,
         onClick,
+        onFocus,
         toggleVis,
         placeholder,
         name,
@@ -75,14 +91,16 @@ function TextInput(props) {
             <div className={'TextInput'} style={style}>
                 <input
                     {...rest}
-                    onClick={onClick}
                     type={computedType}
                     className={computedClassName}
                     name={name}
-                    isrequired={required ? '' : null}
-                    onInvalid={handleInvalid}
+                    data-isrequired={required ? '' : null}
                     placeholder={placeholder}
-                    formkey={formKey ?? -1}
+                    onInvalid={handleInvalid}
+                    onClick={props.onClick}
+                    onChange={props.onChange}
+                    onFocus={props.onFocus}
+                    data-formkey={formKey ?? -1}
                     ref={inputRef}
                 />
                 {renderToggleVisablity()}

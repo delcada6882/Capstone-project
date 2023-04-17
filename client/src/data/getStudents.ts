@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import { UUID } from 'crypto';
-import { Student } from './Interfaces/student';
+import { Student } from './Interfaces/Student';
 
 export async function getAllStudents() {
     return await Axios({
@@ -9,7 +9,7 @@ export async function getAllStudents() {
         url: '/api/getAllStudents',
     })
         .then((res) => {
-            return res.data;
+            return res.data as Student[];
         })
         .catch(console.error);
 }
@@ -23,7 +23,7 @@ export async function getSomeStudents(page?: number, limit?: number) {
         url: `/api/getSomeStudents/${page}/${limit}`,
     })
         .then((res) => {
-            return res.data;
+            return res.data as Student[];
         })
         .catch(console.error);
 }
@@ -43,7 +43,6 @@ export async function validateStudent(
         url: '/api/login',
     })
         .then((res) => {
-            console.log(res);
             return res;
         })
         .catch((error) => {
@@ -54,16 +53,7 @@ export async function validateStudent(
 export async function addStudent(studentJSON: Student) {
     return await Axios({
         method: 'POST',
-        data: {
-            student_id: studentJSON?.student_id,
-            first_name: studentJSON.first_name,
-            last_name: studentJSON.last_name,
-            password: studentJSON?.password,
-            email: studentJSON.email,
-            verified: studentJSON?.verified,
-            contact: studentJSON?.contact,
-            created: studentJSON?.created,
-        },
+        data: studentJSON,
         withCredentials: true,
         url: '/api/addStudent',
     })
@@ -81,7 +71,7 @@ export async function getStudentsByClass(class_id: UUID) {
         url: `/api/getStudentsByClass/${class_id}`,
     })
         .then((res) => {
-            return res.data;
+            return res.data as Student[];
         })
         .catch(console.error);
 }

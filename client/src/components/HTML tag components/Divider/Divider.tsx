@@ -1,22 +1,25 @@
 import React, { useMemo } from 'react';
 import './Divider.scss';
-import { computeProps } from '../../../utils/componentUtils/propComputer';
+import {
+    StyleProps,
+    computeProps,
+} from '../../../utils/componentUtils/propComputer';
 
-function Divider(props) {
-    const { className, look, innerRef, ...etc } = props;
+export interface DividerProps extends StyleProps {
+    className?: string;
+    ref?: React.Ref<HTMLDivElement>;
+    onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+}
 
-    const computedClassName = useMemo(() => {
-        let temp = ['Divider'];
-        if (look) temp.push(look);
-        if (className) temp.push(className);
-        return temp.join(' ');
-    }, [look, className]);
+function Divider(props: React.PropsWithChildren<DividerProps>) {
+    const { className, ref, onClick, ...etc } = props;
 
     return (
         <div
             {...computeProps(etc)}
-            className={className ? `${computedClassName}` : 'Divider'}
-            ref={innerRef}
+            onClick={props.onClick}
+            className={className ? `Divider ${className}` : 'Divider'}
+            ref={ref}
         >
             {props.children}
         </div>

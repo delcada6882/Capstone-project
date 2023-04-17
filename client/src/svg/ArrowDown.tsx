@@ -1,4 +1,8 @@
-const App = (props) => {
+export interface ArrowDownProps {
+    color?: string;
+}
+
+const App = (props: ArrowDownProps) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"

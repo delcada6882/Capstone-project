@@ -2,8 +2,23 @@ import React, { useMemo } from 'react';
 import './Button.scss';
 import { computeProps } from '../../../utils/componentUtils/propComputer';
 
-function Button(props) {
-    const { className, type, look, onClick, ...etc } = props;
+export interface ButtonProps {
+    className?: string;
+    type?: 'button' | 'submit' | 'reset';
+    look?:
+        | 'standardBlue'
+        | 'standardRed'
+        | 'primary'
+        | 'secondary'
+        | 'danger'
+        | 'success'
+        | 'warning';
+    onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    ref?: React.Ref<HTMLButtonElement>;
+}
+
+function Button(props: React.PropsWithChildren<ButtonProps>) {
+    const { className, type, ref, look, onClick, ...etc } = props;
 
     const computedClassName = useMemo(() => {
         let temp = ['Button'];
@@ -16,6 +31,7 @@ function Button(props) {
             {...computeProps(etc)}
             onClick={onClick}
             type={type}
+            ref={ref}
             className={computedClassName}
         >
             {props.children}

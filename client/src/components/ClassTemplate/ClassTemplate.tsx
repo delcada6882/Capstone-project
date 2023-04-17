@@ -4,17 +4,26 @@ import Button from '../HTML tag components/Button/Button';
 import Divider from '../HTML tag components/Divider/Divider';
 import Label from '../HTML tag components/Label/Label';
 import { SuperModalController } from '../Modal Components/SuperModal/SuperModal';
+import { Student } from '../../data/Interfaces/Student';
+import { Class } from '../../data/Interfaces/Class';
 
-function ClassTemplate(props) {
-    const [students, setStudents] = useState(null);
-    const [overlayOn, setOverlayOn] = useState(true);
+export interface ClassTemplateProps extends Class {
+    idx?: number;
+    anchor?: string | null;
+}
+
+function ClassTemplate(props: ClassTemplateProps) {
+    const [students, setStudents] = useState<Student[] | null>(null);
 
     useEffect(() => {
         async function getStudents() {
-            await getStudentsByClass(props.class_id).then((item) => {
-                if(!item) return;
-                setStudents(item);
-            }).catch(console.error);
+            if(!props.class_id) return;
+            await getStudentsByClass(props.class_id)
+                .then((item) => {
+                    if (!item) return;
+                    setStudents(item);
+                })
+                .catch(console.error);
         }
         getStudents();
     }, [props.class_id]);
@@ -43,11 +52,12 @@ function ClassTemplate(props) {
                 </Divider>
                 <Divider className={'bottomPart'}>
                     <Label>
-                        Class time: {props.startTime} - {props.endTime}
+                        Class time: {props.start_time} - {props.end_time}
                     </Label>
                     <Label>Credits: {props.credits}</Label>
                     <Label>
-                        Students: {students.length} / {props.maxStudents}
+                        (Students: {students === null ? '' : students.length} /{' '}
+                        {props.max_student})
                     </Label>
                     <Label>Semester: {props.semester}</Label>
                     <Label>Subject: {props.subject}</Label>
@@ -80,7 +90,7 @@ function ClassTemplate(props) {
                     </Label>
                     <Label type={'p'} className="student-amount">
                         students: {students === null ? '' : students.length}/
-                        {props.maxStudents}
+                        {props.max_student}
                     </Label>
                     <Label type={'p'} className="Semester">
                         Semester: {props.semester}

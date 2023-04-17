@@ -46,7 +46,6 @@ function View2() {
                     email: 'nuts@bolts.valve',
                     password: 'abc',
                 });
-                console.log(res);
             } catch (error) {
                 console.error(error);
             }

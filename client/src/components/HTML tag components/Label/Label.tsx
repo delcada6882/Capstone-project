@@ -2,10 +2,19 @@ import React from 'react';
 import './Label.scss';
 import { computeProps } from '../../../utils/componentUtils/propComputer';
 
-function Label(props) {
-    const { className, type, ...etc } = props;
-    let computedProperties = computeProps(etc);
-    computedProperties.className = className ? `Label ${className}` : 'Label';
+export interface LabelProps {
+    className?: string;
+    type?: 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h6';
+    onClick?: (e: React.MouseEvent<HTMLElement>) => void;
+}
+
+function Label(props: React.PropsWithChildren<LabelProps>) {
+    const { className, onClick, type, ...etc } = props;
+    const computedProperties = {
+        ...computeProps(etc),
+        className: className ? `Label ${className}` : 'Label',
+        onClick: props.onClick,
+    };
 
     switch (type) {
         case 'p':

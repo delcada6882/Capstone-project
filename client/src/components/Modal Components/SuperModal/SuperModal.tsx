@@ -13,7 +13,7 @@ export function buildModal(ref: SuperModal) {
     SuperModalRef = ref;
 }
 
-export type ModalId = UUID | 'loadingModal';
+export type ModalId = UUID | 'all' | 'loadingModal';
 
 export interface ModalAttributes {
     props?: {};
@@ -58,10 +58,14 @@ export interface ToastAttributes {
         This also helps VS code know the functions prehand so it autofills for you :)
 */
 export const SuperModalController = {
-    Display: (component: React.FC<any>, attributes: ModalAttributes) => {
+    Display: (
+        component: (() => JSX.Element) | JSX.Element,
+        attributes?: ModalAttributes
+    ) => {
         DevBuild_validateModalRef();
         SuperModalRef?.Display(component, attributes);
     },
+
     Remove: (ComponetId: ModalId) => {
         SuperModalRef?.Remove(ComponetId);
     },
@@ -87,6 +91,7 @@ export const SuperModalController = {
         DevBuild_validateModalRef();
         SuperModalRef?.ShowLoading();
     },
+
     HideLoading: () => {
         DevBuild_validateModalRef();
         SuperModalRef?.HideLoading();
@@ -160,7 +165,10 @@ class SuperModal extends React.Component<{}, SuperModalState> {
         this.setState({ components: [], currentToasts: [] });
     };
 
-    Display = (comp: React.FunctionComponent, attr: ModalAttributes) => {
+    Display = (
+        comp:  (() => JSX.Element) | JSX.Element,
+        attr?: ModalAttributes
+    ) => {
         const timeStamp = Date.now();
         const InQueue = () => {
             return DisplayQueue.find(
@@ -181,24 +189,25 @@ class SuperModal extends React.Component<{}, SuperModalState> {
         });
 
         const newId = crypto.randomUUID();
-        attr = attr ?? {};
 
-        let newComponent = {
-            component: comp,
+        const adjustedComponent: () => JSX.Element = (typeof comp === 'function') ? comp : () => {
+            return comp;
+        };
+
+        const newComponent = {
+            component: adjustedComponent,
             Id: newId,
             attributes: {
-                props: attr['props'] ?? {},
-                visible: attr['visible'] ?? true,
-                overlay: attr['overlay'] ?? true,
-                /* DEV BUILD ITEM --> */ created:
-                    timeStamp /* <-- DEV BUILD ITEM */,
+                props: attr?.props ?? {},
+                visible: attr?.visible ?? true,
+                overlay: attr?.overlay ?? true,
+                /* DEV BUILD ITEM --> */
+                created: timeStamp,
+                /* <-- DEV BUILD ITEM */
             },
         };
 
-        if (typeof comp != 'function')
-            newComponent.component = () => {
-                return comp;
-            };
+
 
         this.setState((prevState) => {
             DisplayQueue = [];

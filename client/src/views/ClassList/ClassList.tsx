@@ -11,24 +11,23 @@ import Button from '../../components/HTML tag components/Button/Button.jsx';
 import NumberInput from '../../components/HTML tag components/Inputs/NumberInput/NumberInput.jsx';
 import FormWrapper from '../../components/Utillity components/FormWrapper/FormWrapper.jsx';
 import UserSVG from '../../svg/UserSVG.jsx';
+import { Class } from '../../data/Interfaces/Class';
 
 function ClassList() {
-    const [classes, setClasses] = useState([]);
-    const [classHTML, setClassHTML] = useState(null);
-    const searchBoxRef = useRef();
-    const searchButtonRef = useRef();
-    const innerSearchBoxRef = useRef();
-    const userSVGRef = useRef();
-    const userBackRef = useRef();
-    const innerUserBackRef = useRef();
+    const [classes, setClasses] = useState<Class[]>([]);
+    const [classHTML, setClassHTML] = useState<(JSX.Element | null)[]>([null]);
+    const searchBoxRef = useRef<HTMLDivElement>(null);
+    const searchButtonRef = useRef<HTMLButtonElement>(null);
+    const innerSearchBoxRef = useRef<HTMLInputElement>(null);
+    const userSVGRef = useRef<SVGSVGElement>(null);
+    const userBackRef = useRef<HTMLButtonElement>(null);
+    const innerUserBackRef = useRef<HTMLDivElement>(null);
     const [searchData, setSearchData] = useState('');
     const [isAuth, setIsAuth] = useState(false);
-    const [overlayOn, setOverlayOn] = useState(true);
-    const [classFocus, setClassFocus] = useState();
 
-    const subjectRef = useRef();
-    const semesterRef = useRef();
-    const creditsRef = useRef();
+    const subjectRef = useRef<HTMLSelectElement>(null);
+    const semesterRef = useRef<HTMLSelectElement>(null);
+    const creditsRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         async function redoClasses() {
@@ -46,12 +45,12 @@ function ClassList() {
         } else {
             const searchRegex = new RegExp(searchData, 'i');
             let isOneFound = false;
-            let dataArr = [];
+            let dataArr: (JSX.Element | null)[] = [];
             if (classes !== null) {
                 dataArr = classes.map((elem, idx) => {
                     if (
                         searchRegex.test(elem.name) ||
-                        searchRegex.test(elem.teacher)
+                        searchRegex.test(elem.teacher ?? '')
                     ) {
                         isOneFound = true;
                         return (
@@ -64,10 +63,10 @@ function ClassList() {
                                 description={elem.description}
                                 credits={elem.credits}
                                 class_id={elem.class_id}
-                                maxStudents={elem.max_students}
+                                max_student={elem.max_student}
                                 semester={elem.semester}
-                                startTime={elem.start_time}
-                                endTime={elem.end_time}
+                                start_time={elem.start_time}
+                                end_time={elem.end_time}
                                 subject={elem.subject}
                             />
                         );
@@ -77,32 +76,29 @@ function ClassList() {
             }
             setClassHTML(dataArr);
             if (isOneFound === false) {
-                setClassHTML(
+                setClassHTML([
                     <Label type={'p'} className="noClass">
                         There are no classes that match your search &gt;:&#40;
-                    </Label>
-                );
+                    </Label>,
+                ]);
             }
         }
     }, [classes, searchData]);
 
-    function advancedSearchFunction(sub, sem, cred) {
+    function advancedSearchFunction(sub: string, sem: string, cred: string) {
         let isOneFound = false;
-        let dataArr = [];
+        let dataArr: (JSX.Element | null)[] = [];
 
         if (classes !== null) {
             dataArr = classes.map((elem, idx) => {
                 if (
-                    elem.subject.match(sub) &&
+                    String(elem.subject).match(sub) &&
                     String(elem.semester).match(sem) &&
                     String(elem.credits).match(cred)
                 ) {
                     isOneFound = true;
                     return (
                         <ClassTemplate
-                            onClickStudent={() => {
-                                SuperModalController.Show('all');
-                            }}
                             idx={idx}
                             anchor={isAuth ? `/${elem.name}` : null}
                             key={elem.name.split(' ').join('-') + idx}
@@ -111,7 +107,7 @@ function ClassList() {
                             description={elem.description}
                             credits={elem.credits}
                             class_id={elem.class_id}
-                            maxStudents={elem.max_students}
+                            max_student={elem.max_student}
                             semester={elem.semester}
                         />
                     );
@@ -121,11 +117,11 @@ function ClassList() {
         }
         setClassHTML(dataArr);
         if (isOneFound === false) {
-            setClassHTML(
+            setClassHTML([
                 <Label type={'p'} className="noClass">
                     There are no classes that match your search &gt;:&#40;
-                </Label>
-            );
+                </Label>,
+            ]);
         }
     }
 
@@ -158,22 +154,29 @@ function ClassList() {
     // }, []);
 
     function handleSetSearchBoxClass(
-        operation,
-        buttonRef,
-        boxRef,
-        innerBoxRef
+        operation: 'toggle' | 'search',
+        buttonRef?: React.RefObject<Element>,
+        boxRef?: React.RefObject<HTMLElement>,
+        innerBoxRef?: React.RefObject<HTMLElement>
     ) {
         if (operation === 'toggle') {
-            buttonRef.current.classList.toggle('click');
-            boxRef.current.style.display =
-                boxRef.current.style.display == 'flex' ? 'none' : 'flex';
-            innerBoxRef.current.style.display =
-                innerBoxRef.current.style.display == 'flex' ? 'none' : 'flex';
+            if (buttonRef?.current) buttonRef.current.classList.toggle('click');
+            if (boxRef?.current)
+                boxRef.current.style.display =
+                    boxRef.current.style.display == 'flex' ? 'none' : 'flex';
+            if (innerBoxRef?.current)
+                innerBoxRef.current.style.display =
+                    innerBoxRef.current.style.display == 'flex'
+                        ? 'none'
+                        : 'flex';
         }
         if (operation === 'search') {
-            searchButtonRef.current.classList.remove('click');
-            searchBoxRef.current.style.display = 'none';
-            innerSearchBoxRef.current.style.display = 'none';
+            if (searchButtonRef.current)
+                searchButtonRef.current.classList.remove('click');
+            if (searchBoxRef.current)
+                searchBoxRef.current.style.display = 'none';
+            if (innerSearchBoxRef.current)
+                innerSearchBoxRef.current.style.display = 'none';
         }
     }
 
@@ -193,7 +196,7 @@ function ClassList() {
                 <Divider className="searchBar">
                     <SearchSVG className={'searchSVG'} />
                     <TextInput
-                        onFocus={(e) =>
+                        onFocus={() =>
                             handleSetSearchBoxClass(
                                 'search',
                                 searchButtonRef,
@@ -208,10 +211,10 @@ function ClassList() {
                         }}
                     />
                 </Divider>
-                <Divider
+                <Button
                     className={'advancedSearch'}
                     look={'standardBlue'}
-                    innerRef={searchButtonRef}
+                    ref={searchButtonRef}
                     onClick={(e) => {
                         handleSetSearchBoxClass(
                             'toggle',
@@ -223,11 +226,11 @@ function ClassList() {
                 >
                     <Label type="p">Advanced Search</Label>
                     <ArrowDown color={'white'} />
-                </Divider>
+                </Button>
                 <Divider className={'userArea'}>
                     <UserSVG
                         color={'white'}
-                        innerRef={userSVGRef}
+                        ref={userSVGRef}
                         onClick={(e) => {
                             handleSetSearchBoxClass(
                                 'search',
@@ -244,9 +247,9 @@ function ClassList() {
                         }}
                     />
                 </Divider>
-                <Divider
+                <Button
                     className={'userBoxSurround'}
-                    innerRef={userBackRef}
+                    ref={userBackRef}
                     onClick={() => {
                         handleSetSearchBoxClass(
                             'toggle',
@@ -255,8 +258,8 @@ function ClassList() {
                             innerUserBackRef
                         );
                     }}
-                ></Divider>
-                <Divider className={'userBox'} innerRef={innerUserBackRef}>
+                ></Button>
+                <Divider className={'userBox'} ref={innerUserBackRef}>
                     <UserSVG color={'white'} />
                     <a className={'user'} href={'/'}>
                         User Name
@@ -270,7 +273,7 @@ function ClassList() {
             <Divider className="classes">{classHTML}</Divider>
             <Divider
                 className="advancedSearchBoxSurround"
-                innerRef={searchBoxRef}
+                ref={searchBoxRef}
                 onClick={() => {
                     handleSetSearchBoxClass(
                         'toggle',
@@ -280,7 +283,7 @@ function ClassList() {
                     );
                 }}
             ></Divider>
-            <Divider className="advancedSearchBox" innerRef={innerSearchBoxRef}>
+            <Divider className="advancedSearchBox" ref={innerSearchBoxRef}>
                 <FormWrapper>
                     <Label type={'p'}>Subject</Label>
                     <select ref={subjectRef}>
@@ -298,17 +301,21 @@ function ClassList() {
                         <option>2</option>
                     </select>
                     <Label type={'p'}>Credits</Label>
-                    <NumberInput innerRef={creditsRef} />
+                    <NumberInput ref={creditsRef} />
                     <Button
                         look={'standardBlue'}
-                        onClick={(e) => {
+                        onClick={() => {
                             handleSetSearchBoxClass('search');
-
-                            advancedSearchFunction(
-                                subjectRef.current.value,
-                                semesterRef.current.value,
-                                creditsRef.current.value
-                            );
+                            if (
+                                subjectRef.current &&
+                                semesterRef.current &&
+                                creditsRef.current
+                            )
+                                advancedSearchFunction(
+                                    subjectRef.current.value,
+                                    semesterRef.current.value,
+                                    creditsRef.current.value
+                                );
                         }}
                     >
                         Search
