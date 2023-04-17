@@ -1,8 +1,8 @@
 import React, { useMemo, useRef, useState } from 'react';
 import './TextInput.scss';
 import { computeProps } from '../../../../utils/componentUtils/propComputer';
-import eyeOpen from '../../../../Images/icons/eye-fill.svg';
-import eyeSlash from '../../../../Images/icons/eye-slash-fill.svg';
+import eyeOpen from '../../../../Images/Icons/eye-fill.svg';
+import eyeSlash from '../../../../Images/Icons/eye-slash-fill.svg';
 
 export interface TextInputProps {
     className?: string;
@@ -34,6 +34,7 @@ function TextInput(props: React.PropsWithChildren<TextInputProps>) {
         name,
         ...etc
     } = props;
+    
     const [validity, setValidity] = useState(true);
     const [eyeVis, setEyeVis] = useState(false);
     const inputRef = useRef(null);
@@ -70,7 +71,7 @@ function TextInput(props: React.PropsWithChildren<TextInputProps>) {
             <div className="toggleEye">
                 <img
                     className="eyeImg"
-                    src={eyeVis ? eyeOpen : eyeSlash}
+                    src={eyeVis ? eyeSlash : eyeOpen}
                     onClick={toggleEyeVis}
                     alt="toggle"
                 ></img>
@@ -84,13 +85,11 @@ function TextInput(props: React.PropsWithChildren<TextInputProps>) {
         });
     };
 
-    const { style, ...rest } = { ...computeProps(etc) };
 
     return (
         <>
-            <div className={'TextInput'} style={style}>
+            <div {...computeProps(etc)} className={'TextInput'}>
                 <input
-                    {...rest}
                     type={computedType}
                     className={computedClassName}
                     name={name}
