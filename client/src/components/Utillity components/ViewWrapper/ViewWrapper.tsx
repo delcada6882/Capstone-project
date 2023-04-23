@@ -1,8 +1,11 @@
-import React from 'react';
-import Divider from '../../HTML tag components/Divider/Divider';
+import Divider from 'HTML_components/Divider/Divider';
 import './ViewWrapper.scss';
 
-function ViewWrapper(props) {
+export interface ViewWrapperProps {
+    className?: string;
+}
+
+function ViewWrapper(props: React.PropsWithChildren<ViewWrapperProps>) {
     return (
         <Divider
             {...props}

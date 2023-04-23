@@ -1,8 +1,8 @@
 import './register.scss';
-import Button from '../../components/HTML tag components/Button/Button';
-import Divider from '../../components/HTML tag components/Divider/Divider';
-import TextInput from '../../components/HTML tag components/Inputs/TextInput/TextInput';
-import Label from '../../components/HTML tag components/Label/Label';
+import Button from 'HTML_components/Button/Button';
+import Divider from 'HTML_components/Divider/Divider';
+import TextInput from 'HTML_components/Inputs/TextInput/TextInput';
+import Label from 'HTML_components/Label/Label';
 import FormWrapper from '../../components/Utillity components/FormWrapper/FormWrapper';
 import ViewWrapper from '../../components/Utillity components/ViewWrapper/ViewWrapper';
 import useFormControl, { validate } from '../../customHooks/useFormControl';

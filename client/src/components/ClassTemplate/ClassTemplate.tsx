@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { getStudentsByClass } from '../../data/getStudents';
-import Button from '../HTML tag components/Button/Button';
-import Divider from '../HTML tag components/Divider/Divider';
-import Label from '../HTML tag components/Label/Label';
+import Button from 'HTML_components/Button/Button';
+import Divider from 'HTML_components/Divider/Divider';
+import Label from 'HTML_components/Label/Label';
 import { SuperModalController } from '../Modal Components/SuperModal/SuperModal';
 import { Student } from '../../data/Interfaces/Student';
 import { Class } from '../../data/Interfaces/Class';
@@ -17,7 +17,7 @@ function ClassTemplate(props: ClassTemplateProps) {
 
     useEffect(() => {
         async function getStudents() {
-            if(!props.class_id) return;
+            if (!props.class_id) return;
             await getStudentsByClass(props.class_id)
                 .then((item) => {
                     if (!item) return;

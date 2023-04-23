@@ -1,8 +1,21 @@
 import React, { useState } from 'react';
-import Checkbox from '../../HTML tag components/Inputs/Checkbox/Checkbox';
-import Label from '../../HTML tag components/Label/Label';
+import Checkbox from 'HTML_components/Inputs/Checkbox/Checkbox';
+import Label from 'HTML_components/Label/Label';
 
-function LabelCheckbox(props) {
+interface LabelCheckboxProps {
+    checkboxId?: string;
+    checkboxRef?: React.RefObject<HTMLInputElement>;
+    LabelId?: string;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    childrenWhenChecked?: React.ReactNode;
+    childrenWhenUnchecked?: React.ReactNode;
+    defaultBackground?: string;
+    required?: boolean;
+    formKey?: string;
+    isChecked?: boolean;
+}
+
+function LabelCheckbox(props: React.PropsWithChildren<LabelCheckboxProps>) {
     const [checkState, setCheckState] = useState(props.isChecked ?? false);
     const handleToggleCheck = () => {
         setCheckState((curState) => {

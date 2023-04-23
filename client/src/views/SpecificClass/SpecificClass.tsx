@@ -1,9 +1,9 @@
 import './specificClass.scss';
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
-import Button from '../../components/HTML tag components/Button/Button.jsx';
-import Divider from '../../components/HTML tag components/Divider/Divider.jsx';
-import Label from '../../components/HTML tag components/Label/Label.jsx';
+import Button from 'HTML_components/Button/Button.jsx';
+import Divider from 'HTML_components/Divider/Divider.jsx';
+import Label from 'HTML_components/Label/Label.jsx';
 import { getAllClasses, getSomeClasses } from '../../data/getClasses.js';
 import { getStudentsByClass } from '../../data/getStudents.js';
 import ArrowDown from '../../svg/ArrowDown.jsx';

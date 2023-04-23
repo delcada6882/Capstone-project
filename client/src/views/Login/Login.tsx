@@ -1,11 +1,11 @@
 import './login.scss';
 // import { ReactComponentElement as Logo } from "../svg/PLACEHOLDERLOGO.svg"
-import Label from '../../components/HTML tag components/Label/Label';
-import Divider from '../../components/HTML tag components/Divider/Divider';
+import Label from 'HTML_components/Label/Label';
+import Divider from 'HTML_components/Divider/Divider';
 import LabelCheckbox from '../../components/Utillity components/LabelCheckbox/LabelCheckbox';
 import FormWrapper from '../../components/Utillity components/FormWrapper/FormWrapper';
-import Button from '../../components/HTML tag components/Button/Button';
-import TextInput from '../../components/HTML tag components/Inputs/TextInput/TextInput';
+import Button from 'HTML_components/Button/Button';
+import TextInput from 'HTML_components/Inputs/TextInput/TextInput';
 import { validateStudent } from '../../data/getStudents';
 import ViewWrapper from '../../components/Utillity components/ViewWrapper/ViewWrapper';
 import { SuperModalController } from '../../components/Modal Components/SuperModal/SuperModal';
@@ -42,7 +42,6 @@ function Login() {
                 <Divider className="loginInputSection">
                     <Label>Email: </Label>
                     <TextInput
-                        requireMessage={'Please enter a valid email'}
                         required={true}
                         type={'email'}
                         name="email"
@@ -51,7 +50,7 @@ function Login() {
                 <Divider className="loginInputSection">
                     <Label>Password: </Label>
                     <TextInput
-                        minLength="3"
+                        minLength={3}
                         required={true}
                         type={'password'}
                         name="password"

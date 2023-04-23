@@ -6,14 +6,18 @@ export interface LabelProps {
     className?: string;
     type?: 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h6';
     onClick?: (e: React.MouseEvent<HTMLElement>) => void;
+    id?: string;
+    style?: React.CSSProperties;
 }
 
 function Label(props: React.PropsWithChildren<LabelProps>) {
-    const { className, onClick, type, ...etc } = props;
+    const { className, onClick, type, style, id, ...etc } = props;
     const computedProperties = {
         ...computeProps(etc),
         className: className ? `Label ${className}` : 'Label',
         onClick: props.onClick,
+        id: id,
+        style: style,
     };
 
     switch (type) {

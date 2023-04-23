@@ -1,26 +1,28 @@
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
-import Divider from '../../components/HTML tag components/Divider/Divider';
-import NumberInput from '../../components/HTML tag components/Inputs/NumberInput/NumberInput';
-import TextInput from '../../components/HTML tag components/Inputs/TextInput/TextInput';
-import Label from '../../components/HTML tag components/Label/Label';
+import NumberInput from 'HTML_components/Inputs/NumberInput/NumberInput';
+import TextInput from 'HTML_components/Inputs/TextInput/TextInput';
+import Label from 'HTML_components/Label/Label';
 import FormWrapper from '../../components/Utillity components/FormWrapper/FormWrapper';
 import { getSomeClasses } from '../../data/getClasses';
+import { Class } from '../../data/Interfaces/Class';
 
 function EditClass() {
     // const { specificClass } = useParams();
     const [searchParams] = useSearchParams();
-    const index = searchParams.get('index');
-    const [data, setData] = useState(null);
+    const index = Number(searchParams.get('index'));
+    const [data, setData] = useState<Class[] | null>(null);
 
     useEffect(() => {
         async function redoClasses() {
-            await getSomeClasses(index, 1).then((item) => {
-                setData(item);
-            }).catch(console.error);
+            await getSomeClasses(index, 1)
+                .then((item) => {
+                    setData(item);
+                })
+                .catch(console.error);
         }
         redoClasses();
-    }, []);
+    }, [index]);
 
     return (
         <FormWrapper>
