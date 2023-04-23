@@ -1,22 +1,35 @@
 import React, { useEffect, useRef } from 'react';
+import FormControl from '../../../utils/componentUtils/formControl/formControl';
 
 export interface FormWrapperProps {
     className?: string;
-    onSubmit?: (formElems: HTMLInputElement[]) => void;
+    onSubmit?: (formElems: FormkeyElement[]) => void;
+    formControl?: FormControl;
 }
 
+export type FormkeyElement =
+    | HTMLInputElement
+    | HTMLSelectElement
+    | HTMLTextAreaElement;
+
 function FormWrapper(props: React.PropsWithChildren<FormWrapperProps>) {
+    const formRef = useRef<HTMLFormElement>(null);
+    let formElems: FormkeyElement[] = [];
+
+    useEffect(() => {
+        if (!formRef.current) return;
+        hookupformElements(formRef.current);
+    }, [formRef.current]);
+
     const submitHandler = (event: any) => {
         event.preventDefault();
         if (!formElems) hookupformElements(event.target);
-        let retun = checkIfFormIsValid();
-        if (retun) retun.focus();
+        const ShouldFocusNext = checkIfFormIsValid();
+        if (ShouldFocusNext) ShouldFocusNext.focus();
         else if (props.onSubmit) props.onSubmit(formElems);
     };
-    const formRef = useRef<HTMLFormElement>(null);
-    let formElems: HTMLInputElement[] = [];
 
-    const checkFormKeys = (elems: HTMLElement[]) => {
+    const checkFormKeys = (elems: HTMLFormControlsCollection) => {
         if (elems[0].getAttribute('data-formkey') === '-1') {
             let i = 0;
             for (const iter of elems)
@@ -28,68 +41,70 @@ function FormWrapper(props: React.PropsWithChildren<FormWrapperProps>) {
     };
 
     const hookupformElements = (parent: HTMLFormElement) => {
-        checkFormKeys([parent]);
+        checkFormKeys(parent.elements);
         let temp: Element[] = [];
-        for (const iter of parent) {
-            const attr = iter.getAttribute('data-formkey');
-            if (typeof attr == 'number') temp[attr] = iter;
+        for (const iter of parent.elements) {
+            if (iter.hasAttribute('data-formkey')) {
+                const attr = Number(iter.getAttribute('data-formkey'));
+                if (attr !== null) temp[attr] = iter;
+            }
         }
-        formElems = temp as HTMLInputElement[];
+        formElems = temp as FormkeyElement[];
     };
 
-    useEffect(() => {
-        if (!formRef.current) return;
-        hookupformElements(formRef.current);
-    }, [formRef.current]);
-
     const checkIfFormIsValid = () => {
-        let isSelected = formElems.indexOf(
-            document.activeElement as HTMLInputElement
+        const isSelected = formElems.indexOf(
+            document.activeElement as FormkeyElement
         );
-
         if (isSelected < 0) {
             for (let i = 0; i < formElems.length; i++) {
                 let elemer = formElems[i];
-                if (elemer.hasAttribute('data-isrequired'))
-                    if (elemer.value == '' || !elemer.checkValidity()) {
-                        elemer.classList.add('invalid');
-                        return elemer;
-                    }
+                if (!checkIfVaild(elemer)) {
+                    elemer.classList.add('invalid');
+                    return elemer;
+                }
             }
             return false;
         }
 
         let elem = formElems[isSelected];
-        if (elem.hasAttribute('data-isrequired'))
-            if (elem.value == '') {
-                elem.classList.add('invalid');
-                return elem;
-            }
+        if (!checkIfVaild(elem)) {
+            elem.classList.add('invalid');
+            return elem;
+        } else elem.classList.remove('invalid');
 
         elem = formElems[isSelected + 1];
-        if (elem) if (elem.value == '') return elem;
+        if (elem) if (!checkIfVaild(elem)) return elem;
 
         for (let i = isSelected + 2; i < formElems.length; i++) {
             elem = formElems[i];
-            if (elem.hasAttribute('data-isrequired'))
-                if (elem.value == '' || !elem.checkValidity()) {
-                    elem.classList.add('invalid');
-                    return elem;
-                }
+            if (!checkIfVaild(elem)) {
+                elem.classList.add('invalid');
+                return elem;
+            }
         }
         for (let i = 0; i < isSelected; i++) {
             elem = formElems[i];
-            if (elem.hasAttribute('data-isrequired'))
-                if (elem.value == '' || !elem.checkValidity()) {
-                    elem.classList.add('invalid');
-                    return elem;
-                }
+            if (!checkIfVaild(elem)) {
+                elem.classList.add('invalid');
+                return elem;
+            }
         }
         return false;
     };
 
     const blurHandle = (e: React.FocusEvent<HTMLFormElement>) => {
-        e.target.classList.remove('invalid');
+        if (checkIfVaild(e.target)) e.target.classList.remove('invalid');
+    };
+
+    const checkIfVaild = (target: HTMLFormElement | FormkeyElement) => {
+        if (props.formControl) {
+            const keyOfTarget = props.formControl.keyOfElement(target);
+            if (keyOfTarget && props.formControl.checkIfValid(keyOfTarget))
+                return false;
+        }
+        if (!target.hasAttribute('data-isrequired')) return true;
+        return target.value !== '' && target.checkValidity();
     };
 
     return (

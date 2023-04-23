@@ -5,37 +5,71 @@ import TextInput from '../../components/HTML tag components/Inputs/TextInput/Tex
 import Label from '../../components/HTML tag components/Label/Label';
 import FormWrapper from '../../components/Utillity components/FormWrapper/FormWrapper';
 import ViewWrapper from '../../components/Utillity components/ViewWrapper/ViewWrapper';
+import useFormControl, { validate } from '../../customHooks/useFormControl';
+import controlMethods from '../../utils/componentUtils/formControl/controlMethods';
 
 function Register() {
+    const formControl = useFormControl(
+        validate('email', controlMethods.email),
+        validate('password', ({ value }) => {
+            if (!value) return 'Password is required';
+            if (value.length < 3) return 'Must be at least 3 characters';
+            if (formControl.get('new-password')?.value !== '')
+                formControl.update('new-password');
+        }),
+        validate('new-password', ({ value }) => {
+            if (!value) return 'Password is required';
+            if (value.length < 3) return 'Must be at least 3 characters';
+            if (formControl.get('password')?.value !== value)
+                return 'Passwords do not match';
+        })
+    );
+
     return (
         <ViewWrapper className="register">
             <Label type={'h1'}>Register</Label>
-            <FormWrapper>
+            <FormWrapper
+                onSubmit={() => {
+                    console.log('SUBMITED');
+                }}
+                formControl={formControl}
+            >
                 <Divider className="registerInputSection">
                     <Label>Email: </Label>
-                    <TextInput required type={'email'} name="email"></TextInput>
+                    <TextInput
+                        control={formControl.set('email')}
+                        autoComplete={'new-email'}
+                        type={'email'}
+                        name="email"
+                        required
+                    ></TextInput>
                 </Divider>
+
                 <Divider className="registerInputSection">
                     <Label>Password: </Label>
                     <TextInput
+                        control={formControl.set('password')}
+                        autoComplete={'new-password'}
                         minLength={3}
-                        required
                         type={'password'}
                         name="password"
+                        required
                     ></TextInput>
                 </Divider>
 
                 <Divider className="registerInputSection">
                     <Label>Confirm Password: </Label>
                     <TextInput
+                        control={formControl.set('new-password')}
+                        autoComplete={'new-password'}
                         minLength={3}
-                        required={true}
                         type={'password'}
-                        name="password"
+                        name="new-password"
+                        required
                     ></TextInput>
                 </Divider>
 
-                <Button>Register</Button>
+                <Button type={'submit'}>Register</Button>
             </FormWrapper>
             <Label type={'p'} className="tooltip">
                 Have an account? <a href="/login">Login</a>

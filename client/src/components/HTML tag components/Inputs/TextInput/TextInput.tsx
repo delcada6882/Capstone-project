@@ -1,51 +1,42 @@
 import React, { useMemo, useRef, useState } from 'react';
 import './TextInput.scss';
-import { computeProps } from '../../../../utils/componentUtils/propComputer';
 import eyeOpen from '../../../../Images/Icons/eye-fill.svg';
 import eyeSlash from '../../../../Images/Icons/eye-slash-fill.svg';
+import InputProps from '../InputProps';
 
-export interface TextInputProps {
+export interface TextInputProps extends InputProps {
     className?: string;
-    type?: 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
+    type?: 'text' | 'password' | 'email' | 'tel' | 'url';
     look?: 'primary' | 'secondary' | 'tertiary';
-    required?: boolean;
-    requireMessage?: string;
-    onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onClick?: (e: React.MouseEvent<HTMLInputElement>) => void;
-    formKey?: number;
     toggleVis?: boolean;
-    placeholder?: string;
-    name?: string;
-    minLength?: number;
-    maxLength?: number;
+    ref?: React.RefObject<HTMLInputElement>;
 }
 
 function TextInput(props: React.PropsWithChildren<TextInputProps>) {
     const {
         className,
-        type,
         look,
-        required,
-        requireMessage,
         formKey,
-        onClick,
-        onFocus,
+        control,
         toggleVis,
-        placeholder,
-        name,
-        minLength,
-        maxLength,
+        type,
+        required,
         ...etc
     } = props;
-    
+
     const [validity, setValidity] = useState(true);
     const [eyeVis, setEyeVis] = useState(false);
-    const inputRef = useRef(null);
+    const divRef = useRef<HTMLDivElement>(null);
+    const [inputValue, setInputValue] = useState(control?.value ?? '');
+    const [invalidMessage, setInvalidMessage] = useState(
+        'Please fill out this field'
+    );
 
     const computedClassName = useMemo(() => {
         let temp = ['TextInputInner'];
         if (look) temp.push(look);
+        if (!validity) temp.push('invalid');
         if (className) temp.push(className);
         return temp.join(' ');
     }, [look, className]);
@@ -64,6 +55,23 @@ function TextInput(props: React.PropsWithChildren<TextInputProps>) {
         if (eyeVis) return 'text';
         return 'password';
     }, [eyeVis, shouldRenderEyeVis]);
+
+    const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (props.onChange) props.onChange(event);
+        const newValue = event.target.value;
+        setInputValue(newValue);
+
+        // Form Control
+        if (!control?.method) return;
+        const isValid = control.method(event.target);
+        const formControl = control.formControl;
+        if (formControl && !formControl.elements.has(control.key))
+            formControl.elements.set(control.key, event.target);
+        if (isValid !== undefined) {
+            setValidity(false);
+            setInvalidMessage(isValid);
+        } else setValidity(true);
+    };
 
     const handleInvalid = () => {
         setValidity(false);
@@ -89,32 +97,27 @@ function TextInput(props: React.PropsWithChildren<TextInputProps>) {
         });
     };
 
-
     return (
-        <>
-            <div {...computeProps(etc)} className={'TextInput'}>
+        <div className="TextInputWrapper">
+            <div className={'TextInput'} ref={divRef}>
                 <input
+                    {...etc}
                     type={computedType}
-                    className={computedClassName}
-                    name={name}
+                    className={`${computedClassName}${
+                        validity ? '' : ' invalid'
+                    }`}
                     data-isrequired={required ? '' : null}
                     data-formkey={formKey ?? -1}
-                    minLength={minLength}
-                    maxLength={maxLength}
-                    placeholder={placeholder}
                     onInvalid={handleInvalid}
                     onClick={props.onClick}
-                    onChange={props.onChange}
-                    onFocus={props.onFocus}
-                    ref={inputRef}
+                    onChange={changeHandler}
+                    value={inputValue}
+                    ref={props.ref}
                 />
                 {renderToggleVisablity()}
             </div>
-            <div className="invalidMessage">
-                {props.children ??
-                    '✷' + (requireMessage ?? 'Please fill out this field')}
-            </div>
-        </>
+            <label className="invalidMessage">{`✷${invalidMessage}`}</label>
+        </div>
     );
 }
 
