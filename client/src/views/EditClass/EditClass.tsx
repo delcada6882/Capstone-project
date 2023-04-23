@@ -30,13 +30,21 @@ function EditClass() {
             <TextInput placeholder={data === null ? '' : data[0].name} />
 
             <Label>Teacher</Label>
-            <TextInput placeholder={data === null ? '' : data[0].teacher} />
+            <TextInput
+                placeholder={data === null ? '' : data[0].teacher?.toString()}
+            />
 
             <Label>Description</Label>
-            <TextInput placeholder={data === null ? '' : data[0].description} />
+            <TextInput
+                placeholder={
+                    data === null ? '' : data[0].description?.toString()
+                }
+            />
 
             <Label>Subject</Label>
-            <TextInput placeholder={data === null ? '' : data[0].subject} />
+            <TextInput
+                placeholder={data === null ? '' : data[0].subject?.toString()}
+            />
 
             <Label>Time</Label>
             <TextInput
@@ -48,10 +56,14 @@ function EditClass() {
             />
 
             <Label>Credits</Label>
-            <NumberInput placeholder={data === null ? '' : data[0].credits} />
+            <NumberInput
+                placeholder={data === null ? '' : data[0].credits?.toString()}
+            />
 
             <Label>Semester</Label>
-            <NumberInput placeholder={data === null ? '' : data[0].semester} />
+            <NumberInput
+                placeholder={data === null ? '' : data[0].semester?.toString()}
+            />
         </FormWrapper>
     );
 }

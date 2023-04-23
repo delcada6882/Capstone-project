@@ -3,7 +3,9 @@ import './login.scss';
 import Label from 'HTML_components/Label/Label';
 import Divider from 'HTML_components/Divider/Divider';
 import LabelCheckbox from '../../components/Utillity components/LabelCheckbox/LabelCheckbox';
-import FormWrapper from '../../components/Utillity components/FormWrapper/FormWrapper';
+import FormWrapper, {
+    FormkeyElement,
+} from '../../components/Utillity components/FormWrapper/FormWrapper';
 import Button from 'HTML_components/Button/Button';
 import TextInput from 'HTML_components/Inputs/TextInput/TextInput';
 import { validateStudent } from '../../data/getStudents';
@@ -13,7 +15,7 @@ import { useState } from 'react';
 
 function Login() {
     const [errorFlash, setErrorFlash] = useState(false);
-    const handleLogin = (children) => {
+    const handleLogin = (children: FormkeyElement[]) => {
         async function runAsyncOnValidate() {
             try {
                 const isValid = await validateStudent(
@@ -28,7 +30,7 @@ function Login() {
                 }
             } catch (error) {
                 console.error(error);
-                SuperModalController.Toast({ Title: 'Something went wrong' });
+                SuperModalController.Toast('Something went wrong');
             }
         }
         runAsyncOnValidate();
