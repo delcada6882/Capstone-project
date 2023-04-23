@@ -1,41 +1,45 @@
 @import '../../../../variables.scss';
 
-.TextInputInner {
-    width: 100%;
-    margin: 0 !important;
-    background-color: $white;
-    outline: none;
-    border: none;
-}
-.toggleEye {
-    display: flex;
-    width: 0;
-    justify-content: center;
-    align-items: center;
-    justify-self: center;
-    align-self: center;
-    .eyeImg {
-        transform: translateX(-100%);
-        position: absolute;
-        &:hover {
-            cursor: pointer;
+.TextInputWrapper {
+    .TextInput {
+        width: 100%;
+        padding: 0;
+        max-height: fit-content;
+        position: relative;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+
+        .TextInputInner {
+            width: 100%;
+            margin: 0 !important;
+            background-color: $white;
+            outline: none;
+            border: none;
+        }
+
+        .toggleEye {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            width: 0;
+            .eyeImg {
+                transform: translateX(-100%) translateY(-50%);
+                position: absolute;
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+        }
+
+        &:has(.TextInputInner.invalid) + .invalidMessage {
+            display: block;
         }
     }
-}
 
-.TextInput {
-    width: 100%;
-    padding: 0;
-    max-height: fit-content;
-    position: relative;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    &:has(.TextInputInner.invalid) + .invalidMessage {
-        display: block;
+    .invalidMessage {
+        display: none;
+        color: $white;
     }
-}
-.invalidMessage {
-    display: none;
-    color: $white;
 }
