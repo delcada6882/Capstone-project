@@ -3,6 +3,8 @@ import './TextInput.scss';
 import eyeOpen from '../../../../Images/Icons/eye-fill.svg';
 import eyeSlash from '../../../../Images/Icons/eye-slash-fill.svg';
 import InputProps from '../InputProps';
+import useMutationObserver from '../../../../customHooks/useMutationObserver';
+import { FormkeyElement } from '../../../Utillity components/FormWrapper/FormWrapper';
 
 export interface TextInputProps extends InputProps {
     className?: string;
@@ -31,6 +33,19 @@ function TextInput(props: React.PropsWithChildren<TextInputProps>) {
     const [inputValue, setInputValue] = useState(control?.value ?? '');
     const [invalidMessage, setInvalidMessage] = useState(
         'Please fill out this field'
+    );
+
+    useMutationObserver(
+        divRef.current?.firstChild,
+        (mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'class') {
+                    const elem = mutation.target as FormkeyElement;
+                    setValidity(!elem.classList.contains('invalid'));
+                }
+            });
+        },
+        { attributes: true, attributeFilter: ['class'] }
     );
 
     const computedClassName = useMemo(() => {
@@ -63,14 +78,21 @@ function TextInput(props: React.PropsWithChildren<TextInputProps>) {
 
         // Form Control
         if (!control?.method) return;
-        const isValid = control.method(event.target);
-        const formControl = control.formControl;
-        if (formControl && !formControl.elements.has(control.key))
-            formControl.elements.set(control.key, event.target);
-        if (isValid !== undefined) {
-            setValidity(false);
-            setInvalidMessage(isValid);
-        } else setValidity(true);
+        async function asyncValidateFormControl() {
+            if (!control?.method) return;
+            const inputElement = divRef.current?.firstChild as HTMLInputElement;
+            const isValid = await control.method(inputElement);
+
+            const formControl = control.formControl;
+            if (!formControl) return;
+            if (!formControl.elements.has(control.key))
+                formControl.elements.set(control.key, inputElement);
+            if (isValid !== undefined) {
+                setValidity(false);
+                setInvalidMessage(isValid);
+            } else setValidity(true);
+        }
+        asyncValidateFormControl();
     };
 
     const handleInvalid = () => {

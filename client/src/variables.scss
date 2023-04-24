@@ -1,3 +1,6 @@
+$color-primary: #058ed9;
+$color-primary-dark: #005c8a;
+
 $red: #6c0120;
 $light-red: adjust-color(
     $red,
@@ -13,6 +16,7 @@ $green: #14b885;
 $white: #f3f8f8;
 $black: #010114;
 $error: #ff2121;
+$warning: #f7b731;
 $grey: rgba(206, 201, 201, 1);
 
 $trans-time: 0.2s;

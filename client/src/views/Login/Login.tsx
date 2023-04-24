@@ -1,5 +1,4 @@
 import './login.scss';
-// import { ReactComponentElement as Logo } from "../svg/PLACEHOLDERLOGO.svg"
 import Label from 'HTML_components/Label/Label';
 import Divider from 'HTML_components/Divider/Divider';
 import LabelCheckbox from '../../components/Utillity components/LabelCheckbox/LabelCheckbox';
@@ -12,11 +11,21 @@ import { validateStudent } from '../../data/getStudents';
 import ViewWrapper from '../../components/Utillity components/ViewWrapper/ViewWrapper';
 import { SuperModalController } from '../../components/Modal Components/SuperModal/SuperModal';
 import { useState } from 'react';
+import useFormControl, { validate } from '../../customHooks/useFormControl';
+import controlMethods from '../../utils/componentUtils/formControl/controlMethods';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
     const [errorFlash, setErrorFlash] = useState(false);
+    const navigate = useNavigate();
+    const formControl = useFormControl(
+        validate('email', controlMethods.email),
+        validate('password', controlMethods.minLength(3))
+    );
+
     const handleLogin = (children: FormkeyElement[]) => {
         async function runAsyncOnValidate() {
+            if (children.length < 2) return;
             try {
                 const isValid = await validateStudent(
                     children[0].value,
@@ -24,13 +33,18 @@ function Login() {
                 );
                 if (isValid) {
                     setErrorFlash(false);
-                    // ROUTE TO HOMEPAGE
+                    navigate('/');
                 } else {
+                    SuperModalController.Toast('Invaild Email or Password', {
+                        type: 'warning',
+                    });
                     setErrorFlash(true);
                 }
             } catch (error) {
                 console.error(error);
-                SuperModalController.Toast('Something went wrong');
+                SuperModalController.Toast('Something went wrong', {
+                    type: 'error',
+                });
             }
         }
         runAsyncOnValidate();
@@ -38,15 +52,16 @@ function Login() {
 
     return (
         <ViewWrapper className="login">
-            {/* <Logo /> */}
             <Label type={'h1'}>Login</Label>
-            <FormWrapper onSubmit={handleLogin}>
+            <FormWrapper onSubmit={handleLogin} formControl={formControl}>
                 <Divider className="loginInputSection">
                     <Label>Email: </Label>
                     <TextInput
                         required={true}
                         type={'email'}
                         name="email"
+                        autoComplete="email"
+                        control={formControl.set('email')}
                     ></TextInput>
                 </Divider>
                 <Divider className="loginInputSection">
@@ -56,13 +71,17 @@ function Login() {
                         required={true}
                         type={'password'}
                         name="password"
+                        autoComplete="current-password"
+                        control={formControl.set('password')}
                     ></TextInput>
                 </Divider>
 
                 <Divider className="loginInputSectionCheck">
-                    <LabelCheckbox checkboxId={'staySignedIn'}>
-                        Remember me?
-                    </LabelCheckbox>
+                    <LabelCheckbox
+                        label="Remember me?"
+                        id={'staySignedIn'}
+                        name={'staySignedIn'}
+                    />
                 </Divider>
 
                 <Button type={'submit'} look={'standardBlue'}>
