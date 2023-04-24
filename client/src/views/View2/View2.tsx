@@ -4,33 +4,31 @@ import { validateStudent, addStudent } from '../../data/getStudents';
 function View2() {
     const handleClick = () => SuperModalController.ClearToasts();
     const createToast = () => {
-        SuperModalController.Toast(
-            'This is a toast!',
-            {
-                onMount: () =>
-                    console.log('you can add functions for when it loads'),
-                onUnmount: () => console.log(`and when it goes away`),
-                onClick: () =>
-                    SuperModalController.Toast(
-                        <div
-                            className="you Can even Pass props"
-                            style={{ flexDirection: 'column', display: 'flex' }}
-                        >
-                            This toast is a component.
-                            <button style={{ backgroundColor: 'lightGray' }}>
-                                You can put all kinds of stuff in here
-                            </button>
-                        </div>
-                    ),
-                duration: 4000,
-            }
-        );
+        SuperModalController.Toast('This is a toast!', {
+            onMount: () =>
+                console.log('you can add functions for when it loads'),
+            onUnmount: () => console.log(`and when it goes away`),
+            onClick: () =>
+                SuperModalController.Toast(
+                    <div
+                        className="you Can even Pass props"
+                        style={{ flexDirection: 'column', display: 'flex' }}
+                    >
+                        This toast is a component.
+                        <button style={{ backgroundColor: 'lightGray' }}>
+                            You can put all kinds of stuff in here
+                        </button>
+                    </div>
+                ),
+            duration: 4000,
+        });
     };
 
     const checkAuth = () => {
         async function run() {
             try {
                 const res = await validateStudent('donny@simp.son', 'abc');
+                console.log(res);
             } catch (error) {
                 console.error(error);
             }
@@ -46,6 +44,7 @@ function View2() {
                     email: 'nuts@bolts.valve',
                     password: 'abc',
                 });
+                console.log(res);
             } catch (error) {
                 console.error(error);
             }

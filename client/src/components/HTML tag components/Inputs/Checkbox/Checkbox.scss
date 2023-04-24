@@ -1,31 +1,57 @@
 @import '../../../../variables.scss';
 
-.Checkbox:not(.exempt) {
-    min-width: 1em;
-    min-height: 1em;
-    background-color: $white;
-    border-radius: 2px;
-    align-self: center;
-    justify-self: center;
-    user-select: none;
-    overflow: hidden;
-    &:hover {
-        cursor: pointer;
-    }
-    &.checked {
-        background-color: $blue;
-    }
-    .checkboxInner {
-        width: 100%;
-        height: 100%;
-        * {
-            position: absolute;
-            top: auto;
-            left: auto;
-            padding: 0;
-            margin: 0;
-            align-items: center;
-            justify-content: center;
+.CheckboxWrapper {
+    .labelCheckbox {
+        display: flex;
+        &:has(.Checkbox .checkboxInput.invalid) + .invalidMessage {
+            display: block;
         }
+        .Checkbox {
+            width: 1em;
+            height: 1em;
+            overflow: hidden;
+            background-color: $white;
+            border-radius: 2px;
+            align-self: center;
+            justify-self: center;
+            user-select: none;
+            position: relative;
+            display: flex;
+            cursor: pointer;
+            .checkboxInput {
+                visibility: hidden;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+            .checkboxInner {
+                width: 100%;
+                height: 100%;
+                &.checked {
+                    background-color: $blue;
+                }
+                & > * {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    top: auto;
+                    left: auto;
+                    padding: 0;
+                    margin: 0;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+        }
+        .Label {
+            white-space: nowrap;
+            margin-left: 5px;
+        }
+    }
+    .invalidMessage {
+        display: none;
+        color: $white;
     }
 }
