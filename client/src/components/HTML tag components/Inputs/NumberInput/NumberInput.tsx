@@ -1,5 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import InputProps from '../InputProps';
+import useMutationObserver from '../../../../customHooks/useMutationObserver';
+import { FormkeyElement } from '../../../Utillity components/FormWrapper/FormWrapper';
 
 export interface NumberInputProps extends InputProps {
     className?: string;
@@ -15,6 +17,7 @@ function NumberInput(props: React.PropsWithChildren<NumberInputProps>) {
         'Please fill out this field'
     );
     const [inputValue, setInputValue] = useState(control?.value ?? '');
+    const divRef = React.useRef<HTMLDivElement>(null);
 
     const computedClassName = useMemo(() => {
         let temp = ['NumberInputInner'];
@@ -22,6 +25,19 @@ function NumberInput(props: React.PropsWithChildren<NumberInputProps>) {
         if (className) temp.push(className);
         return temp.join(' ');
     }, [look, className]);
+
+    useMutationObserver(
+        divRef.current?.firstChild,
+        (mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'class') {
+                    const elem = mutation.target as FormkeyElement;
+                    setValidity(!elem.classList.contains('invalid'));
+                }
+            });
+        },
+        { attributes: true, attributeFilter: ['class'] }
+    );
 
     const handleInvalid = () => {
         setValidity(false);
@@ -34,26 +50,35 @@ function NumberInput(props: React.PropsWithChildren<NumberInputProps>) {
 
         // Form Control
         if (!control?.method) return;
-        const isValid = control.method(event.target);
-        const formControl = control.formControl;
-        if (formControl && !formControl.elements.has(control.key))
-            formControl.elements.set(control.key, event.target);
-        if (isValid !== undefined) {
-            setValidity(false);
-            setInvalidMessage(isValid);
-        } else setValidity(true);
+        async function asyncValidateFormControl() {
+            if (!control?.method) return;
+            const inputElement = divRef.current?.firstChild as HTMLInputElement;
+            const isValid = await control.method(inputElement);
+
+            const formControl = control.formControl;
+            if (!formControl) return;
+            if (!formControl.elements.has(control.key))
+                formControl.elements.set(control.key, inputElement);
+            if (isValid !== undefined) {
+                setValidity(false);
+                setInvalidMessage(isValid);
+            } else setValidity(true);
+        }
+        asyncValidateFormControl();
     };
 
     return (
         <div className="NumberInputWrapper">
-            <div className={'NumberInput'}>
+            <div className={'NumberInput'} ref={divRef}>
                 <input
                     {...etc}
                     type={'number'}
                     onClick={props.onClick}
                     onChange={changeHandler}
                     onInvalid={handleInvalid}
-                    className={computedClassName}
+                    className={`${computedClassName}${
+                        validity ? '' : ' invalid'
+                    }}`}
                     value={inputValue}
                     data-isrequired={required ? '' : null}
                     data-formkey={formKey ?? -1}

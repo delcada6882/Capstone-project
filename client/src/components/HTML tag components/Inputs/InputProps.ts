@@ -8,7 +8,6 @@ export default interface InputProps {
     onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
     onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
     className?: string;
-    required?: boolean;
     disabled?: boolean;
     autoComplete?: string;
     autoFocus?: boolean;
@@ -19,6 +18,7 @@ export default interface InputProps {
     readOnly?: boolean;
     spellCheck?: boolean;
     step?: number;
+    required?: boolean;
     formKey?: string;
     control?: ElementControl;
 }

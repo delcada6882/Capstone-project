@@ -3,7 +3,6 @@ import './SuperModal.scss';
 import LoadingPopup from '../LoadingModal/LoadingModal';
 import ToastContainer from '../Toasts/Toast';
 import { backupRef } from '../../../App';
-import { type } from 'os';
 import { UUID } from 'crypto';
 
 const ValidateUUID =
@@ -48,6 +47,7 @@ export interface ToastAttributes {
     onUnmount?: () => void;
     onClick?: () => void;
     duration?: number;
+    type?: 'error' | 'success' | 'warning' | 'info';
 }
 /*  
     this object below makes sure that the functions ALWAYS exist on the SuperModalController. 
@@ -58,6 +58,16 @@ export interface ToastAttributes {
         This also helps VS code know the functions prehand so it autofills for you :)
 */
 export const SuperModalController = {
+    /**
+     * Displays a component as modal
+     * @param component The component to display
+     * @param attributes The attributes of the modal
+     * @returns The id of the modal
+     * @example
+     * ```ts
+     * const modalId = SuperModalController.Display(<MyComponent />, {visible: true, overlay: true})
+     * ```
+     */
     Display: (
         component: (() => JSX.Element) | JSX.Element,
         attributes?: ModalAttributes
@@ -65,11 +75,26 @@ export const SuperModalController = {
         DevBuild_validateModalRef();
         SuperModalRef?.Display(component, attributes);
     },
-
+    /**
+     * Removes a modal from the state
+     * @param ComponetId The id of the modal to remove
+     * @example
+     * ```ts
+     * SuperModalController.Remove(modalId)
+     * ```
+     */
     Remove: (ComponetId: ModalId) => {
         SuperModalRef?.Remove(ComponetId);
     },
-
+    /**
+     * Edits the attributes of a modal
+     * @param ComponetId The id of the modal to edit
+     * @param changedAttributes The attributes to change
+     * @example
+     * ```ts
+     * SuperModalController.EditAttributesOf(modalId, {visible: false})
+     * ```
+     */
     EditAttributesOf: (
         ComponetId: ModalId,
         changedAttributes: ModalAttributes
@@ -77,11 +102,28 @@ export const SuperModalController = {
         DevBuild_validateModalRef();
         SuperModalRef?.EditAttributesOf(ComponetId, changedAttributes);
     },
-
+    /**
+     * Hides a modal
+     * @param ComponetId The id of the modal to hide
+     * @example
+     * ```ts
+     * SuperModalController.Hide(modalId)
+     * ```
+     * @see {@link SuperModalController.Show}
+     */
     Hide: (ComponetId: ModalId) => {
         DevBuild_validateModalRef();
         SuperModalRef?.Hide(ComponetId);
     },
+    /**
+     * Shows a modal
+     * @param ComponetId The id of the modal to show
+     * @example
+     * ```ts
+     * SuperModalController.Show(modalId)
+     * ```
+     * @see {@link SuperModalController.Hide}
+     */
     Show: (ComponetId: ModalId) => {
         DevBuild_validateModalRef();
         SuperModalRef?.Show(ComponetId);
@@ -91,16 +133,39 @@ export const SuperModalController = {
         DevBuild_validateModalRef();
         SuperModalRef?.ShowLoading();
     },
-
+    /**
+     * Hides the loading modal
+     * @example
+     * ```ts
+     * SuperModalController.HideLoading()
+     * ```
+     * @see {@link SuperModalController.ShowLoading}
+     */
     HideLoading: () => {
         DevBuild_validateModalRef();
         SuperModalRef?.HideLoading();
     },
-
+    /**
+     * Clears all toasts
+     * @example
+     * ```ts
+     * SuperModalController.ClearToasts()
+     * ```
+     * @see {@link SuperModalController.Toast}
+     */
     ClearToasts: () => {
         DevBuild_validateModalRef();
         SuperModalRef?.ClearToasts();
     },
+    /**
+     * Displays a toast
+     * @param component The component to display inside the toast or a string to display as text
+     * @param attributes The attributes of the toast
+     * @example
+     * ```ts
+     * SuperModalController.Toast(<MyComponent />, {duration: 5000})
+     * ```
+     */
     Toast: (
         component: JSX.Element | string | (() => JSX.Element),
         attributes?: ToastAttributes
@@ -108,7 +173,11 @@ export const SuperModalController = {
         DevBuild_validateModalRef();
         SuperModalRef?.Toast(component, attributes);
     },
-
+    /**
+     * Rests the current SuperModal by removing all modals and toasts
+     * Take note that toasts will NOT animate out when this is called, they will just dissapear
+     * If you want toasts to animate away use {@link SuperModalController.ClearToasts}
+     */
     RESET: () => {
         DevBuild_validateModalRef();
         SuperModalRef?.RESET();
@@ -166,7 +235,7 @@ class SuperModal extends React.Component<{}, SuperModalState> {
     };
 
     Display = (
-        comp:  (() => JSX.Element) | JSX.Element,
+        comp: (() => JSX.Element) | JSX.Element,
         attr?: ModalAttributes
     ) => {
         const timeStamp = Date.now();
@@ -190,9 +259,12 @@ class SuperModal extends React.Component<{}, SuperModalState> {
 
         const newId = crypto.randomUUID();
 
-        const adjustedComponent: () => JSX.Element = (typeof comp === 'function') ? comp : () => {
-            return comp;
-        };
+        const adjustedComponent: () => JSX.Element =
+            typeof comp === 'function'
+                ? comp
+                : () => {
+                      return comp;
+                  };
 
         const newComponent = {
             component: adjustedComponent,
@@ -206,8 +278,6 @@ class SuperModal extends React.Component<{}, SuperModalState> {
                 /* <-- DEV BUILD ITEM */
             },
         };
-
-
 
         this.setState((prevState) => {
             DisplayQueue = [];
@@ -433,6 +503,7 @@ class SuperModal extends React.Component<{}, SuperModalState> {
                     if (actives === undefined)
                         this.setState({ currentToasts: [] });
                 };
+
                 return (
                     <ToastContainer
                         toastId={Toast.Id}
@@ -440,6 +511,8 @@ class SuperModal extends React.Component<{}, SuperModalState> {
                         removeCallback={(toastRef) => {
                             removeCallback(toastRef);
                         }}
+                        type={Toast.attributes.type}
+                        duration={Toast.attributes.duration}
                         onMount={Toast.attributes.onMount}
                         onUnmount={Toast.attributes.onUnmount}
                         onClick={Toast.attributes.onClick}
