@@ -54,7 +54,7 @@ function View2() {
 
     return (
         <div>
-            <h1 onClick={checkAdd}>I'm view 2... :&#40; </h1>
+            <h1 onClick={createToast}>I'm view 2... :&#40; </h1>
             <div onClick={handleClick}>Clear all toasts</div>
         </div>
     );

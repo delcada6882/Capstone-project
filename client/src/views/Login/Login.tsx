@@ -1,5 +1,4 @@
 import './login.scss';
-// import { ReactComponentElement as Logo } from "../svg/PLACEHOLDERLOGO.svg"
 import Label from 'HTML_components/Label/Label';
 import Divider from 'HTML_components/Divider/Divider';
 import LabelCheckbox from '../../components/Utillity components/LabelCheckbox/LabelCheckbox';
@@ -14,13 +13,16 @@ import { SuperModalController } from '../../components/Modal Components/SuperMod
 import { useState } from 'react';
 import useFormControl, { validate } from '../../customHooks/useFormControl';
 import controlMethods from '../../utils/componentUtils/formControl/controlMethods';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
     const [errorFlash, setErrorFlash] = useState(false);
+    const navigate = useNavigate();
     const formControl = useFormControl(
         validate('email', controlMethods.email),
         validate('password', controlMethods.minLength(3))
     );
+
     const handleLogin = (children: FormkeyElement[]) => {
         async function runAsyncOnValidate() {
             if (children.length < 2) return;
@@ -31,14 +33,18 @@ function Login() {
                 );
                 if (isValid) {
                     setErrorFlash(false);
-                    // ROUTE TO HOMEPAGE
+                    navigate('/');
                 } else {
-                    SuperModalController.Toast('Invaild Email or Password');
+                    SuperModalController.Toast('Invaild Email or Password', {
+                        type: 'warning',
+                    });
                     setErrorFlash(true);
                 }
             } catch (error) {
                 console.error(error);
-                SuperModalController.Toast('Something went wrong');
+                SuperModalController.Toast('Something went wrong', {
+                    type: 'error',
+                });
             }
         }
         runAsyncOnValidate();
@@ -46,7 +52,6 @@ function Login() {
 
     return (
         <ViewWrapper className="login">
-            {/* <Logo /> */}
             <Label type={'h1'}>Login</Label>
             <FormWrapper onSubmit={handleLogin} formControl={formControl}>
                 <Divider className="loginInputSection">
