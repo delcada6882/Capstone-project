@@ -1,5 +1,5 @@
-import { UUID } from "crypto";
-import { pgTimestamp } from "../types/pgTimestamp";
+import { UUID } from 'crypto';
+import { pgTimestamp } from '../types/pgTimestamp';
 
 export interface Administrator {
     admin_id?: UUID;

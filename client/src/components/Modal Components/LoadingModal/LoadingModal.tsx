@@ -1,5 +1,5 @@
 import React from 'react';
-import Loadgo from '../../../Images/Constants/Loading.svg'
+import Loadgo from '../../../Images/Constants/Loading.svg';
 import './LoadingModal.scss';
 
 export interface LoadingModalProps {}

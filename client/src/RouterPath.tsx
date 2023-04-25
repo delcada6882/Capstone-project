@@ -14,8 +14,14 @@ function RouterPath() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/class-list" element={<ClassList />} />
-            <Route path="/class-list/:specificClass" element={<SpecificClass />} />
-            <Route path="/class-list/edit/:specificClass/" element={<EditClass />} />
+            <Route
+                path="/class-list/:specificClass"
+                element={<SpecificClass />}
+            />
+            <Route
+                path="/class-list/edit/:specificClass/"
+                element={<EditClass />}
+            />
             <Route path="/users/:userName/" element={<UserView />} />
         </Routes>
     );
