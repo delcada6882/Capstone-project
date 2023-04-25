@@ -1,5 +1,5 @@
-import { UUID } from "crypto";
-import { pgTimestamp } from "../types/pgTimestamp";
+import { UUID } from 'crypto';
+import { pgTimestamp } from '../types/pgTimestamp';
 
 export interface Contact {
     contact_id?: UUID;
