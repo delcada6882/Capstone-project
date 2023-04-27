@@ -1,5 +1,6 @@
 import { SuperModalController } from '../../components/Modal Components/SuperModal/SuperModal';
 import { validateStudent, addStudent } from '../../data/getStudents';
+import Tippy from '@tippyjs/react';
 
 function View2() {
     const handleClick = () => SuperModalController.ClearToasts();
@@ -54,7 +55,9 @@ function View2() {
 
     return (
         <div>
-            <h1 onClick={createToast}>I'm view 2... :&#40; </h1>
+            <Tippy content={'Example'}>
+                <h1 onClick={createToast}>I'm view 2... :&#40; </h1>
+            </Tippy>
             <div onClick={handleClick}>Clear all toasts</div>
         </div>
     );

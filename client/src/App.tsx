@@ -5,6 +5,7 @@ import SuperModal, {
     buildModal,
 } from './components/Modal Components/SuperModal/SuperModal';
 import './App.scss';
+import './Tippy.scss';
 export let backupRef: SuperModal | undefined = undefined;
 
 function App() {
