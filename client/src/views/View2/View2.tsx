@@ -1,5 +1,15 @@
+import Tooltip from 'HTML_components/Tooltip/Tooltip';
 import { SuperModalController } from '../../components/Modal Components/SuperModal/SuperModal';
 import { validateStudent, addStudent } from '../../data/getStudents';
+import {
+    AnimationName,
+    AnimationProperties,
+} from 'HTML_components/Tooltip/TooltipTypes';
+import useClickOutside from '../../customHooks/useClickOutside';
+import Div from 'HTML_components/Div/Div';
+import TooltipWrapper from 'HTML_components/TooltipWrapper/TooltipWrapper';
+import { useEffect, useRef } from 'react';
+import { hideTooltip } from 'HTML_components/Tooltip/TooltipEvents';
 
 function View2() {
     const handleClick = () => SuperModalController.ClearToasts();
@@ -10,7 +20,7 @@ function View2() {
             onUnmount: () => console.log(`and when it goes away`),
             onClick: () =>
                 SuperModalController.Toast(
-                    <div
+                    <Div
                         className="you Can even Pass props"
                         style={{ flexDirection: 'column', display: 'flex' }}
                     >
@@ -18,7 +28,7 @@ function View2() {
                         <button style={{ backgroundColor: 'lightGray' }}>
                             You can put all kinds of stuff in here
                         </button>
-                    </div>
+                    </Div>
                 ),
             duration: 4000,
         });
@@ -52,11 +62,62 @@ function View2() {
         run();
     };
 
+    const aniname: AnimationName = 'shift-toward';
+    const dur = 1000;
+    const ani: AnimationProperties = {
+        name: aniname,
+        duration: dur,
+        delay: undefined,
+        distance: undefined,
+        easingFunction: undefined,
+    };
+
+    const tooltipRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        if (!tooltipRef.current) return;
+        hideTooltip(tooltipRef.current);
+    }, [tooltipRef.current]);
+
     return (
-        <div>
-            <h1 onClick={createToast}>I'm view 2... :&#40; </h1>
-            <div onClick={handleClick}>Clear all toasts</div>
-        </div>
+        <Div>
+            <TooltipWrapper
+                content={'wrapper tooltip'}
+                position="top"
+                showAnimation={{ name: 'shift-toward' }}
+                hideAnimation={{ name: 'fade', duration: 200 }}
+                interactive
+            >
+                <Tooltip
+                    position="left"
+                    content={'testing testing 123'}
+                    showAnimation={ani}
+                    look="outlined"
+                ></Tooltip>
+                <Tooltip
+                    position="bottom"
+                    content={'testing testing 123'}
+                    showAnimation={ani}
+                ></Tooltip>
+                <Tooltip
+                    look={'secondary'}
+                    position="right"
+                    content={
+                        <>
+                            *belch
+                            <Tooltip
+                                look={'success'}
+                                position="top"
+                                content={'testing testing 123'}
+                                showAnimation={ani}
+                            ></Tooltip>
+                        </>
+                    }
+                    showAnimation={ani}
+                ></Tooltip>
+                <h1 onClick={createToast}>I'm view 2... :&#40; </h1>
+            </TooltipWrapper>
+            <Div onClick={handleClick}>Clear all toasts</Div>
+        </Div>
     );
 }
 

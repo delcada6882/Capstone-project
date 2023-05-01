@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import Divider from 'HTML_components/Divider/Divider';
+import Div from 'HTML_components/Div/Div';
 
 function UserView() {
     const [searchParams] = useSearchParams();
     const [data, setData] = useState(null);
 
-    return <Divider>HAHAH</Divider>;
+    return <Div>HAHAH</Div>;
 }
 
 export default UserView;
