@@ -12,7 +12,8 @@ export function buildModal(ref: SuperModal) {
     SuperModalRef = ref;
 }
 
-export type ModalId = UUID | 'all' | 'loadingModal';
+export type ConstantModals = 'loadingModal';
+export type ModalId = UUID | ConstantModals | 'all';
 
 export interface ModalAttributes {
     props?: {};
@@ -370,7 +371,6 @@ class SuperModal extends React.Component<{}, SuperModalState> {
             return prevState;
         });
     };
-
     GetModalIndexById = (Id?: ModalId, showErrorMessages?: boolean) => {
         showErrorMessages ??= true;
         if (!Id) {
@@ -517,7 +517,7 @@ class SuperModal extends React.Component<{}, SuperModalState> {
                         onUnmount={Toast.attributes.onUnmount}
                         onClick={Toast.attributes.onClick}
                     >
-                        <Elem></Elem>
+                        <Elem />
                     </ToastContainer>
                 );
             });
@@ -534,7 +534,7 @@ class SuperModal extends React.Component<{}, SuperModalState> {
                             Obj.attributes.overlay ? ` overlay` : ''
                         }`}
                     >
-                        <Elem></Elem>
+                        <Elem />
                     </div>
                 );
             });
@@ -551,7 +551,7 @@ class SuperModal extends React.Component<{}, SuperModalState> {
                         }`}
                         key={`Modalchild-${idx}`}
                     >
-                        <Elem {...Obj.attributes.props} key={Obj.Id}></Elem>
+                        <Elem {...Obj.attributes.props} key={Obj.Id} />
                     </div>
                 );
             });
