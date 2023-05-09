@@ -3,6 +3,7 @@ import './Label.scss';
 import { computeProps } from '../../../utils/componentUtils/propComputer';
 import TooltipWrapper, {
     TooltipProperties,
+    computeTooltipAriaLabel,
 } from 'HTML_components/TooltipWrapper/TooltipWrapper';
 
 export interface LabelProps {
@@ -33,6 +34,7 @@ function Label(props: React.PropsWithChildren<LabelProps>) {
         id: id,
         style: style,
         htmlFor: htmlFor,
+        'aria-label': computeTooltipAriaLabel(tooltipProperties),
     };
 
     const renderIndividualLabelType = (children: React.ReactNode) => {

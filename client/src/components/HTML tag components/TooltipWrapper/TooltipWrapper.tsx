@@ -8,8 +8,19 @@ import {
     showTooltip,
 } from 'HTML_components/Tooltip/TooltipEvents';
 
+export function computeTooltipAriaLabel(tooltipProperties?: TooltipProperties) {
+    if (!tooltipProperties) return undefined;
+    const { content, ariaLabel } = tooltipProperties;
+    if (ariaLabel) return ariaLabel;
+    if (!content) return undefined;
+
+    if (typeof content === 'string') return content;
+    if (content.toString() !== '[object Object]') return content.toString();
+}
+
 export interface TooltipProperties extends TooltipWrapperProps {
     wrapContents?: boolean; // Default is false
+    ariaLabel?: string; // Default is undefined
 }
 
 export interface TooltipWrapperProps extends TooltipProps {

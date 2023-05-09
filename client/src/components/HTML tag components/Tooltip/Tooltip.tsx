@@ -4,18 +4,19 @@ import './TooltipAnimations.scss';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { AnimationProperties } from './TooltipTypes';
 import { TooltipEvents } from './TooltipEvents';
+import { DEFAULT_TOOLTIP_PROPS } from './TooltipDefaults';
 
 export interface TooltipProps {
     // Required Props
-    content: React.ReactNode; // Required
+    content: React.ReactNode;
     // Basic Props
-    className?: string; // Default is undefined
-    style?: React.CSSProperties; // Default is none
-    onClick?: (e: React.MouseEvent<HTMLDivElement>) => void; // Default is undefined
+    className?: string;
+    style?: React.CSSProperties;
+    onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
     // Appearance Props
-    textColor?: string; // Default is undefined
-    backgroundColor?: string; // Default is undefined
-    position?: 'top' | 'right' | 'bottom' | 'left'; // Default is 'top'
+    textColor?: string;
+    backgroundColor?: string;
+    position?: 'top' | 'right' | 'bottom' | 'left';
     look?:
         | 'standard'
         | 'primary'
@@ -25,26 +26,29 @@ export interface TooltipProps {
         | 'warning'
         | 'success'
         | 'error'
-        | 'none'; // Default is 'standard'
-    margin?: number | `${number}px` | `${number}%` | `${number}em`; // Default is '0px'
-    maxWidth?: number | `${number}px` | `${number}%` | `${number}em`; // Default is 'none'
-    pointerSize?: number | `${number}px` | `${number}%` | `${number}em`; // Default is '10px'
-    pointer?: 'default' | 'round' | 'wide' | 'narrow' | 'none'; // Default is 'default'
+        | 'none';
+    margin?: number | `${number}px` | `${number}%` | `${number}em`;
+    maxWidth?: number | `${number}px` | `${number}%` | `${number}em` | 'none';
+    pointerSize?: number | `${number}px` | `${number}%` | `${number}em`;
+    pointer?: 'default' | 'round' | 'wide' | 'narrow' | 'none';
     // Functionality Props
-    interactive?: boolean; // Default is false
-    onShow?: () => void; // Default is undefined
-    onHide?: () => void; // Default is undefined
-    onShowEnd?: () => void; // Default is undefined
-    onHideEnd?: () => void; // Default is undefined
-    onMount?: () => void; // Default is undefined
-    onUnmount?: () => void; // Default is undefined
+    interactive?: boolean;
+    onShow?: () => void;
+    onHide?: () => void;
+    onShowEnd?: () => void;
+    onHideEnd?: () => void;
+    onMount?: () => void;
+    onUnmount?: () => void;
     // Animation Props
-    showAnimation?: AnimationProperties; // Default is none
-    hideAnimation?: AnimationProperties; // Default is none
+    showAnimation?: AnimationProperties;
+    hideAnimation?: AnimationProperties;
 }
 
 function Tooltip(props: TooltipProps, ref: React.ForwardedRef<HTMLDivElement>) {
+    props = { ...DEFAULT_TOOLTIP_PROPS, ...props };
+
     const tooltipRef = useRef<HTMLDivElement | null>(null);
+
     const computedClassname = useMemo(() => {
         let computed = 'Tooltip hidden';
         computed += ` ${props.look ?? 'standard'}`;
@@ -129,13 +133,157 @@ function Tooltip(props: TooltipProps, ref: React.ForwardedRef<HTMLDivElement>) {
         props.backgroundColor,
     ]);
 
+    const showAnimationDistence = useMemo(() => {
+        if (!props.showAnimation?.distance) return;
+        const computedDistance =
+            typeof props.showAnimation?.distance === 'number'
+                ? `${props.showAnimation?.distance}px`
+                : props.showAnimation?.distance;
+        return computedDistance;
+    }, [props.showAnimation?.distance]);
+
+    const hideAnimationDistance = useMemo(() => {
+        if (!props.hideAnimation?.distance) return;
+        const computedDistance =
+            typeof props.hideAnimation?.distance === 'number'
+                ? `${props.hideAnimation?.distance}px`
+                : props.hideAnimation?.distance;
+        return computedDistance;
+    }, [props.hideAnimation?.distance]);
+
+    const setCurrentAnimation = useCallback(
+        (animation: 'hide' | 'show' | 'reset') => {
+            if (!tooltipRef.current) return;
+            if (animation === 'show') {
+                tooltipRef.current.style.animationName =
+                    computedShowAnimationStyles.animationName ?? '';
+                tooltipRef.current.style.animationDelay =
+                    computedShowAnimationStyles.animationDelay ?? '';
+                tooltipRef.current.style.animationDuration =
+                    computedShowAnimationStyles.animationDuration ?? '';
+                tooltipRef.current.style.animationTimingFunction =
+                    computedShowAnimationStyles.animationTimingFunction ?? '';
+                tooltipRef.current.style.animationDirection = 'normal';
+            } else if (animation === 'hide') {
+                tooltipRef.current.style.animationName =
+                    computedHideAnimationStyles.animationName ?? '';
+                tooltipRef.current.style.animationDelay =
+                    computedHideAnimationStyles.animationDelay ?? '';
+                tooltipRef.current.style.animationDuration =
+                    computedHideAnimationStyles.animationDuration ?? '';
+                tooltipRef.current.style.animationTimingFunction =
+                    computedHideAnimationStyles.animationTimingFunction ?? '';
+                tooltipRef.current.style.animationDirection = 'reverse';
+            } else {
+                tooltipRef.current.style.animation = 'none';
+            }
+        },
+        [computedShowAnimationStyles, computedHideAnimationStyles]
+    );
+
+    const showTooltip = useCallback(() => {
+        if (!tooltipRef.current) return;
+        if (props.onShow) props.onShow();
+        if (!props.showAnimation) {
+            tooltipRef.current.classList.remove('hidden');
+            if (props.onShowEnd) props.onShowEnd();
+            return;
+        }
+
+        tooltipRef.current.style.setProperty(
+            '--tooltip-shift-distance',
+            hideAnimationDistance ?? '0px'
+        );
+
+        setCurrentAnimation('reset');
+        tooltipRef.current.style.animationPlayState = 'paused';
+        tooltipRef.current.offsetHeight;
+        tooltipRef.current.style.animationPlayState = 'running';
+        setCurrentAnimation('show');
+
+        tooltipRef.current.classList.remove('hidden');
+        tooltipRef.current.addEventListener(
+            'animationend',
+            () => {
+                if (!tooltipRef.current) return;
+                if (tooltipRef.current.style.animationDirection === 'reverse')
+                    return;
+                if (props.onShowEnd) props.onShowEnd();
+            },
+            {
+                once: true,
+            }
+        );
+    }, [props.showAnimation, props.onShow, props.onShowEnd]);
+
+    const hideTooltip = useCallback(() => {
+        if (!tooltipRef.current) return;
+        if (props.onHide) props.onHide();
+        if (!props.hideAnimation) {
+            tooltipRef.current.classList.add('hidden');
+            if (props.onHideEnd) props.onHideEnd();
+            return;
+        }
+
+        tooltipRef.current.style.setProperty(
+            '--tooltip-shift-distance',
+            showAnimationDistence ?? '0px'
+        );
+
+        setCurrentAnimation('reset');
+        tooltipRef.current.style.animationPlayState = 'paused';
+        tooltipRef.current.offsetHeight;
+        tooltipRef.current.style.animationPlayState = 'running';
+        setCurrentAnimation('hide');
+
+        tooltipRef.current.addEventListener(
+            'animationend',
+            () => {
+                if (!tooltipRef.current) return;
+                if (tooltipRef.current.style.animationDirection === 'normal')
+                    return;
+                tooltipRef.current.classList.add('hidden');
+                if (props.onHideEnd) props.onHideEnd();
+            },
+            {
+                once: true,
+            }
+        );
+    }, [props.hideAnimation, props.onHide, props.onHideEnd]);
+
     useEffect(() => {
         if (!tooltipRef.current) return;
+        setCurrentAnimation('reset');
+        tooltipRef.current.addEventListener(TooltipEvents.SHOW, showTooltip);
+        tooltipRef.current.addEventListener(TooltipEvents.HIDE, hideTooltip);
+    }, [tooltipRef.current, showTooltip, hideTooltip]);
+
+    useEffect(() => {
+        if (props.onMount) props.onMount();
+        return () => {
+            if (props.onUnmount) props.onUnmount();
+        };
+    }, []);
+
+    useEffect(() => {
+        if (!tooltipRef.current) return;
+
+        let tooltipWidth = tooltipRef.current.clientWidth;
+        let tooltipHeight = tooltipRef.current.clientHeight;
+
+        if (tooltipRef.current.classList.contains('hidden')) {
+            tooltipRef.current.classList.remove('hidden');
+            tooltipRef.current.offsetHeight;
+            tooltipWidth = tooltipRef.current.clientWidth;
+            tooltipHeight = tooltipRef.current.clientHeight;
+            tooltipRef.current.classList.add('hidden');
+        }
+
         let maxPointerSize = 50;
         if (props.position === 'top' || props.position === 'bottom') {
-            maxPointerSize = (tooltipRef.current.clientWidth / 2) * Math.SQRT2;
+            maxPointerSize = (tooltipWidth / 2) * Math.SQRT2;
         } else if (props.position === 'left' || props.position === 'right') {
-            maxPointerSize = (tooltipRef.current.clientHeight / 2) * Math.SQRT2;
+            maxPointerSize = (tooltipHeight / 2) * Math.SQRT2;
         }
         if (props.pointerSize || props.pointer === 'none') {
             let computedPointerSize = `${props.pointerSize}`;
@@ -172,16 +320,6 @@ function Tooltip(props: TooltipProps, ref: React.ForwardedRef<HTMLDivElement>) {
                 computedMargin
             );
         }
-        // if (props.animation?.distance) {
-        //     const computedAnimationDistance =
-        //         typeof props.animation?.distance === 'number'
-        //             ? `${props.animation?.distance}px`
-        //             : props.animation?.distance;
-        //     tooltipRef.current.style.setProperty(
-        //         '--tooltip-shift-distance',
-        //         computedAnimationDistance
-        //     );
-        // }
     }, [
         tooltipRef.current,
         props.pointerSize,
@@ -189,108 +327,6 @@ function Tooltip(props: TooltipProps, ref: React.ForwardedRef<HTMLDivElement>) {
         props.pointer,
         props.position,
     ]);
-
-    const setCurrentAnimation = useCallback(
-        (animation: 'hide' | 'show' | 'reset') => {
-            if (!tooltipRef.current) return;
-            if (animation === 'show') {
-                tooltipRef.current.style.animationName =
-                    computedShowAnimationStyles.animationName ?? '';
-                tooltipRef.current.style.animationDelay =
-                    computedShowAnimationStyles.animationDelay ?? '';
-                tooltipRef.current.style.animationDuration =
-                    computedShowAnimationStyles.animationDuration ?? '';
-                tooltipRef.current.style.animationTimingFunction =
-                    computedShowAnimationStyles.animationTimingFunction ?? '';
-                tooltipRef.current.style.animationDirection = 'normal';
-            } else if (animation === 'hide') {
-                tooltipRef.current.style.animationName =
-                    computedHideAnimationStyles.animationName ?? '';
-                tooltipRef.current.style.animationDelay =
-                    computedHideAnimationStyles.animationDelay ?? '';
-                tooltipRef.current.style.animationDuration =
-                    computedHideAnimationStyles.animationDuration ?? '';
-                tooltipRef.current.style.animationTimingFunction =
-                    computedHideAnimationStyles.animationTimingFunction ?? '';
-                tooltipRef.current.style.animationDirection = 'reverse';
-            } else {
-                tooltipRef.current.style.animation = 'none';
-            }
-        },
-        [computedShowAnimationStyles, computedHideAnimationStyles]
-    );
-
-    useEffect(() => {
-        if (!tooltipRef.current) return;
-        if (props.onMount) props.onMount();
-        setCurrentAnimation('reset');
-
-        tooltipRef.current.addEventListener(TooltipEvents.SHOW, () => {
-            if (!tooltipRef.current) return;
-            if (props.onShow) props.onShow();
-            if (!props.showAnimation) {
-                tooltipRef.current.classList.remove('hidden');
-                if (props.onShowEnd) props.onShowEnd();
-                return;
-            }
-            setCurrentAnimation('reset');
-            tooltipRef.current.style.animationPlayState = 'paused';
-            tooltipRef.current.offsetHeight;
-            tooltipRef.current.style.animationPlayState = 'running';
-            setCurrentAnimation('show');
-
-            tooltipRef.current.classList.remove('hidden');
-            tooltipRef.current.addEventListener(
-                'animationend',
-                () => {
-                    if (!tooltipRef.current) return;
-                    if (
-                        tooltipRef.current.style.animationDirection ===
-                        'reverse'
-                    )
-                        return;
-                    if (props.onShowEnd) props.onShowEnd();
-                },
-                {
-                    once: true,
-                }
-            );
-        });
-
-        tooltipRef.current.addEventListener(TooltipEvents.HIDE, () => {
-            if (!tooltipRef.current) return;
-            if (props.onHide) props.onHide();
-            if (!props.hideAnimation) {
-                tooltipRef.current.classList.add('hidden');
-                if (props.onHideEnd) props.onHideEnd();
-                return;
-            }
-            setCurrentAnimation('reset');
-            tooltipRef.current.style.animationPlayState = 'paused';
-            tooltipRef.current.offsetHeight;
-            tooltipRef.current.style.animationPlayState = 'running';
-            setCurrentAnimation('hide');
-
-            tooltipRef.current.addEventListener(
-                'animationend',
-                () => {
-                    if (!tooltipRef.current) return;
-                    if (
-                        tooltipRef.current.style.animationDirection === 'normal'
-                    )
-                        return;
-                    tooltipRef.current.classList.add('hidden');
-                    if (props.onHideEnd) props.onHideEnd();
-                },
-                {
-                    once: true,
-                }
-            );
-        });
-        return () => {
-            if (props.onUnmount) props.onUnmount();
-        };
-    }, [tooltipRef.current]);
 
     return (
         <div

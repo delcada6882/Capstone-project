@@ -6,6 +6,7 @@ import './Link.scss';
 import { computeProps } from '../../../utils/componentUtils/propComputer';
 import TooltipWrapper, {
     TooltipProperties,
+    computeTooltipAriaLabel,
 } from 'HTML_components/TooltipWrapper/TooltipWrapper';
 
 export interface LinkProps {
@@ -60,6 +61,7 @@ function Link(props: React.PropsWithChildren<LinkProps>) {
                 target={target}
                 type={type}
                 referrerPolicy={referrerPolicy}
+                aria-Label={computeTooltipAriaLabel(tooltipProperties)}
             >
                 {props.children}
             </a>

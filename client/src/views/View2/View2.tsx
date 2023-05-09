@@ -1,15 +1,10 @@
-import Tooltip from 'HTML_components/Tooltip/Tooltip';
 import { SuperModalController } from '../../components/Modal Components/SuperModal/SuperModal';
 import { validateStudent, addStudent } from '../../data/getStudents';
 import {
     AnimationName,
     AnimationProperties,
 } from 'HTML_components/Tooltip/TooltipTypes';
-import useClickOutside from '../../customHooks/useClickOutside';
 import Div from 'HTML_components/Div/Div';
-import TooltipWrapper from 'HTML_components/TooltipWrapper/TooltipWrapper';
-import { useEffect, useRef } from 'react';
-import { hideTooltip } from 'HTML_components/Tooltip/TooltipEvents';
 
 function View2() {
     const handleClick = () => SuperModalController.ClearToasts();
@@ -67,52 +62,17 @@ function View2() {
     const ani: AnimationProperties = {
         name: aniname,
         duration: dur,
+        easingFunction: undefined,
     };
 
-    const tooltipRef = useRef<HTMLDivElement>(null);
-    useEffect(() => {
-        if (!tooltipRef.current) return;
-        hideTooltip(tooltipRef.current);
-    }, [tooltipRef.current]);
-
     return (
-        <Div>
-            <TooltipWrapper
-                content={'wrapper tooltip'}
-                position="top"
-                showAnimation={{ name: 'shift-toward' }}
-                hideAnimation={{ name: 'fade', duration: 200 }}
-                interactive
-            >
-                <Tooltip
-                    position="left"
-                    content={'testing testing 123'}
-                    showAnimation={ani}
-                    look="outlined"
-                ></Tooltip>
-                <Tooltip
-                    position="bottom"
-                    content={'testing testing 123'}
-                    showAnimation={ani}
-                ></Tooltip>
-                <Tooltip
-                    look={'secondary'}
-                    position="right"
-                    content={
-                        <>
-                            *belch
-                            <Tooltip
-                                look={'success'}
-                                position="top"
-                                content={'testing testing 123'}
-                                showAnimation={ani}
-                            ></Tooltip>
-                        </>
-                    }
-                    showAnimation={ani}
-                ></Tooltip>
-                <h1 onClick={createToast}>I'm view 2... :&#40; </h1>
-            </TooltipWrapper>
+        <Div
+            tooltipProperties={{
+                content: 'This is a tooltip',
+                showAnimation: ani,
+            }}
+        >
+            <h1 onClick={createToast}>I'm view 2... :&#40; </h1>
             <Div onClick={handleClick}>Clear all toasts</Div>
         </Div>
     );

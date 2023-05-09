@@ -6,6 +6,7 @@ import {
 } from '../../../utils/componentUtils/propComputer';
 import TooltipWrapper, {
     TooltipProperties,
+    computeTooltipAriaLabel,
 } from 'HTML_components/TooltipWrapper/TooltipWrapper';
 
 export interface DivProps extends StyleProps {
@@ -27,6 +28,7 @@ function Div(
                 onClick={props.onClick}
                 className={className ? `Div ${className}` : 'Div'}
                 ref={ref}
+                aria-label={computeTooltipAriaLabel(tooltipProperties)}
             >
                 {children}
             </div>
