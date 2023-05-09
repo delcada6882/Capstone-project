@@ -4,6 +4,9 @@ import React, {
 } from 'react';
 import './Link.scss';
 import { computeProps } from '../../../utils/componentUtils/propComputer';
+import TooltipWrapper, {
+    TooltipProperties,
+} from 'HTML_components/TooltipWrapper/TooltipWrapper';
 
 export interface LinkProps {
     className?: string;
@@ -20,6 +23,8 @@ export interface LinkProps {
     target?: HTMLAttributeAnchorTarget;
     type?: string;
     referrerPolicy?: HTMLAttributeReferrerPolicy;
+
+    tooltipProperties?: TooltipProperties;
 }
 
 function Link(props: React.PropsWithChildren<LinkProps>) {
@@ -35,28 +40,45 @@ function Link(props: React.PropsWithChildren<LinkProps>) {
         hrefLang,
         download,
         referrerPolicy,
+        tooltipProperties,
         ...etc
     } = props;
 
-    return (
-        <a
-            {...computeProps(etc)}
-            className={className ? `Link ${className}` : 'Link'}
-            id={id}
-            style={style}
-            onClick={props.onClick}
-            download={download}
-            href={href}
-            hrefLang={hrefLang}
-            media={media}
-            ping={ping}
-            target={target}
-            type={type}
-            referrerPolicy={referrerPolicy}
-        >
-            {props.children}
-        </a>
-    );
+    const renderIndividualLink = (children: React.ReactNode) => {
+        return (
+            <a
+                {...computeProps(etc)}
+                className={className ? `Link ${className}` : 'Link'}
+                id={id}
+                style={style}
+                onClick={props.onClick}
+                download={download}
+                href={href}
+                hrefLang={hrefLang}
+                media={media}
+                ping={ping}
+                target={target}
+                type={type}
+                referrerPolicy={referrerPolicy}
+            >
+                {props.children}
+            </a>
+        );
+    };
+
+    if (!tooltipProperties) return renderIndividualLink(props.children);
+    else if (tooltipProperties.wrapContents)
+        return renderIndividualLink(
+            <TooltipWrapper {...tooltipProperties}>
+                {props.children}
+            </TooltipWrapper>
+        );
+    else
+        return (
+            <TooltipWrapper {...tooltipProperties}>
+                {renderIndividualLink(props.children)}
+            </TooltipWrapper>
+        );
 }
 
 export default Link;

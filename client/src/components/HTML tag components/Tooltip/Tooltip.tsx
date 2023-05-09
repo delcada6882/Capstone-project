@@ -17,14 +17,14 @@ export interface TooltipProps {
     backgroundColor?: string; // Default is undefined
     position?: 'top' | 'right' | 'bottom' | 'left'; // Default is 'top'
     look?:
+        | 'standard'
         | 'primary'
         | 'secondary'
         | 'tertiary'
         | 'outlined'
-        | 'standard'
-        | 'error'
         | 'warning'
         | 'success'
+        | 'error'
         | 'none'; // Default is 'standard'
     margin?: number | `${number}px` | `${number}%` | `${number}em`; // Default is '0px'
     maxWidth?: number | `${number}px` | `${number}%` | `${number}em`; // Default is 'none'

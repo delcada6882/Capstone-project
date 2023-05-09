@@ -67,9 +67,6 @@ function View2() {
     const ani: AnimationProperties = {
         name: aniname,
         duration: dur,
-        delay: undefined,
-        distance: undefined,
-        easingFunction: undefined,
     };
 
     const tooltipRef = useRef<HTMLDivElement>(null);

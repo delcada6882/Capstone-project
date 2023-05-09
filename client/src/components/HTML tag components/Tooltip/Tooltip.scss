@@ -146,6 +146,7 @@
         transform-origin: top center;
         top: 100%;
         & > .TooltipPointer {
+            height: calc(var(--tooltip-margin) + var(--tooltip-pointer-size));
             border-bottom: none;
             translate: -50% 0;
             bottom: 100%;

@@ -8,6 +8,10 @@ import {
     showTooltip,
 } from 'HTML_components/Tooltip/TooltipEvents';
 
+export interface TooltipProperties extends TooltipWrapperProps {
+    wrapContents?: boolean; // Default is false
+}
+
 export interface TooltipWrapperProps extends TooltipProps {
     onClickOutside?: (e: MouseEvent | TouchEvent) => void; // Default is undefined
     trigger?: 'hover' | 'click' | 'focus' | 'manual'; // Default is 'hover'
@@ -18,8 +22,6 @@ export interface TooltipWrapperProps extends TooltipProps {
 
 function TooltipWrapper(props: React.PropsWithChildren<TooltipWrapperProps>) {
     const {
-        onShow,
-        onHide,
         onClickOutside,
         trigger = 'hover',
         showDelay = 400,
