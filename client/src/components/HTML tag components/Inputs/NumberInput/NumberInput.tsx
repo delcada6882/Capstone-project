@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import InputProps from '../InputProps';
+import { InputProps } from '../InputProps';
 import useMutationObserver from '../../../../customHooks/useMutationObserver';
 import { FormkeyElement } from '../../../Utillity components/FormWrapper/FormWrapper';
 

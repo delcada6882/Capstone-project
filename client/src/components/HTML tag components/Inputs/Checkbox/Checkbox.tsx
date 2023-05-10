@@ -1,8 +1,8 @@
 import './Checkbox.scss';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import CheckmarkSVG from '../../../../Images/icons/checkmark.svg';
 import useMutationObserver from '../../../../customHooks/useMutationObserver';
-import InputProps from '../InputProps';
+import { InputProps } from '../InputProps';
 import { FormkeyElement } from '../../../Utillity components/FormWrapper/FormWrapper';
 import Label from 'HTML_components/Label/Label';
 

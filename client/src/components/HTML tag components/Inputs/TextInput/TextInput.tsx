@@ -2,7 +2,7 @@ import React, { useMemo, useRef, useState } from 'react';
 import './TextInput.scss';
 import eyeOpen from '../../../../Images/Icons/eye-fill.svg';
 import eyeSlash from '../../../../Images/Icons/eye-slash-fill.svg';
-import InputProps from '../InputProps';
+import { InputProps } from '../InputProps';
 import useMutationObserver from '../../../../customHooks/useMutationObserver';
 import { FormkeyElement } from '../../../Utillity components/FormWrapper/FormWrapper';
 
