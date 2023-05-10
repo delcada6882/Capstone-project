@@ -23,7 +23,7 @@ function ClassList() {
     const userBackRef = useRef<HTMLButtonElement>(null);
     const innerUserBackRef = useRef<HTMLDivElement>(null);
     const [searchData, setSearchData] = useState('');
-    const [isAuth, setIsAuth] = useState(false);
+    const [isAuth, setIsAuth] = useState(true);
 
     const subjectRef = useRef<HTMLSelectElement>(null);
     const semesterRef = useRef<HTMLSelectElement>(null);
@@ -31,11 +31,7 @@ function ClassList() {
 
     useEffect(() => {
         async function redoClasses() {
-            await getAllClasses()
-                .then((item) => {
-                    setClasses([...item]);
-                })
-                .catch(console.error);
+            await getAllClasses().then(setClasses).catch(console.error);
         }
         redoClasses();
     }, []);
@@ -77,7 +73,7 @@ function ClassList() {
             setClassHTML(dataArr);
             if (isOneFound === false) {
                 setClassHTML([
-                    <Label type={'p'} className="noClass">
+                    <Label key={'noClassBasic'} type={'p'} className="noClass">
                         There are no classes that match your search &gt;:&#40;
                     </Label>,
                 ]);
@@ -118,7 +114,7 @@ function ClassList() {
         setClassHTML(dataArr);
         if (isOneFound === false) {
             setClassHTML([
-                <Label type={'p'} className="noClass">
+                <Label key={'noClassAdvanced'} type={'p'} className="noClass">
                     There are no classes that match your search &gt;:&#40;
                 </Label>,
             ]);

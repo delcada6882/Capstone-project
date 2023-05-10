@@ -14,11 +14,13 @@ export interface ButtonProps {
         | 'success'
         | 'warning';
     onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-    ref?: React.Ref<HTMLButtonElement>;
 }
 
-function Button(props: React.PropsWithChildren<ButtonProps>) {
-    const { className, type, ref, look, onClick, ...etc } = props;
+function Button(
+    props: React.PropsWithChildren<ButtonProps>,
+    ref: React.ForwardedRef<HTMLButtonElement>
+) {
+    const { className, type, look, onClick, ...etc } = props;
 
     const computedClassName = useMemo(() => {
         let temp = ['Button'];
@@ -39,4 +41,4 @@ function Button(props: React.PropsWithChildren<ButtonProps>) {
     );
 }
 
-export default Button;
+export default React.forwardRef(Button);
