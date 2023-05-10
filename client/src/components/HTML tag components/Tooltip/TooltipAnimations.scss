@@ -1,0 +1,215 @@
+.Tooltip {
+    --tooltip-shift-distance: 50%;
+}
+
+.Tooltip.top {
+    @keyframes flip-top {
+        0% {
+            opacity: 0;
+            transform: translateX(-50%) rotateX(90deg);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(-50%) rotateX(0deg);
+        }
+    }
+    @keyframes shift-toward-top {
+        0% {
+            opacity: 0;
+            transform: translateX(-50%)
+                translateY(calc(var(--tooltip-shift-distance) * -1));
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+    }
+    @keyframes shift-away-top {
+        0% {
+            opacity: 0;
+            transform: translateX(-50%)
+                translateY(var(--tooltip-shift-distance));
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+    }
+    @keyframes scale-top {
+        0% {
+            opacity: 0;
+            transform: translateX(-50%) scale(0);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+    }
+    @keyframes fade-top {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+}
+
+.Tooltip.bottom {
+    @keyframes flip-bottom {
+        0% {
+            opacity: 0;
+            transform: translateX(-50%) rotateX(90deg);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(-50%) rotateX(0deg);
+        }
+    }
+    @keyframes shift-toward-bottom {
+        0% {
+            opacity: 0;
+            transform: translateX(-50%)
+                translateY(var(--tooltip-shift-distance));
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+    }
+    @keyframes shift-away-bottom {
+        0% {
+            opacity: 0;
+            transform: translateX(-50%)
+                translateY(calc(var(--tooltip-shift-distance) * -1));
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+    }
+    @keyframes scale-bottom {
+        0% {
+            opacity: 0;
+            transform: translateX(-50%) scale(0);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+    }
+    @keyframes fade-bottom {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+}
+
+.Tooltip.left {
+    @keyframes flip-left {
+        0% {
+            opacity: 0;
+            transform: translateY(-50%) rotateY(90deg);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(-50%) rotateY(0deg);
+        }
+    }
+    @keyframes shift-toward-left {
+        0% {
+            opacity: 0;
+            transform: translateY(-50%)
+                translateX(calc(var(--tooltip-shift-distance) * -1));
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(-50%) translateX(0);
+        }
+    }
+    @keyframes shift-away-left {
+        0% {
+            opacity: 0;
+            transform: translateY(-50%)
+                translateX(var(--tooltip-shift-distance));
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(-50%) translateX(0);
+        }
+    }
+    @keyframes scale-left {
+        0% {
+            opacity: 0;
+            transform: translateY(-50%) scale(0);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(-50%) scale(1);
+        }
+    }
+    @keyframes fade-left {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+}
+
+.Tooltip.right {
+    @keyframes flip-right {
+        0% {
+            opacity: 0;
+            transform: translateY(-50%) rotateY(90deg);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(-50%) rotateY(0deg);
+        }
+    }
+    @keyframes shift-toward-right {
+        0% {
+            opacity: 0;
+            transform: translateY(-50%)
+                translateX(var(--tooltip-shift-distance));
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(-50%) translateX(0);
+        }
+    }
+    @keyframes shift-away-right {
+        0% {
+            opacity: 0;
+            transform: translateY(-50%)
+                translateX(calc(var(--tooltip-shift-distance) * -1));
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(-50%) translateX(0);
+        }
+    }
+    @keyframes scale-right {
+        0% {
+            opacity: 0;
+            transform: translateY(-50%) scale(0);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(-50%) scale(1);
+        }
+    }
+    @keyframes fade-right {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+}

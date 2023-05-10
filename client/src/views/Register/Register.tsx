@@ -1,6 +1,6 @@
 import './register.scss';
 import Button from 'HTML_components/Button/Button';
-import Divider from 'HTML_components/Divider/Divider';
+import Div from 'HTML_components/Div/Div';
 import TextInput from 'HTML_components/Inputs/TextInput/TextInput';
 import Label from 'HTML_components/Label/Label';
 import FormWrapper from '../../components/Utillity components/FormWrapper/FormWrapper';
@@ -34,7 +34,7 @@ function Register() {
                 }}
                 formControl={formControl}
             >
-                <Divider className="registerInputSection">
+                <Div className="registerInputSection">
                     <Label>Email: </Label>
                     <TextInput
                         control={formControl.set('email')}
@@ -43,9 +43,9 @@ function Register() {
                         name="email"
                         required
                     ></TextInput>
-                </Divider>
+                </Div>
 
-                <Divider className="registerInputSection">
+                <Div className="registerInputSection">
                     <Label>Password: </Label>
                     <TextInput
                         control={formControl.set('password')}
@@ -55,9 +55,9 @@ function Register() {
                         name="password"
                         required
                     ></TextInput>
-                </Divider>
+                </Div>
 
-                <Divider className="registerInputSection">
+                <Div className="registerInputSection">
                     <Label>Confirm Password: </Label>
                     <TextInput
                         control={formControl.set('new-password')}
@@ -67,7 +67,7 @@ function Register() {
                         name="new-password"
                         required
                     ></TextInput>
-                </Divider>
+                </Div>
 
                 <Button type={'submit'}>Register</Button>
             </FormWrapper>

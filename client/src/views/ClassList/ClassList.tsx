@@ -1,7 +1,7 @@
 import './classList.scss';
 import { useEffect, useState, useRef } from 'react';
 import ClassTemplate from '../../components/ClassTemplate/ClassTemplate.jsx';
-import Divider from 'HTML_components/Divider/Divider.jsx';
+import Div from 'HTML_components/Div/Div.js';
 import TextInput from 'HTML_components/Inputs/TextInput/TextInput.jsx';
 import Label from 'HTML_components/Label/Label.jsx';
 import SearchSVG from '../../svg/SearchSVG.jsx';
@@ -127,21 +127,21 @@ function ClassList() {
 
     // function ClassModal(props) {
     //     return(
-    //         <Divider className={'classModal'}>
-    //             <Divider className={'topPart'}>
-    //                 <Divider className={'classAndTeach'}>
+    //         <Div className={'classModal'}>
+    //             <Div className={'topPart'}>
+    //                 <Div className={'classAndTeach'}>
     //                     <Label className={'modalClass'}>{classFocus === undefined ? "" : classFocus.name}</Label>
     //                     <Label className={'modalTeach'}>Taught by Teacher</Label>
-    //                 </Divider>
+    //                 </Div>
     //                 <Label onClick={() => {SuperModalController.Hide('all')}} className={'close'}>X</Label>
-    //             </Divider>
-    //             <Divider>
+    //             </Div>
+    //             <Div>
     //                 <Label>Description</Label>
-    //             </Divider>
-    //             <Divider className={'bottomPart'}>
+    //             </Div>
+    //             <Div className={'bottomPart'}>
     //                 <Label>Start Time and End time</Label>
-    //             </Divider>
-    //         </Divider>
+    //             </Div>
+    //         </Div>
     //     )
     // }
 
@@ -191,9 +191,9 @@ function ClassList() {
     // }
 
     return (
-        <Divider className="class">
-            <Divider className="searchArea">
-                <Divider className="searchBar">
+        <Div className="class">
+            <Div className="searchArea">
+                <Div className="searchBar">
                     <SearchSVG className={'searchSVG'} />
                     <TextInput
                         onFocus={() =>
@@ -210,7 +210,7 @@ function ClassList() {
                             setSearchData(e.currentTarget.value);
                         }}
                     />
-                </Divider>
+                </Div>
                 <Button
                     className={'advancedSearch'}
                     look={'standardBlue'}
@@ -227,7 +227,7 @@ function ClassList() {
                     <Label type="p">Advanced Search</Label>
                     <ArrowDown color={'white'} />
                 </Button>
-                <Divider className={'userArea'}>
+                <Div className={'userArea'}>
                     <UserSVG
                         color={'white'}
                         ref={userSVGRef}
@@ -246,7 +246,7 @@ function ClassList() {
                             );
                         }}
                     />
-                </Divider>
+                </Div>
                 <Button
                     className={'userBoxSurround'}
                     ref={userBackRef}
@@ -259,7 +259,7 @@ function ClassList() {
                         );
                     }}
                 ></Button>
-                <Divider className={'userBox'} ref={innerUserBackRef}>
+                <Div className={'userBox'} ref={innerUserBackRef}>
                     <UserSVG color={'white'} />
                     <a className={'user'} href={'/'}>
                         User Name
@@ -268,10 +268,10 @@ function ClassList() {
                         Info??
                     </Label>
                     <Button look={'standardBlue'}>Log out</Button>
-                </Divider>
-            </Divider>
-            <Divider className="classes">{classHTML}</Divider>
-            <Divider
+                </Div>
+            </Div>
+            <Div className="classes">{classHTML}</Div>
+            <Div
                 className="advancedSearchBoxSurround"
                 ref={searchBoxRef}
                 onClick={() => {
@@ -282,8 +282,8 @@ function ClassList() {
                         innerSearchBoxRef
                     );
                 }}
-            ></Divider>
-            <Divider className="advancedSearchBox" ref={innerSearchBoxRef}>
+            ></Div>
+            <Div className="advancedSearchBox" ref={innerSearchBoxRef}>
                 <FormWrapper>
                     <Label type={'p'}>Subject</Label>
                     <select ref={subjectRef}>
@@ -321,8 +321,8 @@ function ClassList() {
                         Search
                     </Button>
                 </FormWrapper>
-            </Divider>
-        </Divider>
+            </Div>
+        </Div>
     );
 }
 

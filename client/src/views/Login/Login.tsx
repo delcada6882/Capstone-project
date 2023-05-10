@@ -1,6 +1,6 @@
 import './login.scss';
 import Label from 'HTML_components/Label/Label';
-import Divider from 'HTML_components/Divider/Divider';
+import Div from 'HTML_components/Div/Div';
 import LabelCheckbox from '../../components/Utillity components/LabelCheckbox/LabelCheckbox';
 import FormWrapper, {
     FormkeyElement,
@@ -54,7 +54,7 @@ function Login() {
         <ViewWrapper className="login">
             <Label type={'h1'}>Login</Label>
             <FormWrapper onSubmit={handleLogin} formControl={formControl}>
-                <Divider className="loginInputSection">
+                <Div className="loginInputSection">
                     <Label>Email: </Label>
                     <TextInput
                         required={true}
@@ -63,8 +63,8 @@ function Login() {
                         autoComplete="email"
                         control={formControl.set('email')}
                     ></TextInput>
-                </Divider>
-                <Divider className="loginInputSection">
+                </Div>
+                <Div className="loginInputSection">
                     <Label>Password: </Label>
                     <TextInput
                         minLength={3}
@@ -74,15 +74,15 @@ function Login() {
                         autoComplete="current-password"
                         control={formControl.set('password')}
                     ></TextInput>
-                </Divider>
+                </Div>
 
-                <Divider className="loginInputSectionCheck">
+                <Div className="loginInputSectionCheck">
                     <LabelCheckbox
                         label="Remember me?"
                         id={'staySignedIn'}
                         name={'staySignedIn'}
                     />
-                </Divider>
+                </Div>
 
                 <Button type={'submit'} look={'standardBlue'}>
                     Login
