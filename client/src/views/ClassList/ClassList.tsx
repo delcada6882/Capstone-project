@@ -49,6 +49,7 @@ function ClassList() {
                         searchRegex.test(elem.teacher ?? '')
                     ) {
                         isOneFound = true;
+                        console.log(elem.max_students)
                         return (
                             <ClassTemplate
                                 idx={idx}
@@ -59,7 +60,7 @@ function ClassList() {
                                 description={elem.description}
                                 credits={elem.credits}
                                 class_id={elem.class_id}
-                                max_student={elem.max_student}
+                                max_students={elem.max_students}
                                 semester={elem.semester}
                                 start_time={elem.start_time}
                                 end_time={elem.end_time}
@@ -103,7 +104,7 @@ function ClassList() {
                             description={elem.description}
                             credits={elem.credits}
                             class_id={elem.class_id}
-                            max_student={elem.max_student}
+                            max_students={elem.max_students}
                             semester={elem.semester}
                         />
                     );
@@ -188,22 +189,38 @@ function ClassList() {
 
     return (
         <Div className="class">
-            <Div className="searchArea">
-                <Div className="searchBar">
-                    <SearchSVG className={'searchSVG'} />
-                    <TextInput
-                        onFocus={() =>
+            <Div className="headerSect">
+                <Div className='searchArea'>
+                    <Div className="searchBar">
+                        <SearchSVG className={'searchSVG'} />
+                        <TextInput
+                            onFocus={() =>
+                                handleSetSearchBoxClass(
+                                    'search',
+                                    searchButtonRef,
+                                    searchBoxRef,
+                                    innerSearchBoxRef
+                                )
+                            }
+                            type={'text'}
+                            placeholder="Search classes here"
+                            onChange={(e) => {
+                                setSearchData(e.currentTarget.value);
+                            }}
+                            className='mainSearchInput'
+                        />
+                    </Div>
+                    <Button
+                        className={'advancedSearch'}
+                        look={'standardBlue'}
+                        ref={searchButtonRef}
+                        onClick={(e) => {
                             handleSetSearchBoxClass(
-                                'search',
+                                'toggle',
                                 searchButtonRef,
                                 searchBoxRef,
                                 innerSearchBoxRef
-                            )
-                        }
-                        type={'text'}
-                        placeholder="Search classes here"
-                        onChange={(e) => {
-                            setSearchData(e.currentTarget.value);
+                            );
                         }}
                     />
                 </Div>

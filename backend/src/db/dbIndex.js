@@ -55,12 +55,21 @@ exports.getAdministratorById = async (administrator_id) => {
     );
     return results.rows[0];
 };
-exports.getClassById = async (class_id) => {
+// exports.getClassById = async (class_id) => {
+//     const results = await pool.query(
+//         'select * from classes where class_id = $1',
+//         [class_id]
+//     );
+//     return results.rows[0];
+// };
+
+exports.getClassById = async (req, res) => {
+    const class_id = req.params.class_id;
     const results = await pool.query(
-        'select * from classes where class_id = $1',
+        `select * from classes where class_id = $1`,
         [class_id]
     );
-    return results.rows[0];
+    return res.status(200).json(results.rows);
 };
 exports.getStudentById = async (student_id) => {
     const results = await pool.query(

@@ -11,13 +11,11 @@ export async function getAllClasses() {
     });
 }
 
-export async function getSomeClasses(page?: number, limit?: number) {
-    page = page ?? 0;
-    limit = limit ?? 30;
+export async function getClassById(class_id?: string) {
     return await Axios({
         method: 'GET',
         withCredentials: true,
-        url: `/api/getSomeClasses/${page}/${limit}`,
+        url: `/api/getClassById/${class_id}`,
     }).then((res) => {
         return res.data as Class[];
     });
