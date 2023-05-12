@@ -1,1 +1,1 @@
-export type pgTime = `${number}:${number}:${number}`;
+export type pgTime = `${number}:${number}`;

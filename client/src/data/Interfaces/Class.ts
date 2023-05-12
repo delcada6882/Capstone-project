@@ -14,6 +14,6 @@ export interface Class {
     start_time?: pgTime | null;
     end_time?: pgTime | null;
     students?: number;
-    max_student?: number;
+    max_students?: number;
     created?: pgTimestamp;
 }

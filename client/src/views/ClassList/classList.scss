@@ -1,5 +1,7 @@
 @import '../../variables.scss';
 
+$header-height: 6vh;
+
 body {
     height: 100vh;
 }
@@ -12,18 +14,17 @@ body {
     align-items: center;
 }
 
-.standardTextInput {
-    background-color: $white;
-    width: 100%;
-}
+// .standardTextInput {
+//     background-color: $white;
+//     width: 100%;
+// }
 
 .searchBar {
-    margin-left: 9.3%;
     margin-right: 10px;
     display: flex;
     align-items: center;
     background-color: $white;
-    width: 53%;
+    width: 80%;
     padding: 10px 15px;
     border-radius: 10px;
     position: relative;
@@ -123,7 +124,7 @@ body {
     flex-flow: column;
     align-items: center;
     width: 100%;
-    padding-top: 67px;
+    padding-top: calc($header-height + 2vh);
     padding-bottom: 10px;
 }
 
@@ -134,7 +135,7 @@ body {
     padding: 15px;
     width: 80%;
     text-decoration: none;
-    max-height: 7vw;
+    max-height: 8vw;
     display: flex;
     border: 2px solid rgb(187, 187, 187);
     justify-content: space-around;
@@ -182,7 +183,7 @@ body {
     }
 }
 
-.searchArea {
+.headerSect {
     position: absolute;
     z-index: 3;
     padding: 10px 0;
@@ -190,6 +191,7 @@ body {
     align-items: center;
     width: 100%;
     background-color: $red;
+    height: $header-height;
 }
 
 .advancedSearchBoxSurround {
@@ -318,6 +320,8 @@ body {
 }
 
 .classModal {
+    display: flex;
+    flex-direction: column;
     transition: $trans-time;
     font-size: 20px;
     border-radius: 10px;
@@ -346,19 +350,22 @@ body {
             );
         }
     }
+    .middlePart {
+        height: 80%;
+    }
     .bottomPart {
         display: flex;
+        flex-direction: row;
         justify-content: space-between;
         width: 97.5%;
-        position: absolute;
         bottom: 15%;
+        margin-bottom: 10px;
     }
     .modalButton {
+        justify-self: flex-end;
         display: flex;
         justify-content: center;
         width: 100%;
-        position: absolute;
-        bottom: 0;
     }
 }
 
@@ -375,4 +382,15 @@ body {
         position: relative;
         top: -10px;
     }
+}
+.TextInputWrapper {
+    width: 98%;
+}
+.searchArea {
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    padding: 2px;
+
 }

@@ -23,7 +23,7 @@ function ClassList() {
     const userBackRef = useRef<HTMLButtonElement>(null);
     const innerUserBackRef = useRef<HTMLDivElement>(null);
     const [searchData, setSearchData] = useState('');
-    const [isAuth, setIsAuth] = useState(false);
+    const [isAuth, setIsAuth] = useState(true);
 
     const subjectRef = useRef<HTMLSelectElement>(null);
     const semesterRef = useRef<HTMLSelectElement>(null);
@@ -53,6 +53,7 @@ function ClassList() {
                         searchRegex.test(elem.teacher ?? '')
                     ) {
                         isOneFound = true;
+                        console.log(elem.max_students)
                         return (
                             <ClassTemplate
                                 idx={idx}
@@ -63,7 +64,7 @@ function ClassList() {
                                 description={elem.description}
                                 credits={elem.credits}
                                 class_id={elem.class_id}
-                                max_student={elem.max_student}
+                                max_students={elem.max_students}
                                 semester={elem.semester}
                                 start_time={elem.start_time}
                                 end_time={elem.end_time}
@@ -107,7 +108,7 @@ function ClassList() {
                             description={elem.description}
                             credits={elem.credits}
                             class_id={elem.class_id}
-                            max_student={elem.max_student}
+                            max_students={elem.max_students}
                             semester={elem.semester}
                         />
                     );
@@ -192,41 +193,44 @@ function ClassList() {
 
     return (
         <Divider className="class">
-            <Divider className="searchArea">
-                <Divider className="searchBar">
-                    <SearchSVG className={'searchSVG'} />
-                    <TextInput
-                        onFocus={() =>
+            <Divider className="headerSect">
+                <Divider className='searchArea'>
+                    <Divider className="searchBar">
+                        <SearchSVG className={'searchSVG'} />
+                        <TextInput
+                            onFocus={() =>
+                                handleSetSearchBoxClass(
+                                    'search',
+                                    searchButtonRef,
+                                    searchBoxRef,
+                                    innerSearchBoxRef
+                                )
+                            }
+                            type={'text'}
+                            placeholder="Search classes here"
+                            onChange={(e) => {
+                                setSearchData(e.currentTarget.value);
+                            }}
+                            className='mainSearchInput'
+                        />
+                    </Divider>
+                    <Button
+                        className={'advancedSearch'}
+                        look={'standardBlue'}
+                        ref={searchButtonRef}
+                        onClick={(e) => {
                             handleSetSearchBoxClass(
-                                'search',
+                                'toggle',
                                 searchButtonRef,
                                 searchBoxRef,
                                 innerSearchBoxRef
-                            )
-                        }
-                        type={'text'}
-                        placeholder="Search classes here"
-                        onChange={(e) => {
-                            setSearchData(e.currentTarget.value);
+                            );
                         }}
-                    />
+                    >
+                        <Label type="p">Advanced Search</Label>
+                        <ArrowDown color={'white'} />
+                    </Button>
                 </Divider>
-                <Button
-                    className={'advancedSearch'}
-                    look={'standardBlue'}
-                    ref={searchButtonRef}
-                    onClick={(e) => {
-                        handleSetSearchBoxClass(
-                            'toggle',
-                            searchButtonRef,
-                            searchBoxRef,
-                            innerSearchBoxRef
-                        );
-                    }}
-                >
-                    <Label type="p">Advanced Search</Label>
-                    <ArrowDown color={'white'} />
-                </Button>
                 <Divider className={'userArea'}>
                     <UserSVG
                         color={'white'}

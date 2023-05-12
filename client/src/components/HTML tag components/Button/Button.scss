@@ -4,9 +4,12 @@
     // I think it would be nice if have a bunch of pre styled buttons and we just choose that. I made an example one
     &.standardBlue {
         background-color: $blue;
+        .Label {
+            color: $white;
+        }
         color: $white;
-        margin-top: 1.5vw;
-        margin-bottom: 20px;
+        // margin-top: 1.5vw;
+        // margin-bottom: 20px;
         box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
             rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
         border: none;

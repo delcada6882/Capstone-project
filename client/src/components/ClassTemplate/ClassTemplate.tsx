@@ -6,6 +6,7 @@ import Label from 'HTML_components/Label/Label';
 import { SuperModalController } from '../Modal Components/SuperModal/SuperModal';
 import { Student } from '../../data/Interfaces/Student';
 import { Class } from '../../data/Interfaces/Class';
+import xIcon from '../../svg/closeIcon.svg';
 
 export interface ClassTemplateProps extends Class {
     idx?: number;
@@ -44,20 +45,19 @@ function ClassTemplate(props: ClassTemplateProps) {
                         }}
                         className={'close'}
                     >
-                        X
+                        <img src={xIcon}></img>
                     </Label>
                 </Divider>
-                <Divider>
+                <Divider className={'middlePart'}>
                     <Label>{props.description}</Label>
                 </Divider>
                 <Divider className={'bottomPart'}>
                     <Label>
-                        Class time: {props.start_time} - {props.end_time}
+                        Class time: {props.start_time?.split(":").splice(0, 2).join(":")} - {props.end_time?.split(":").splice(0, 2).join(":")}
                     </Label>
                     <Label>Credits: {props.credits}</Label>
                     <Label>
-                        (Students: {students === null ? '' : students.length} /{' '}
-                        {props.max_student})
+                        (Students: {students === null ? '' : students.length} / {props.max_students})
                     </Label>
                     <Label>Semester: {props.semester}</Label>
                     <Label>Subject: {props.subject}</Label>
@@ -90,7 +90,7 @@ function ClassTemplate(props: ClassTemplateProps) {
                     </Label>
                     <Label type={'p'} className="student-amount">
                         students: {students === null ? '' : students.length}/
-                        {props.max_student}
+                        {props.max_students}
                     </Label>
                     <Label type={'p'} className="Semester">
                         Semester: {props.semester}
@@ -103,7 +103,7 @@ function ClassTemplate(props: ClassTemplateProps) {
     if (props.anchor) {
         return (
             <a
-                href={`class${props.anchor}?index=${props.idx}`}
+                href={`class-list${props.anchor}?index=${props.idx}&class_id=${props.class_id}`}
                 key={`anchor-for-${props.name}`}
                 className={
                     'subClasses ' +

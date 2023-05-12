@@ -4,7 +4,7 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import Button from 'HTML_components/Button/Button.jsx';
 import Divider from 'HTML_components/Divider/Divider.jsx';
 import Label from 'HTML_components/Label/Label.jsx';
-import { getAllClasses, getSomeClasses } from '../../data/getClasses.js';
+import { getClassById } from '../../data/getClasses.js';
 import { getStudentsByClass } from '../../data/getStudents.js';
 import ArrowDown from '../../svg/ArrowDown.jsx';
 import { Student } from '../../data/Interfaces/Student';
@@ -15,20 +15,24 @@ function SpecificClass() {
     const { specificClass } = useParams();
     const [searchParams] = useSearchParams();
     const index = searchParams.get('index');
+    const classId = searchParams.get('class_id');
     const [students, setStudents] = useState<Student[] | null>(null);
     const [data, setData] = useState<Class[] | null>(null);
 
+
+
     useEffect(() => {
-        async function redoClasses() {
-            if (!index) return;
-            await getSomeClasses(+index, 1)
-                .then((item) => {
+        async function getClass() {
+            if (!classId) return;
+            await getClassById(classId).then((item: Class[]) => {
+                    // if (!item) return;
+                    console.log(item)
                     setData(item);
                 })
                 .catch(console.error);
         }
-        redoClasses();
-    }, []);
+        getClass();
+    }, [classId]);
 
     useEffect(() => {
         async function getStudents() {
@@ -44,6 +48,7 @@ function SpecificClass() {
     }, [data]);
 
     function studentsMap() {
+        console.log(data)
         let returnVal;
         if (students !== null && students !== undefined) {
             returnVal = students.map((elem, idx) => {
@@ -110,13 +115,18 @@ function SpecificClass() {
                     Semester: {data === null ? '' : `${data[0].semester}`}
                 </Label>
             </Divider>
-            <Divider className={'studentsBox'} ref={studentBoxRef}>
+            <Divider className={'studentsBox'} ref={studentBoxRef} 
+                                onClick={() => {
+                                    console.log('uh')
+                                    console.log(studentBoxRef)
+                                    if (!studentBoxRef.current) return;
+                                    console.log('HEY')
+                                    studentBoxRef.current.classList.toggle('studentsClick');
+                                }}
+            >
                 <Divider
                     className={'headOfStudents'}
-                    onClick={() => {
-                        if (!studentBoxRef.current) return;
-                        studentBoxRef.current.classList.toggle('studentsClick');
-                    }}
+
                 >
                     <Label type={'p'}>Students</Label>
                     <ArrowDown />
