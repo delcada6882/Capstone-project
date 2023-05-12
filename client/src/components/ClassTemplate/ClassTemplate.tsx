@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getStudentsByClass } from '../../data/getStudents';
 import Button from 'HTML_components/Button/Button';
-import Divider from 'HTML_components/Divider/Divider';
+import Div from 'HTML_components/Div/Div';
 import Label from 'HTML_components/Label/Label';
 import { SuperModalController } from '../Modal Components/SuperModal/SuperModal';
 import { Student } from '../../data/Interfaces/Student';
@@ -31,14 +31,14 @@ function ClassTemplate(props: ClassTemplateProps) {
 
     function ClassModal() {
         return (
-            <Divider className={'classModal'}>
-                <Divider className={'topPart'}>
-                    <Divider className={'classAndTeach'}>
+            <Div className={'classModal'}>
+                <Div className={'topPart'}>
+                    <Div className={'classAndTeach'}>
                         <Label className={'modalClass'}>{props.name}</Label>
                         <Label className={'modalTeach'}>
                             Taught by {props.teacher}
                         </Label>
-                    </Divider>
+                    </Div>
                     <Label
                         onClick={() => {
                             SuperModalController.Hide('all');
@@ -47,11 +47,11 @@ function ClassTemplate(props: ClassTemplateProps) {
                     >
                         <img src={xIcon}></img>
                     </Label>
-                </Divider>
-                <Divider className={'middlePart'}>
+                </Div>
+                <Div className={'middlePart'}>
                     <Label>{props.description}</Label>
-                </Divider>
-                <Divider className={'bottomPart'}>
+                </Div>
+                <Div className={'bottomPart'}>
                     <Label>
                         Class time: {props.start_time?.split(":").splice(0, 2).join(":")} - {props.end_time?.split(":").splice(0, 2).join(":")}
                     </Label>
@@ -61,30 +61,30 @@ function ClassTemplate(props: ClassTemplateProps) {
                     </Label>
                     <Label>Semester: {props.semester}</Label>
                     <Label>Subject: {props.subject}</Label>
-                </Divider>
-                <Divider className={'modalButton'}>
+                </Div>
+                <Div className={'modalButton'}>
                     <Button look={'standardBlue'}>Register</Button>
-                </Divider>
-            </Divider>
+                </Div>
+            </Div>
         );
     }
 
     function HoldComponent() {
         return (
-            <Divider
+            <Div
                 className={props.name.split(' ').join('-') + ' normal'}
                 onClick={() => {
                     console.log('put modal in here');
                 }}
             >
-                <Divider className="topPart">
+                <Div className="topPart">
                     <Label type={'h1'}>{props.name}</Label>
                     <Label type={'p'}>{props.teacher}</Label>
-                </Divider>
-                <Divider className="middlePart">
+                </Div>
+                <Div className="middlePart">
                     <Label type={'h2'}>{props.description}</Label>
-                </Divider>
-                <Divider className="bottomPart">
+                </Div>
+                <Div className="bottomPart">
                     <Label type={'p'} className="credits">
                         credits: {props.credits}
                     </Label>
@@ -95,8 +95,8 @@ function ClassTemplate(props: ClassTemplateProps) {
                     <Label type={'p'} className="Semester">
                         Semester: {props.semester}
                     </Label>
-                </Divider>
-            </Divider>
+                </Div>
+            </Div>
         );
     }
 
@@ -117,14 +117,14 @@ function ClassTemplate(props: ClassTemplateProps) {
         );
     } else {
         return (
-            <Divider
+            <Div
                 className={'subClasses'}
                 onClick={() => {
                     SuperModalController.Display(<ClassModal />);
                 }}
             >
                 <HoldComponent />
-            </Divider>
+            </Div>
         );
     }
 }

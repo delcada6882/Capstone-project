@@ -1,5 +1,10 @@
 import { SuperModalController } from '../../components/Modal Components/SuperModal/SuperModal';
 import { validateStudent, addStudent } from '../../data/getStudents';
+import {
+    AnimationName,
+    AnimationProperties,
+} from 'HTML_components/Tooltip/TooltipTypes';
+import Div from 'HTML_components/Div/Div';
 
 function View2() {
     const handleClick = () => SuperModalController.ClearToasts();
@@ -10,7 +15,7 @@ function View2() {
             onUnmount: () => console.log(`and when it goes away`),
             onClick: () =>
                 SuperModalController.Toast(
-                    <div
+                    <Div
                         className="you Can even Pass props"
                         style={{ flexDirection: 'column', display: 'flex' }}
                     >
@@ -18,7 +23,7 @@ function View2() {
                         <button style={{ backgroundColor: 'lightGray' }}>
                             You can put all kinds of stuff in here
                         </button>
-                    </div>
+                    </Div>
                 ),
             duration: 4000,
         });
@@ -52,11 +57,24 @@ function View2() {
         run();
     };
 
+    const aniname: AnimationName = 'shift-toward';
+    const dur = 1000;
+    const ani: AnimationProperties = {
+        name: aniname,
+        duration: dur,
+        easingFunction: undefined,
+    };
+
     return (
-        <div>
+        <Div
+            tooltipProperties={{
+                content: 'This is a tooltip',
+                showAnimation: ani,
+            }}
+        >
             <h1 onClick={createToast}>I'm view 2... :&#40; </h1>
-            <div onClick={handleClick}>Clear all toasts</div>
-        </div>
+            <Div onClick={handleClick}>Clear all toasts</Div>
+        </Div>
     );
 }
 

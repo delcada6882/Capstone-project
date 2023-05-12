@@ -1,4 +1,4 @@
-import Divider from 'HTML_components/Divider/Divider';
+import Div from 'HTML_components/Div/Div';
 import './ViewWrapper.scss';
 
 export interface ViewWrapperProps {
@@ -7,7 +7,7 @@ export interface ViewWrapperProps {
 
 function ViewWrapper(props: React.PropsWithChildren<ViewWrapperProps>) {
     return (
-        <Divider
+        <Div
             {...props}
             className={
                 props.className

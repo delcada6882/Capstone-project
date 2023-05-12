@@ -2,7 +2,7 @@ import './specificClass.scss';
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import Button from 'HTML_components/Button/Button.jsx';
-import Divider from 'HTML_components/Divider/Divider.jsx';
+import Div from 'HTML_components/Div/Div.js';
 import Label from 'HTML_components/Label/Label.jsx';
 import { getClassById } from '../../data/getClasses.js';
 import { getStudentsByClass } from '../../data/getStudents.js';
@@ -53,7 +53,7 @@ function SpecificClass() {
         if (students !== null && students !== undefined) {
             returnVal = students.map((elem, idx) => {
                 return (
-                    <Divider className={'students'}>
+                    <Div className={'students'}>
                         <a
                             key={idx}
                             href={`/users/${elem.first_name}${elem.last_name}`}
@@ -61,7 +61,7 @@ function SpecificClass() {
                             {elem.first_name + ' ' + elem.last_name}
                         </a>
                         <Button look={'standardRed'}>Remove</Button>
-                    </Divider>
+                    </Div>
                 );
             });
         }
@@ -69,17 +69,17 @@ function SpecificClass() {
     }
 
     return (
-        <Divider className={'specificClass'}>
-            <Divider className={'nameAndTeach'}>
-                <Divider className={'name'}>
+        <Div className={'specificClass'}>
+            <Div className={'nameAndTeach'}>
+                <Div className={'name'}>
                     <Label type={'h1'}>
                         {data === null ? '' : data[0].name}
                     </Label>
                     <Label type={'p'}>
                         {data === null ? '' : `Taught by ${data[0].teacher}`}
                     </Label>
-                </Divider>
-                <Divider className={'editDataButton'}>
+                </Div>
+                <Div className={'editDataButton'}>
                     <Button look={'standardRed'}>
                         <a
                             href={
@@ -91,14 +91,14 @@ function SpecificClass() {
                             Edit Class Data
                         </a>
                     </Button>
-                </Divider>
-            </Divider>
-            <Divider className={'description'}>
+                </Div>
+            </Div>
+            <Div className={'description'}>
                 <Label type={'h2'}>
                     {data === null ? '' : data[0].description}
                 </Label>
-            </Divider>
-            <Divider className={'basicData'}>
+            </Div>
+            <Div className={'basicData'}>
                 <Label className={'subject'}>
                     Subject: {data === null ? '' : data[0].subject}
                 </Label>
@@ -114,8 +114,8 @@ function SpecificClass() {
                 <Label className={'semester'}>
                     Semester: {data === null ? '' : `${data[0].semester}`}
                 </Label>
-            </Divider>
-            <Divider className={'studentsBox'} ref={studentBoxRef} 
+            </Div>
+            <Div className={'studentsBox'} ref={studentBoxRef} 
                                 onClick={() => {
                                     console.log('uh')
                                     console.log(studentBoxRef)
@@ -124,19 +124,18 @@ function SpecificClass() {
                                     studentBoxRef.current.classList.toggle('studentsClick');
                                 }}
             >
-                <Divider
+                <Div
                     className={'headOfStudents'}
-
                 >
                     <Label type={'p'}>Students</Label>
                     <ArrowDown />
-                </Divider>
-                <Divider className={'studentsData'}>
+                </Div>
+                <Div className={'studentsData'}>
                     <hr />
                     {studentsMap()}
-                </Divider>
-            </Divider>
-        </Divider>
+                </Div>
+            </Div>
+        </Div>
     );
 }
 
