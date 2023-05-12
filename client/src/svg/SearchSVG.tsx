@@ -1,4 +1,8 @@
-const App = (props) => {
+interface searchProps {
+    className?: string;
+}
+
+const App = (props: searchProps) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"

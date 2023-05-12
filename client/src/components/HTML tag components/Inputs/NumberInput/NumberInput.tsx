@@ -7,11 +7,13 @@ export interface NumberInputProps extends InputProps {
     className?: string;
     look?: 'primary' | 'secondary' | 'tertiary';
     onClick?: (e: React.MouseEvent<HTMLInputElement>) => void;
-    ref?: React.RefObject<HTMLInputElement>;
 }
 
-function NumberInput(props: React.PropsWithChildren<NumberInputProps>) {
-    const { className, look, formKey, ref, control, required, ...etc } = props;
+function NumberInput(
+    props: React.PropsWithChildren<NumberInputProps>,
+    ref: React.ForwardedRef<HTMLInputElement>
+) {
+    const { className, look, formKey, control, required, ...etc } = props;
     const [validity, setValidity] = useState(true);
     const [invalidMessage, setInvalidMessage] = useState(
         'Please fill out this field'
@@ -90,4 +92,4 @@ function NumberInput(props: React.PropsWithChildren<NumberInputProps>) {
     );
 }
 
-export default NumberInput;
+export default React.forwardRef(NumberInput);

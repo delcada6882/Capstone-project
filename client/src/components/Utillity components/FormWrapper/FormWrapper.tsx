@@ -3,7 +3,8 @@ import FormControl from '../../../utils/componentUtils/formControl/formControl';
 
 export interface FormWrapperProps {
     className?: string;
-    onSubmit?: (formElems: FormkeyElement[]) => void;
+    // onSubmit?: (formElems: FormkeyElement[]) => void; This is coles code
+    onSubmit?: (formElems: FormkeyElement[], e: Event) => void;
     formControl?: FormControl;
 }
 
@@ -26,7 +27,9 @@ function FormWrapper(props: React.PropsWithChildren<FormWrapperProps>) {
         if (!formElems) hookupformElements(event.target);
         const ShouldFocusNext = await checkIfFormIsValid();
         if (ShouldFocusNext) focusElement(ShouldFocusNext);
-        else if (props.onSubmit) props.onSubmit(formElems);
+        // else if (props.onSubmit) props.onSubmit(formElems); This is coles code
+        else if (props.onSubmit) props.onSubmit(formElems, event);
+
     };
 
     const focusElement = async (elem: FormkeyElement) => {

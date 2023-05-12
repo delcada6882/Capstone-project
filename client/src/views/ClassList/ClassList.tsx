@@ -23,7 +23,7 @@ function ClassList() {
     const userBackRef = useRef<HTMLButtonElement>(null);
     const innerUserBackRef = useRef<HTMLDivElement>(null);
     const [searchData, setSearchData] = useState('');
-    const [isAuth, setIsAuth] = useState(false);
+    const [isAuth, setIsAuth] = useState(true);
 
     const subjectRef = useRef<HTMLSelectElement>(null);
     const semesterRef = useRef<HTMLSelectElement>(null);
@@ -31,11 +31,7 @@ function ClassList() {
 
     useEffect(() => {
         async function redoClasses() {
-            await getAllClasses()
-                .then((item) => {
-                    setClasses([...item]);
-                })
-                .catch(console.error);
+            await getAllClasses().then(setClasses).catch(console.error);
         }
         redoClasses();
     }, []);
@@ -53,6 +49,7 @@ function ClassList() {
                         searchRegex.test(elem.teacher ?? '')
                     ) {
                         isOneFound = true;
+                        console.log(elem.max_students)
                         return (
                             <ClassTemplate
                                 idx={idx}
@@ -63,7 +60,7 @@ function ClassList() {
                                 description={elem.description}
                                 credits={elem.credits}
                                 class_id={elem.class_id}
-                                max_student={elem.max_student}
+                                max_students={elem.max_students}
                                 semester={elem.semester}
                                 start_time={elem.start_time}
                                 end_time={elem.end_time}
@@ -77,7 +74,7 @@ function ClassList() {
             setClassHTML(dataArr);
             if (isOneFound === false) {
                 setClassHTML([
-                    <Label type={'p'} className="noClass">
+                    <Label key={'noClassBasic'} type={'p'} className="noClass">
                         There are no classes that match your search &gt;:&#40;
                     </Label>,
                 ]);
@@ -107,7 +104,7 @@ function ClassList() {
                             description={elem.description}
                             credits={elem.credits}
                             class_id={elem.class_id}
-                            max_student={elem.max_student}
+                            max_students={elem.max_students}
                             semester={elem.semester}
                         />
                     );
@@ -118,7 +115,7 @@ function ClassList() {
         setClassHTML(dataArr);
         if (isOneFound === false) {
             setClassHTML([
-                <Label type={'p'} className="noClass">
+                <Label key={'noClassAdvanced'} type={'p'} className="noClass">
                     There are no classes that match your search &gt;:&#40;
                 </Label>,
             ]);
@@ -192,22 +189,38 @@ function ClassList() {
 
     return (
         <Div className="class">
-            <Div className="searchArea">
-                <Div className="searchBar">
-                    <SearchSVG className={'searchSVG'} />
-                    <TextInput
-                        onFocus={() =>
+            <Div className="headerSect">
+                <Div className='searchArea'>
+                    <Div className="searchBar">
+                        <SearchSVG className={'searchSVG'} />
+                        <TextInput
+                            onFocus={() =>
+                                handleSetSearchBoxClass(
+                                    'search',
+                                    searchButtonRef,
+                                    searchBoxRef,
+                                    innerSearchBoxRef
+                                )
+                            }
+                            type={'text'}
+                            placeholder="Search classes here"
+                            onChange={(e) => {
+                                setSearchData(e.currentTarget.value);
+                            }}
+                            className='mainSearchInput'
+                        />
+                    </Div>
+                    <Button
+                        className={'advancedSearch'}
+                        look={'standardBlue'}
+                        ref={searchButtonRef}
+                        onClick={(e) => {
                             handleSetSearchBoxClass(
-                                'search',
+                                'toggle',
                                 searchButtonRef,
                                 searchBoxRef,
                                 innerSearchBoxRef
-                            )
-                        }
-                        type={'text'}
-                        placeholder="Search classes here"
-                        onChange={(e) => {
-                            setSearchData(e.currentTarget.value);
+                            );
                         }}
                     />
                 </Div>
