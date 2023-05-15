@@ -243,13 +243,14 @@ class SuperModal extends React.Component<{}, SuperModalState> {
         const InQueue = () => {
             return DisplayQueue.find(
                 ({ time, stringified }) =>
-                    timeStamp - time < 10 || stringified == JSON.stringify(comp)
+                    timeStamp - time < 10 ||
+                    stringified === JSON.stringify(comp)
             );
         };
         if (InQueue()) return;
 
         /* DEV BUILD ITEMS --> */
-        if (this.state.components.find((compo) => compo.component == comp))
+        if (this.state.components.find((compo) => compo.component === comp))
             if (timeStamp > this.state.DevBuild_session) return;
         /* <-- DEV BUILD ITEMS */
 
@@ -303,8 +304,8 @@ class SuperModal extends React.Component<{}, SuperModalState> {
     };
     Remove = (Id: ModalId) => {
         const IDX = this.GetModalIndexById(Id);
-        if (IDX == null) return;
-        if (IDX == 'all') this.setState({ components: [] });
+        if (IDX === null) return;
+        if (IDX === 'all') this.setState({ components: [] });
 
         this.setState((prevState) => {
             const StateIDX = this.GetModalIndexById(Id, false);
@@ -315,8 +316,8 @@ class SuperModal extends React.Component<{}, SuperModalState> {
     };
     Show = (Id: ModalId) => {
         const IDX = this.GetModalIndexById(Id);
-        if (IDX == null) return;
-        if (IDX == 'all') {
+        if (IDX === null) return;
+        if (IDX === 'all') {
             this.setState((prevState) => {
                 prevState.components.forEach((element) => {
                     element.attributes.visible = true;
@@ -332,8 +333,8 @@ class SuperModal extends React.Component<{}, SuperModalState> {
     };
     Hide = (Id: ModalId) => {
         const IDX = this.GetModalIndexById(Id);
-        if (IDX == null) return;
-        if (IDX == 'all') {
+        if (IDX === null) return;
+        if (IDX === 'all') {
             this.setState((prevState) => {
                 prevState.components.forEach((element) => {
                     element.attributes.visible = false;
@@ -350,8 +351,8 @@ class SuperModal extends React.Component<{}, SuperModalState> {
     };
     EditAttributesOf = (Id: ModalId, changedAttributes: ModalAttributes) => {
         const IDX = this.GetModalIndexById(Id);
-        if (IDX == null) return;
-        if (IDX == 'all') {
+        if (IDX === null) return;
+        if (IDX === 'all') {
             this.setState((prevState) => {
                 prevState.components.forEach((element) => {
                     element.attributes = {
@@ -384,7 +385,7 @@ class SuperModal extends React.Component<{}, SuperModalState> {
         }
         const isValidId = ValidateUUID.test(Id);
         if (!isValidId) {
-            if (typeof Id == 'string')
+            if (typeof Id === 'string')
                 switch (Id.toLowerCase()) {
                     case 'all':
                         return 'all';
@@ -462,7 +463,7 @@ class SuperModal extends React.Component<{}, SuperModalState> {
                 return (
                     <div className="toastContainer">
                         <h3 className="toastHeading">
-                            {typeof component == 'string' && component}
+                            {typeof component === 'string' && component}
                         </h3>
                     </div>
                 );
@@ -486,7 +487,7 @@ class SuperModal extends React.Component<{}, SuperModalState> {
                 const Elem = Toast.component;
 
                 const removeCallback = (toastRef: UUID) => {
-                    let IDX;
+                    let IDX: number = -1;
                     this.state.currentToasts.find((item, idx) => {
                         if (item.Id === toastRef) {
                             IDX = idx;
@@ -494,9 +495,11 @@ class SuperModal extends React.Component<{}, SuperModalState> {
                         }
                         return false;
                     });
-                    if (IDX == undefined) return;
-
-                    this.state.currentToasts[IDX].Active = false;
+                    if (IDX === -1) return;
+                    this.setState((prevState) => {
+                        prevState.currentToasts[IDX].Active = false;
+                        return prevState;
+                    });
                     const actives = this.state.currentToasts.find(
                         (item) => item.Active
                     );
