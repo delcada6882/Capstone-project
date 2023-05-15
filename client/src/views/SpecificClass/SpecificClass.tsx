@@ -1,10 +1,10 @@
 import './specificClass.scss';
 import { useState, useEffect, useRef } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import Button from 'HTML_components/Button/Button.jsx';
 import Div from 'HTML_components/Div/Div.js';
 import Label from 'HTML_components/Label/Label.jsx';
-import { getAllClasses, getSomeClasses } from '../../data/getClasses.js';
+import { getSomeClasses } from '../../data/getClasses.js';
 import { getStudentsByClass } from '../../data/getStudents.js';
 import ArrowDown from '../../svg/ArrowDown.jsx';
 import { Student } from '../../data/Interfaces/Student';
@@ -12,7 +12,6 @@ import { Class } from '../../data/Interfaces/Class';
 
 function SpecificClass() {
     const studentBoxRef = useRef<HTMLDivElement | null>(null);
-    const { specificClass } = useParams();
     const [searchParams] = useSearchParams();
     const index = searchParams.get('index');
     const [students, setStudents] = useState<Student[] | null>(null);
@@ -28,7 +27,7 @@ function SpecificClass() {
                 .catch(console.error);
         }
         redoClasses();
-    }, []);
+    }, [index]);
 
     useEffect(() => {
         async function getStudents() {

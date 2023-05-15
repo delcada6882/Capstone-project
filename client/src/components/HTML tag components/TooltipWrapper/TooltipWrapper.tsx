@@ -37,18 +37,20 @@ function TooltipWrapper(props: React.PropsWithChildren<TooltipWrapperProps>) {
         trigger = 'hover',
         showDelay = 400,
         hideDelay = 0,
-        tooltipRef = useRef<HTMLDivElement>(null),
+        tooltipRef,
         ...TooltipProps
     } = props;
+    const target = useRef<HTMLDivElement>(tooltipRef?.current || null);
+
     const showTimeout = useTimeout(() => {
-        if (!tooltipRef.current) return;
-        showTooltip(tooltipRef.current);
+        if (!target.current) return;
+        showTooltip(target.current);
         if (props.onShow) props.onShow();
     }, showDelay);
 
     const hideTimeout = useTimeout(() => {
-        if (!tooltipRef.current) return;
-        hideTooltip(tooltipRef.current);
+        if (!target.current) return;
+        hideTooltip(target.current);
         if (props.onHide) props.onHide();
     }, hideDelay);
 

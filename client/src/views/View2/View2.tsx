@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { SuperModalController } from '../../components/Modal Components/SuperModal/SuperModal';
 import { validateStudent, addStudent } from '../../data/getStudents';
 import {

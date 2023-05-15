@@ -13,11 +13,12 @@ import { useEffect, useRef } from 'react';
  * useClickOutside(() => console.log('Clicked outside!'), ref);
  * return <div ref={ref}>Click outside of me!</div>;
  */
-export default function useClickOutside<GeneratedElemType>(
+export default function useClickOutside<GeneratedElemType extends Element>(
     callback: (event: MouseEvent | TouchEvent) => void,
     ref?: React.RefObject<Element>
 ): React.RefObject<GeneratedElemType> | null {
-    const generatedRef = ref ? null : useRef<Element>(null);
+    const generatedRef = useRef<Element>(ref?.current ?? null);
+
     useEffect(() => {
         const handleOutsideClick = (event: MouseEvent | TouchEvent) => {
             if (ref) {

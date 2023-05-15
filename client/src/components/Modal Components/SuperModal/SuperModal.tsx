@@ -32,7 +32,7 @@ const DevBuild_validateModalRef = () => {
         SuperModalRef = backupRef;
         if (!backupRef)
             console.error(
-                `SuperModal_DevBuild:\n\tBackupRef was not found,\Try reloading the page if that dosn't work then\n\tPlease make sure app exports backup properly`
+                `SuperModal_DevBuild:\n\tBackupRef was not found,\nTry reloading the page if that dosn't work then\n\tPlease make sure app exports backup properly`
             );
     }
 };
