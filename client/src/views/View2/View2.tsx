@@ -5,7 +5,6 @@ import {
     AnimationProperties,
 } from 'HTML_components/Tooltip/TooltipTypes';
 import Div from 'HTML_components/Div/Div';
-import Select from 'HTML_components/Inputs/Select/Select';
 
 function View2() {
     const handleClick = () => SuperModalController.ClearToasts();
@@ -65,25 +64,9 @@ function View2() {
         duration: dur,
         easingFunction: undefined,
     };
-    const options = [
-        { value: '1', label: 'one' },
-        { value: '2', label: 'two' },
-        { value: '3', label: 'three' },
-        { value: '4', label: 'four' },
-        { value: '5', label: 'five' },
-        { value: '6', label: 'six' },
-    ];
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <Select options={options} search />
-            <br />
-            <br />
-            <br />
-            <Select options={options} />
-            <br />
-            <br />
-            <br />
             <Div
                 tooltipProperties={{
                     content: 'This is a tooltip',
