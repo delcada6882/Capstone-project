@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react';
  * @param target the target node to observe
  * @param callback the callback function to call when a mutation occurs
  * @param options the options to pass to the mutation observer
- * @returns a mutation observer
+ * @returns void
  */
 export default function useMutationObserver(
     target: Node | undefined | null,

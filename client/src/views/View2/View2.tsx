@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { SuperModalController } from '../../components/Modal Components/SuperModal/SuperModal';
 import { validateStudent, addStudent } from '../../data/getStudents';
 import {
@@ -66,15 +67,17 @@ function View2() {
     };
 
     return (
-        <Div
-            tooltipProperties={{
-                content: 'This is a tooltip',
-                showAnimation: ani,
-            }}
-        >
-            <h1 onClick={createToast}>I'm view 2... :&#40; </h1>
-            <Div onClick={handleClick}>Clear all toasts</Div>
-        </Div>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <Div
+                tooltipProperties={{
+                    content: 'This is a tooltip',
+                    showAnimation: ani,
+                }}
+            >
+                <h1 onClick={createToast}>I'm view 2... :&#40; </h1>
+                <Div onClick={handleClick}>Clear all toasts</Div>
+            </Div>
+        </div>
     );
 }
 

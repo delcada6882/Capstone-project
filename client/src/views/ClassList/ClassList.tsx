@@ -23,7 +23,8 @@ function ClassList() {
     const userBackRef = useRef<HTMLButtonElement>(null);
     const innerUserBackRef = useRef<HTMLDivElement>(null);
     const [searchData, setSearchData] = useState('');
-    const [isAuth, setIsAuth] = useState(false);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [isAuth, setIsAuth] = useState(false); // TODO: Hook this up when auth is implemented
 
     const subjectRef = useRef<HTMLSelectElement>(null);
     const semesterRef = useRef<HTMLSelectElement>(null);
@@ -83,7 +84,7 @@ function ClassList() {
                 ]);
             }
         }
-    }, [classes, searchData]);
+    }, [classes, searchData, isAuth]);
 
     function advancedSearchFunction(sub: string, sem: string, cred: string) {
         let isOneFound = false;
@@ -163,10 +164,10 @@ function ClassList() {
             if (buttonRef?.current) buttonRef.current.classList.toggle('click');
             if (boxRef?.current)
                 boxRef.current.style.display =
-                    boxRef.current.style.display == 'flex' ? 'none' : 'flex';
+                    boxRef.current.style.display === 'flex' ? 'none' : 'flex';
             if (innerBoxRef?.current)
                 innerBoxRef.current.style.display =
-                    innerBoxRef.current.style.display == 'flex'
+                    innerBoxRef.current.style.display === 'flex'
                         ? 'none'
                         : 'flex';
         }

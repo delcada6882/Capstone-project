@@ -2,7 +2,7 @@ import React, { useMemo, useRef, useState } from 'react';
 import './TextInput.scss';
 import eyeOpen from '../../../../Images/Icons/eye-fill.svg';
 import eyeSlash from '../../../../Images/Icons/eye-slash-fill.svg';
-import InputProps from '../InputProps';
+import { InputProps } from '../InputProps';
 import useMutationObserver from '../../../../customHooks/useMutationObserver';
 import { FormkeyElement } from '../../../Utillity components/FormWrapper/FormWrapper';
 
@@ -54,11 +54,11 @@ function TextInput(props: React.PropsWithChildren<TextInputProps>) {
         if (!validity) temp.push('invalid');
         if (className) temp.push(className);
         return temp.join(' ');
-    }, [look, className]);
+    }, [look, className, validity]);
 
     const shouldRenderEyeVis = useMemo(() => {
-        if (toggleVis == undefined) {
-            if (type != 'password') return false;
+        if (toggleVis === undefined) {
+            if (type !== 'password') return false;
         } else {
             if (!toggleVis) return false;
         }
@@ -69,7 +69,7 @@ function TextInput(props: React.PropsWithChildren<TextInputProps>) {
         if (!shouldRenderEyeVis) return type ?? 'text';
         if (eyeVis) return 'text';
         return 'password';
-    }, [eyeVis, shouldRenderEyeVis]);
+    }, [eyeVis, shouldRenderEyeVis, type]);
 
     const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (props.onChange) props.onChange(event);

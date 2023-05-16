@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import FormControl from '../../../utils/componentUtils/formControl/formControl';
 
 export interface FormWrapperProps {
@@ -14,19 +14,31 @@ export type FormkeyElement =
 
 function FormWrapper(props: React.PropsWithChildren<FormWrapperProps>) {
     const formRef = useRef<HTMLFormElement>(null);
-    let formElems: FormkeyElement[] = [];
+    const formElems = useRef<FormkeyElement[]>([]);
+
+    const hookupformElements = useCallback((parent: HTMLFormElement) => {
+        checkFormKeys(parent.elements);
+        let temp: Element[] = [];
+        for (const iter of parent.elements) {
+            if (iter.hasAttribute('data-formkey')) {
+                const attr = Number(iter.getAttribute('data-formkey'));
+                if (attr !== null) temp[attr] = iter;
+            }
+        }
+        formElems.current = temp as FormkeyElement[];
+    }, []);
 
     useEffect(() => {
         if (!formRef.current) return;
         hookupformElements(formRef.current);
-    }, [formRef.current]);
+    }, [hookupformElements]);
 
     const submitHandler = async (event: any) => {
         event.preventDefault();
         if (!formElems) hookupformElements(event.target);
         const ShouldFocusNext = await checkIfFormIsValid();
         if (ShouldFocusNext) focusElement(ShouldFocusNext);
-        else if (props.onSubmit) props.onSubmit(formElems);
+        else if (props.onSubmit) props.onSubmit(formElems.current);
     };
 
     const focusElement = async (elem: FormkeyElement) => {
@@ -50,25 +62,13 @@ function FormWrapper(props: React.PropsWithChildren<FormWrapperProps>) {
         }
     };
 
-    const hookupformElements = (parent: HTMLFormElement) => {
-        checkFormKeys(parent.elements);
-        let temp: Element[] = [];
-        for (const iter of parent.elements) {
-            if (iter.hasAttribute('data-formkey')) {
-                const attr = Number(iter.getAttribute('data-formkey'));
-                if (attr !== null) temp[attr] = iter;
-            }
-        }
-        formElems = temp as FormkeyElement[];
-    };
-
     const checkIfFormIsValid = async () => {
-        const isSelected = formElems.indexOf(
+        const isSelected = formElems.current.indexOf(
             document.activeElement as FormkeyElement
         );
         if (isSelected < 0) {
-            for (let i = 0; i < formElems.length; i++) {
-                let elemer = formElems[i];
+            for (let i = 0; i < formElems.current.length; i++) {
+                let elemer = formElems.current[i];
                 if (!(await checkIfVaild(elemer))) {
                     elemer.classList.add('invalid');
                     return elemer;
@@ -77,24 +77,24 @@ function FormWrapper(props: React.PropsWithChildren<FormWrapperProps>) {
             return false;
         }
 
-        let elem = formElems[isSelected];
+        let elem = formElems.current[isSelected];
         if (!(await checkIfVaild(elem))) {
             elem.classList.add('invalid');
             return elem;
         } else elem.classList.remove('invalid');
 
-        elem = formElems[isSelected + 1];
+        elem = formElems.current[isSelected + 1];
         if (elem) if (!(await checkIfVaild(elem))) return elem;
 
-        for (let i = isSelected + 2; i < formElems.length; i++) {
-            elem = formElems[i];
+        for (let i = isSelected + 2; i < formElems.current.length; i++) {
+            elem = formElems.current[i];
             if (!(await checkIfVaild(elem))) {
                 elem.classList.add('invalid');
                 return elem;
             }
         }
         for (let i = 0; i < isSelected; i++) {
-            elem = formElems[i];
+            elem = formElems.current[i];
             if (!(await checkIfVaild(elem))) {
                 elem.classList.add('invalid');
                 return elem;

@@ -1,4 +1,10 @@
-import React, { PropsWithChildren, useEffect, useMemo, useRef } from 'react';
+import React, {
+    PropsWithChildren,
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+} from 'react';
 import './Toast.scss';
 import { UUID } from 'crypto';
 import { ReactComponent as Icon } from '../../../Images/Icons/check-circle-fill.svg';
@@ -7,49 +13,56 @@ import { ReactComponent as Warning } from '../../../Images/Icons/exclamation-tri
 import { ReactComponent as Info } from '../../../Images/Icons/info-circle-fill.svg';
 
 export interface ToastContainerProps {
-    removeCallback: (toastId: UUID) => void;
     toastId: UUID;
-    onClick?: React.MouseEventHandler<HTMLDivElement>;
     duration?: number;
+    type?: 'success' | 'error' | 'warning' | 'info';
+    removeCallback: (toastId: UUID) => void;
+    onClick?: React.MouseEventHandler<HTMLDivElement>;
     onMount?: (toastRef: HTMLDivElement | null) => void;
     onUnmount?: (toastRef: HTMLDivElement | null) => void;
-    type?: 'success' | 'error' | 'warning' | 'info';
 }
 
 function ToastContainer(props: PropsWithChildren<ToastContainerProps>) {
+    const {
+        type,
+        duration,
+        toastId,
+        removeCallback,
+        onClick,
+        onMount,
+        onUnmount,
+    } = props;
     const progressRef = useRef<HTMLDivElement | null>(null);
     const toastRef = useRef<HTMLDivElement | null>(null);
 
-    const handleRemoval = () => {
+    const handleRemoval = useCallback(() => {
         if (!toastRef.current) return;
         toastRef.current.classList.add('reset');
-        toastRef.current.offsetHeight;
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        toastRef.current.offsetHeight; // Trigger reflow to restart animation
         toastRef.current.classList.remove('reset');
         toastRef.current.classList.add('ani-remove');
         setTimeout(() => {
-            if (props.onUnmount) props.onUnmount(toastRef.current);
-            props.removeCallback(props.toastId);
+            if (onUnmount) onUnmount(toastRef.current);
+            removeCallback(toastId);
         }, 600);
-    };
+    }, [onUnmount, removeCallback, toastId]);
 
     const computedClassName = useMemo(() => {
         let className = 'Toast';
-        if (props.onClick) className += ' hasClick';
-        if (props.type ?? 'error') className += ` ${props.type ?? 'info'}`;
+        if (onClick) className += ' hasClick';
+        if (type ?? 'error') className += ` ${type ?? 'info'}`;
         return className;
-    }, [props.onClick, props.type]);
+    }, [onClick, type]);
 
     useEffect(() => {
         if (!progressRef.current || !toastRef.current) return;
-        if (props.onMount) props.onMount(toastRef.current);
-        if (props.duration !== undefined)
-            progressRef.current.style.setProperty(
-                '--time',
-                `${props.duration}ms`
-            );
+        if (onMount) onMount(toastRef.current);
+        if (duration !== undefined)
+            progressRef.current.style.setProperty('--time', `${duration}ms`);
         progressRef.current.addEventListener('animationend', handleRemoval);
         toastRef.current.addEventListener('clearToasts', handleRemoval);
-    }, []);
+    }, [handleRemoval, duration, onMount]);
 
     const renderIcon = (type?: 'success' | 'error' | 'warning' | 'info') => {
         const IconProps = {
@@ -70,12 +83,8 @@ function ToastContainer(props: PropsWithChildren<ToastContainerProps>) {
     };
 
     return (
-        <div
-            className={computedClassName}
-            ref={toastRef}
-            onClick={props.onClick}
-        >
-            {renderIcon(props.type)}
+        <div className={computedClassName} ref={toastRef} onClick={onClick}>
+            {renderIcon(type)}
             {props.children}
             <span className="progressBar">
                 <div className="progressInner" ref={progressRef}></div>

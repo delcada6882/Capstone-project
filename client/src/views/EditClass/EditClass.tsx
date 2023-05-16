@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import NumberInput from 'HTML_components/Inputs/NumberInput/NumberInput';
 import TextInput from 'HTML_components/Inputs/TextInput/TextInput';
 import Label from 'HTML_components/Label/Label';
